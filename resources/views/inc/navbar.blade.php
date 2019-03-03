@@ -2,11 +2,14 @@
     $name = Route::currentRouteName();
 
     switch ($name) {
+        case '':
+            $home = true;
+            break;
         case 'products.index':
             $shop = true;
             break;
         default:
-            $home = true;
+            // code
             break;
     }
 ?>
