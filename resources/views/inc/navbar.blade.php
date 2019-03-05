@@ -8,6 +8,9 @@
         case 'products.index':
             $shop = true;
             break;
+        case 'cart.index':
+            $cart = true;
+            break;
         default:
             // code
             break;
@@ -29,9 +32,8 @@
                 <ul class="nav navbar-nav">
                     <li class="<?php if(isset($home)) echo 'active' ?>"><a href="{{ url('/') }}">Home</a></li>
                     <li class="<?php if(isset($shop)) echo 'active' ?>"><a href="{{ url('/products') }}">Shop</a></li>
-                    <li><a href="#">Cart</a></li>
+                    <li class="<?php if(isset($cart)) echo 'active' ?>"><a href="{{ url('/cart') }}">Cart</a></li>
                     <li><a href="#">Checkout</a></li>
-                    <li><a href="#">Category</a></li>
                     <li><a href="#">About Us</a></li>
                     <li><a href="#">Contact</a></li>
                 </ul>

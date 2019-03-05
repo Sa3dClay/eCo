@@ -49,4 +49,7 @@ class User extends Authenticatable
         return $this->hasOne("App\Invoice");
     }
     
+    public function products(){
+        return $this->hasMany("App\Product");
+    }
 }
