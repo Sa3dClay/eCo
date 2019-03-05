@@ -262,7 +262,7 @@
                         <a href="" class="wid-view-more">View All</a>
 
                         <div class="single-wid-product">
-                            <a href="#"><img src="img/product-thumb-1.jpg" alt="" class="product-thumb"></a>
+                            <a href="#"><img src="{{ asset('img/product-thumb-1.jpg') }}" alt="" class="product-thumb"></a>
                             <h2><a href="#">Sony Smart TV - 2015</a></h2>
                             <div class="product-wid-rating">
                                 <i class="fa fa-star"></i>
@@ -277,7 +277,7 @@
                         </div>
 
                         <div class="single-wid-product">
-                            <a href="#"><img src="img/product-thumb-2.jpg" alt="" class="product-thumb"></a>
+                            <a href="#"><img src="{{ asset('img/product-thumb-2.jpg') }}" alt="" class="product-thumb"></a>
                             <h2><a href="#">Apple new mac book 2015</a></h2>
                             <div class="product-wid-rating">
                                 <i class="fa fa-star"></i>
@@ -292,7 +292,7 @@
                         </div>
 
                         <div class="single-wid-product">
-                            <a href="#"><img src="img/product-thumb-3.jpg" alt="" class="product-thumb"></a>
+                            <a href="#"><img src="{{ asset('img/product-thumb-3.jpg') }}" alt="" class="product-thumb"></a>
                             <h2><a href="#">Apple new i phone 6</a></h2>
                             <div class="product-wid-rating">
                                 <i class="fa fa-star"></i>
@@ -315,7 +315,7 @@
                         <a href="#" class="wid-view-more">View All</a>
 
                         <div class="single-wid-product">
-                            <a href="#"><img src="img/product-thumb-4.jpg" alt="" class="product-thumb"></a>
+                            <a href="#"><img src="{{ asset('img/product-thumb-4.jpg') }}" alt="" class="product-thumb"></a>
                             <h2><a href="#">Sony playstation microsoft</a></h2>
                             <div class="product-wid-rating">
                                 <i class="fa fa-star"></i>
@@ -330,7 +330,7 @@
                         </div>
 
                         <div class="single-wid-product">
-                            <a href="#"><img src="img/product-thumb-1.jpg" alt="" class="product-thumb"></a>
+                            <a href="#"><img src="{{ asset('img/product-thumb-1.jpg') }}" alt="" class="product-thumb"></a>
                             <h2><a href="#">Sony Smart Air Condtion</a></h2>
                             <div class="product-wid-rating">
                                 <i class="fa fa-star"></i>
@@ -345,7 +345,7 @@
                         </div>
 
                         <div class="single-wid-product">
-                            <a href="#"><img src="img/product-thumb-2.jpg" alt="" class="product-thumb"></a>
+                            <a href="#"><img src="{{ asset('img/product-thumb-2.jpg') }}" alt="" class="product-thumb"></a>
                             <h2><a href="#">Samsung gallaxy note 4</a></h2>
                             <div class="product-wid-rating">
                                 <i class="fa fa-star"></i>
@@ -368,7 +368,7 @@
                         <a href="#" class="wid-view-more">View All</a>
 
                         <div class="single-wid-product">
-                            <a href="#"><img src="img/product-thumb-3.jpg" alt="" class="product-thumb"></a>
+                            <a href="#"><img src="{{ asset('img/product-thumb-3.jpg') }}" alt="" class="product-thumb"></a>
                             <h2><a href="#">Apple new i phone 6</a></h2>
                             <div class="product-wid-rating">
                                 <i class="fa fa-star"></i>
@@ -383,7 +383,7 @@
                         </div>
 
                         <div class="single-wid-product">
-                            <a href="#"><img src="img/product-thumb-4.jpg" alt="" class="product-thumb"></a>
+                            <a href="#"><img src="{{ asset('img/product-thumb-4.jpg') }}" alt="" class="product-thumb"></a>
                             <h2><a href="#">Samsung gallaxy note 4</a></h2>
                             <div class="product-wid-rating">
                                 <i class="fa fa-star"></i>
@@ -398,7 +398,7 @@
                         </div>
 
                         <div class="single-wid-product">
-                            <a href="#"><img src="img/product-thumb-1.jpg" alt="" class="product-thumb"></a>
+                            <a href="#"><img src="{{ asset('img/product-thumb-1.jpg') }}" alt="" class="product-thumb"></a>
                             <h2><a href="#">Sony playstation microsoft</a></h2>
                             <div class="product-wid-rating">
                                 <i class="fa fa-star"></i>
