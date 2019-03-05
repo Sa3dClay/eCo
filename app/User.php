@@ -36,4 +36,17 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+    
+    public function own(){
+        return $this->hasOne("App\Cart");
+    }
+    
+    public function make(){
+        return $this->hasOne("App\Report");
+    }
+    
+    public function check_out(){
+        return $this->hasOne("App\Invoice");
+    }
+    
 }
