@@ -30,7 +30,7 @@
                 <div class="col-md-3">
                     <div class="form-group">
                         {{Form::label('price', 'Price')}}
-                        {{Form::number('price', '', ['class' => 'form-control', 'placeholder' => 'Price'])}}
+                        {{ Form::number('price','',['class'=>'form-control','placeholder'=>'Price']) }}
                     </div>
                 </div>
             </div>
@@ -45,7 +45,8 @@
                 <div class="col-md-3">
                     <div class="form-group">
                         {{Form::label('quantity', 'Quantity')}}
-                        <input type="number" size="4" class="form-control qty text" title="quantity" value="1" min="0" step="1">
+                        {{ Form::number('quantity','',['class'=>'form-control','placeholder'=>'Quantity']) }}
+                        <!--<input type="number" size="4" class="form-control qty text" title="quantity" value="1" min="0" step="1">-->
                     </div>
                 </div>
             </div>
@@ -65,7 +66,7 @@
             <div class = "row">
                 <div class="col-md-9">
                     <div class="form-group">
-                            {{Form::file('cover_image' , ['class' => 'form-control'] )}}
+                            {{Form::file('profile_pic' , ['class' => 'form-control'] )}}
                     </div>
                 </div>
                 <div class="col-md-3">
@@ -75,8 +76,8 @@
             <div class = "row">
                 <div class="col-md-12">
                     <div class="form-group">
-                            {{Form::label('body', 'Body')}}
-                            {{Form::textarea('body', '', ['class' => 'form-control', 'placeholder' => 'Body Text'])}}
+                            {{Form::label('desc', 'Body')}}
+                            {{Form::textarea('desc', '', ['class' => 'form-control', 'placeholder' => 'Body Text'])}}
                     </div>
                 </div>
             </div>
