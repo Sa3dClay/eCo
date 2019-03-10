@@ -85,6 +85,7 @@ class ProductsController extends Controller
         $product->category = $request->input('category');
         $product->desc = $request->input('desc');
 
+        /* the commentet statment should be used but it dependes on the authentication */
        // $product->owner_id = auth()->user()->id;
         $product->owner_id = 1;
         
