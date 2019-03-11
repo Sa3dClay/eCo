@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Storage;
 
 use App\Product;
 use DB;
+use Illuminate\Support\Facades\Auth;
 
 class ProductsController extends Controller
 {
@@ -28,7 +29,16 @@ class ProductsController extends Controller
      */
     public function create()
     {
-        return view('products.create');
+
+        if(!Auth::guest() && Auth::user()->is_admin == 1)
+        {
+            return view('products.create');
+        }
+        else
+        {
+            return redirect('products.index');
+        }
+        
     }
 
     /**
@@ -85,9 +95,9 @@ class ProductsController extends Controller
         $product->category = $request->input('category');
         $product->desc = $request->input('desc');
 
-        /* the commentet statment should be used but it dependes on the authentication */
-       // $product->owner_id = auth()->user()->id;
-        $product->owner_id = 1;
+        /* the commentet statment should be used for testing */
+       // $product->owner_id = 1;
+        $product->owner_id = Auth::user()->id ;
         
         $product->profile_pic = $fileNameToStore;
         $product->save();
