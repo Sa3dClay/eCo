@@ -4,6 +4,11 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
+use Illuminate\Support\Facades\Storage;
+
+use App\Product;
+use DB;
+
 class ProductsController extends Controller
 {
     /**
@@ -23,7 +28,7 @@ class ProductsController extends Controller
      */
     public function create()
     {
-        //
+        return view('products.create');
     }
 
     /**
@@ -34,7 +39,59 @@ class ProductsController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        
+
+        $this->validate($request, [
+            'name' => 'required',
+            'price' => 'required',
+            'brand' => 'required',
+            'quantity' => 'required',
+            'category' => 'required',
+            'desc' => 'required',
+            'profile_pic' => 'image|nullable|max:1999'
+        ]);
+
+
+        // Handle File Upload
+        if($request->hasFile('profile_pic')){
+            // Get filename with the extension
+            $filenameWithExt = $request->file('profile_pic')->getClientOriginalName();
+            // Get just filename
+            $filename = pathinfo($filenameWithExt, PATHINFO_FILENAME);
+            // Get just ext
+            $extension = $request->file('profile_pic')->getClientOriginalExtension();
+            // Filename to store
+            $fileNameToStore= $filename.'_'.time().'.'.$extension;
+            // Upload Image
+            $path = $request->file('profile_pic')->storeAs('public/profile_pics', $fileNameToStore);
+        } else {
+            $fileNameToStore = 'noimage.jpg';
+        }
+        // Create Post
+
+        
+        
+        $product = new Product;
+        $product->name = $request->input('name');
+
+        $product->price = $request->input('price');
+       // $product->price = 1;
+
+        $product->brand = $request->input('brand');
+        
+        $product->quantity = $request->input('quantity');
+       // $product->quantity = 1;
+
+        $product->category = $request->input('category');
+        $product->desc = $request->input('desc');
+
+        /* the commentet statment should be used but it dependes on the authentication */
+       // $product->owner_id = auth()->user()->id;
+        $product->owner_id = 1;
+        
+        $product->profile_pic = $fileNameToStore;
+        $product->save();
+        return redirect('/products')/*->with('success', 'Product Added')*/;
     }
 
     /**
