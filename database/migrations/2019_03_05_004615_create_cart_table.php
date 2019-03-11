@@ -14,7 +14,7 @@ class CreateCartTable extends Migration
     public function up()
     {
         Schema::create('cart', function (Blueprint $table) {
-            $table->bigIncrements('id')->nullable();
+            $table->bigIncrements('id')->nullable(false);
             $table->integer('user_id');
             $table->integer('pro_id');
             $table->integer('n_of_pro');
