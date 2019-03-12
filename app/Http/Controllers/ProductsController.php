@@ -36,9 +36,9 @@ class ProductsController extends Controller
         }
         else
         {
-            return redirect('products.index');
+            return redirect('/products');
         }
-        
+        // redirect should be the url
     }
 
     /**
