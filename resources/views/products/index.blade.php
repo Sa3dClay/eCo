@@ -17,9 +17,19 @@
     <div class="container">
         <div class="row">
             <div class="latest-product">
-                @for($x=0; $x<8; $x++)
-                    @include('inc.single-product')
-                @endfor
+                    
+                @if( isset($products) && count($products) > 0 )
+                    @foreach ($products as $product)
+
+                        <div class="col-lg-3 col-md-4 col-sm-6">
+                            @include('inc.single-product')
+                        </div>
+
+                    @endforeach
+                @else
+                    <p class="blank">No Products Found</p>
+                @endif
+
             </div>
         </div>
     </div>

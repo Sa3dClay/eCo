@@ -2,13 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-
-use Illuminate\Support\Facades\Storage;
-
-use App\Product;
 use DB;
+use App\Product;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 
 class ProductsController extends Controller
 {
@@ -19,7 +17,9 @@ class ProductsController extends Controller
      */
     public function index()
     {
-        return view('products.index');
+        $products = DB::table('products')->where('visible', '1')->get();
+
+        return view('products.index')->with('products', $products);
     }
 
     /**
@@ -63,7 +63,6 @@ class ProductsController extends Controller
                 'profile_pic' => 'image|nullable|max:1999'
             ]);
 
-
             // Handle File Upload
             if($request->hasFile('profile_pic')){
                 // Get filename with the extension
@@ -79,33 +78,29 @@ class ProductsController extends Controller
             } else {
                 $fileNameToStore = 'noimage.jpg';
             }
-            // Create Post
-
-            
+            // Create Product
+            /* the commentet statment should be used for testing */
             
             $product = new Product;
             $product->name = $request->input('name');
 
             $product->price = $request->input('price');
-        // $product->price = 1;
+            // $product->price = 1;
 
             $product->brand = $request->input('brand');
             
             $product->quantity = $request->input('quantity');
-        // $product->quantity = 1;
+            // $product->quantity = 1;
 
             $product->category = $request->input('category');
             $product->desc = $request->input('desc');
 
-            /* the commentet statment should be used for testing */
-        // $product->owner_id = 1;
+            // $product->owner_id = 1;
             $product->owner_id = Auth::user()->id ;
             
             $product->profile_pic = $fileNameToStore;
             $product->save();
             return redirect('/products')/*->with('success', 'Product Added')*/;
-
-
 
         }
         else
@@ -123,7 +118,9 @@ class ProductsController extends Controller
      */
     public function show($id)
     {
-        //
+        $product = Product::find($id);
+        
+        return view('products.show')->with('product', $product);
     }
 
     /**
