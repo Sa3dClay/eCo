@@ -19,11 +19,17 @@
             <div class="latest-product">
                 
                 @if( isset($product) )
-                    <div class="col-md-3"></div>
-                    <div class="col-md-6">
+                    <div class="col-md-2"></div>
+
+                    <div class="col-md-4">
                         @include('inc.single-product')
                     </div>
-                    <div class="col-md-3"></div>
+                    
+                    <div class="col-md-4">
+                        <p>{{ $product->desc }}</p>
+                    </div>
+
+                    <div class="col-md-2"></div>
                 @else
                     <p class="blank">No Product Found</p>
                 @endif

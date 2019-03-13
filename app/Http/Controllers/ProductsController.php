@@ -60,7 +60,7 @@ class ProductsController extends Controller
                 'quantity' => 'required',
                 'category' => 'required',
                 'desc' => 'required',
-                'profile_pic' => 'image|nullable|max:1999'
+                'profile_pic' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048'
             ]);
 
             // Handle File Upload
