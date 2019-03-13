@@ -1,6 +1,7 @@
 <div class="header-area">
     <div class="container">
-
+    <link rel="icon" href="{{ asset('img/eCo.png') }}"> 
+    <title>{{config('app_name','eCo')}}</title>
         <div class="row">
             <div class="col-md-12">
                 <div class="user-menu">
@@ -37,7 +38,7 @@
                 <div class="logo">
                     {{-- <h1><a href="{{ url('/') }}">e<span>Co</span></a></h1> --}}
 
-                    <img src="{{ asset('img/eCo.png') }}" />
+                    <a href="{{ route('welcome') }}"> <img src="{{ asset('img/eCo.png') }}" /> </a>
                 </div>
             </div>
             
