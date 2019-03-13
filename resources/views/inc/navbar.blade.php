@@ -2,7 +2,7 @@
     $name = Route::currentRouteName();
 
     switch ($name) {
-        case '':
+        case 'welcome':
             $home = true;
             break;
         case 'products.index':
