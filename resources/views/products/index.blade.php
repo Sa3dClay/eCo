@@ -18,7 +18,10 @@
         <div class="row">
             <div class="latest-product">
                 @for($x=0; $x<8; $x++)
-                    @include('inc.single-product')
+                 <!-- @// foreach ($products as $product)
+                    <!-- @//if($product->visible==1) -->
+                        @include('inc.single-product')
+                    <!-- @//endif -->
                 @endfor
             </div>
         </div>
