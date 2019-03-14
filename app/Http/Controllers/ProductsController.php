@@ -160,12 +160,12 @@ class ProductsController extends Controller
         //
     }
     
-     public function change_visibilty($id){
+     public function change_visibility($id){
          $product=Product::find($id);
          if($product->visible==1){
                $product->visible=0;
                  $product->save();
-             return redirect("/products")->with("success","The product is unvisible NOW");
+             return redirect("/products")->with("success","The product is invisible NOW");
          }
          else{
               $product->visible=1;
