@@ -15,6 +15,7 @@
     </div>
 
     <div class="container">
+        @include('inc.messages')
         <div class="row">
             <div class="latest-product">
                 @for($x=0; $x<8; $x++)

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
     <link rel="icon" href="{{ asset('img/eCo.png') }}"> 
-    <!-- <title>{{config('app_name','eCo')}}</title> -->
+   <title>{{config('app_name','eCo')}}</title>
 
 <head>
     <meta charset="utf-8">
