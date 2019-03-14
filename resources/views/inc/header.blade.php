@@ -8,6 +8,9 @@
                             @if (Auth::guard('admin')->check())
                                 <li><a href="{{ url('admin/register') }}"><i class="fa fa-user-plus"></i> add admin</a></li>
                                 <li><a href="{{ url('seller/register') }}"><i class="fa fa-user-plus"></i> add seller</a></li>
+                                <li><a href="#"><i class="glyphicon glyphicon-search"></i> User Search</a></li>
+                                 <li><a href="#"><i class="glyphicon glyphicon-eye-close"></i> Invisible products</a></li> 
+                                 <li><a href="#"><i class="glyphicon glyphicon-chevron-right"></i> View reports</a></li>
                                 <li><a href="{{ url('admin/logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
                                     <i class="fa fa-sign-out"></i> Logout
                                 </a></li>
@@ -30,17 +33,10 @@
                                 @endif
                             @endif
                         @else
-                            <li><a href="{{ url('/home') }}"><i class="fa fa-user"></i> {{ Auth::user()->name }}</a></li>
-                            @if(Auth::user()->is_admin==0)
-                                <li><a href="#"><i class="fa fa-heart"></i> Wishlist</a></li>
-                                <li><a href="{{ url('/cart') }}"><i class="fa fa-cart-plus"></i> My Cart</a></li>
-                                <li><a href="#"><i class="fa fa-check"></i> Checkout</a></li>
-                            @else
-                                 <li><a href="#"><i class="glyphicon glyphicon-search"></i> User Search</a></li>
-                                 <li><a href="#"><i class="glyphicon glyphicon-eye-close"></i> Invisible products</a></li> 
-                                 <li><a href="#"><i class="glyphicon glyphicon-chevron-right"></i> View reports</a></li>
-                            @endif         
-                            <li><a href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                            <li><a href="#"><i class="fa fa-heart"></i> Wishlist</a></li>
+                            <li><a href="{{ url('/cart') }}"><i class="fa fa-cart-plus"></i> My Cart</a></li>
+                            <li><a href="#"><i class="fa fa-check"></i> Checkout</a></li>
+                            <li><a href="{{ url('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
                                 <i class="fa fa-sign-out"></i> Logout
                             </a></li>
                             <form id="logout-form" action="{{ url('logout') }}" method="POST" style="display: none;">
