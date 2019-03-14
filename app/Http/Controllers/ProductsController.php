@@ -17,9 +17,16 @@ class ProductsController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+     public function __construct()
+     {
+         //$this->middleware('auth');
+           $this->middleware('auth',['except'=>['index','show']]);
+     }
+   
     public function index()
     {
-        return view('products.index');
+        $products= Product::orderBy('n_sold')->get();
+        return view('products.index')->with('products', $products);
     }
 
     /**
