@@ -23,7 +23,7 @@ class ProductsController extends Controller
    
     public function index()
     {
-        $products= Product::orderBy('n_sold','desc')->get();
+        $products = Product::orderBy('n_sold','desc')->get();
         return view('products.index')->with('products', $products);
     }
 

@@ -11,9 +11,7 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-})->name('welcome');
+Route::get('/', 'PagesController@index')->name('welcome');
 
 Route::resource('products', 'ProductsController');
 Route::resource('cart', 'CartController');
