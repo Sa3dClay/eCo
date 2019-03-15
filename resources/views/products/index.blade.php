@@ -15,16 +15,19 @@
     </div>
 
     <div class="container">
+        @include('inc.messages')
         <div class="row">
             <div class="latest-product">
                     
                 @if( isset($products) && count($products) > 0 )
                     @foreach ($products as $product)
+                        @if($product->visible==1)
+                    
+                            <div class="col-lg-3 col-md-4 col-sm-6">
+                                @include('inc.single-product')
+                            </div>
 
-                        <div class="col-lg-3 col-md-4 col-sm-6">
-                            @include('inc.single-product')
-                        </div>
-
+                        @endif
                     @endforeach
                 @else
                     <p class="blank">No Products Found</p>

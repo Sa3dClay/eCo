@@ -15,9 +15,15 @@ class ProductsController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+    public function __construct()
+    {
+        //$this->middleware('auth');
+        $this->middleware('auth',['except'=>['index','show']]);
+    }
+   
     public function index()
     {
-        $products = DB::table('products')->where('visible', '1')->get();
+        $products = Product::orderBy('n_sold')->get();
 
         return view('products.index')->with('products', $products);
     }
@@ -155,5 +161,19 @@ class ProductsController extends Controller
     public function destroy($id)
     {
         //
+    }
+    
+     public function change_visibility($id){
+         $product=Product::find($id);
+         if($product->visible==1){
+               $product->visible=0;
+                 $product->save();
+             return redirect("/products")->with("success","The product is invisible NOW");
+         }
+         else{
+              $product->visible=1;
+                $product->save();
+             return redirect("/products")->with("success","The product is visible NOW");
+         }   
     }
 }

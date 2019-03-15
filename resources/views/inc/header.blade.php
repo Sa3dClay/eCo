@@ -1,24 +1,45 @@
 <div class="header-area">
     <div class="container">
-    <link rel="icon" href="{{ asset('img/eCo.png') }}"> 
-    <title>{{config('app_name','eCo')}}</title>
         <div class="row">
             <div class="col-md-12">
                 <div class="user-menu">
                     <ul>
                         @guest
-                            <li><a href="{{ route('login') }}"><i class="fa fa-user"></i> Login</a></li>
-                            <li><a href="{{ route('register') }}"><i class="fa fa-user-plus"></i> Register</a></li>
+                            @if (Auth::guard('admin')->check())
+                                <li><a href="{{ url('admin/register') }}"><i class="fa fa-user-plus"></i> add admin</a></li>
+                                <li><a href="{{ url('seller/register') }}"><i class="fa fa-user-plus"></i> add seller</a></li>
+                                <li><a href="#"><i class="glyphicon glyphicon-search"></i> User Search</a></li>
+                                 <li><a href="#"><i class="glyphicon glyphicon-eye-close"></i> Invisible products</a></li> 
+                                 <li><a href="#"><i class="glyphicon glyphicon-chevron-right"></i> View reports</a></li>
+                                <li><a href="{{ url('admin/logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                                    <i class="fa fa-sign-out"></i> Logout
+                                </a></li>
+                                <form id="logout-form" action="{{ url('admin/logout') }}" method="POST" style="display: none;">
+                                    @csrf
+                                </form>
+                            @else
+                                @if (Auth::guard('seller')->check())
+                                    <li><a href="{{ url('seller/logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                                        <i class="fa fa-sign-out"></i> Logout
+                                    </a></li>
+                                    <form id="logout-form" action="{{ url('seller/logout') }}" method="POST" style="display: none;">
+                                        @csrf
+                                    </form>
+                                @else
+                                    <li><a href="{{ Request::is('admin/login') ? url('admin/login') : Request::is('seller/login') ? url('seller/login') : url('login') }}"><i class="fa fa-user"></i> Login</a></li>
+                                    @if (!Request::is('admin/login') && !Request::is('seller/login'))
+                                        <li><a href="{{ url('register') }}"><i class="fa fa-user-plus"></i> Register</a></li>
+                                    @endif
+                                @endif
+                            @endif
                         @else
-                            <li><a href="{{ url('/home') }}"><i class="fa fa-user"></i> {{ Auth::user()->name }}</a></li>
                             <li><a href="#"><i class="fa fa-heart"></i> Wishlist</a></li>
                             <li><a href="{{ url('/cart') }}"><i class="fa fa-cart-plus"></i> My Cart</a></li>
                             <li><a href="#"><i class="fa fa-check"></i> Checkout</a></li>
-                            
-                            <li><a href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                            <li><a href="{{ url('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
                                 <i class="fa fa-sign-out"></i> Logout
                             </a></li>
-                            <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                            <form id="logout-form" action="{{ url('logout') }}" method="POST" style="display: none;">
                                 @csrf
                             </form>
                         @endguest    

@@ -1,3 +1,4 @@
+@if( Auth::user()->is_admin==1)
 @extends('layouts.app')
 
 
@@ -89,3 +90,4 @@
     </div>
     
 @endsection
+@endif
