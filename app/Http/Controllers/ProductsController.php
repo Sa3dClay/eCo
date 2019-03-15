@@ -18,13 +18,12 @@ class ProductsController extends Controller
     public function __construct()
     {
         //$this->middleware('auth');
-        $this->middleware('auth',['except'=>['index','show']]);
+        $this->middleware('auth',['except'=>['index','edit','update','destroy']]);
     }
    
     public function index()
     {
-        $products = Product::orderBy('n_sold')->get();
-
+        $products= Product::orderBy('n_sold','desc')->get();
         return view('products.index')->with('products', $products);
     }
 
@@ -106,12 +105,12 @@ class ProductsController extends Controller
             
             $product->profile_pic = $fileNameToStore;
             $product->save();
-            return redirect('/products')/*->with('success', 'Product Added')*/;
+            return redirect('/products')->with('success', 'Product Added');
 
         }
         else
         {
-            return redirect('/products')/*->with('success', 'You are not authorized to add product')*/;
+            return redirect('/products')->with('success', 'You are not authorized to add product');
         }
 
     }
@@ -160,7 +159,16 @@ class ProductsController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $product= Product::find($id);
+        if(auth()->user()->is_admin==1 || auth()->user()->id==$product->owner_id){ 
+            if($product->profile_pic!='noimage.jpg'){
+                Storage::delete('public/profile_pics/'.$product->profile_pic);
+            }
+            $product->delete();
+            return redirect('/products')->with("success","Product was removed");
+        }else{
+            return redirect('/products')->with('error', "Authorization error");
+        }
     }
     
      public function change_visibility($id){
