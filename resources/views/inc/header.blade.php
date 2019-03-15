@@ -9,8 +9,8 @@
                                 <li><a href="{{ url('admin/register') }}"><i class="fa fa-user-plus"></i> add admin</a></li>
                                 <li><a href="{{ url('seller/register') }}"><i class="fa fa-user-plus"></i> add seller</a></li>
                                 <li><a href="#"><i class="glyphicon glyphicon-search"></i> User Search</a></li>
-                                 <li><a href="#"><i class="glyphicon glyphicon-eye-close"></i> Invisible products</a></li> 
-                                 <li><a href="#"><i class="glyphicon glyphicon-chevron-right"></i> View reports</a></li>
+                                <li><a href="#"><i class="glyphicon glyphicon-eye-close"></i> Invisible products</a></li> 
+                                <li><a href="#"><i class="glyphicon glyphicon-chevron-right"></i> View reports</a></li>
                                 <li><a href="{{ url('admin/logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
                                     <i class="fa fa-sign-out"></i> Logout
                                 </a></li>
