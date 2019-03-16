@@ -19,6 +19,7 @@ Route::resource('cart', 'CartController');
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
+Route::get('/products/{id}/change_visibilty', 'ProductsController@change_visibility')->name('change_visibilty');
 
 // admin route
 Route::group(['prefix' => 'admin'], function () {

@@ -7,7 +7,7 @@
             <div class="row">
                 <div class="col-md-12">
                     <div class="product-bit-title text-center">
-                        <h2>Single Product</h2>
+                        <h2>View Product</h2>
                     </div>
                 </div>
             </div>
@@ -21,12 +21,12 @@
                 @if( isset($product) )
                     <div class="col-md-2"></div>
 
-                    <div class="col-md-4">
+                    <div class="col-md-3">
                         @include('inc.single-product')
                     </div>
                     
                     <div class="col-md-4">
-                        <p>{{ $product->desc }}</p>
+                        <p><b>Description:</b> {{ $product->desc }}</p>
                     </div>
 
                     <div class="col-md-2"></div>

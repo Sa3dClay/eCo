@@ -18,7 +18,7 @@ class ProductsController extends Controller
     public function __construct()
     {
         //$this->middleware('auth');
-        $this->middleware('auth',['except'=>['index','edit','update','destroy']]);
+        $this->middleware('auth',['except'=>['index','show']]);
     }
    
     public function index()
@@ -165,7 +165,7 @@ class ProductsController extends Controller
                 Storage::delete('public/profile_pics/'.$product->profile_pic);
             }
             $product->delete();
-            return redirect('/products')->with("success","Product was removed");
+            return redirect('/products')->with("success","Product was removed successfuly");
         }else{
             return redirect('/products')->with('error', "Authorization error");
         }
