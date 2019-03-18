@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class UpdateProductsTable extends Migration
+class UpdateProductsTable2 extends Migration
 {
     /**
      * Run the migrations.
@@ -23,10 +23,10 @@ class UpdateProductsTable extends Migration
      *
      * @return void
      */
-    public function down()
-    {
+    public function down(){
          Schema::table('products', function(Blueprint $table) {
-         $table->string('desc', 191)->change();
-        });
+           DB::table('products')->update(array('desc'=>null,));
+           $table->string('desc', 191)->change();
+         });
     }
 }

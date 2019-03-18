@@ -29,11 +29,13 @@
         <ins>${{ $product->price }}</ins>
         <span>{{ $product->brand }}</span>
     </div>
-
-    {{-- Change Visibility --}}
-    <div class="admin-btns">
+    @guest
+        {{-- do no thing --}}
+    @else
+        <div class="admin-btns">
             @if(Auth::user()->is_admin == 1)    
                 <a href="{{ route('change_visibilty',$product->id) }}" ><i class="glyphicon glyphicon-eye-close"></i> Set as Invisible</a>
             @endif 
-    </div>
+        </div>
+    @endguest              
 </div>
