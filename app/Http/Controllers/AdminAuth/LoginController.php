@@ -29,7 +29,7 @@ class LoginController extends Controller
      *
      * @var string
      */
-    public $redirectTo = '/admin/';
+    //public $redirectTo = '/admin/';
 
     /**
      * Create a new controller instance.
@@ -48,7 +48,7 @@ class LoginController extends Controller
      */
     public function showLoginForm()
     {
-        return view('admin.auth.login');
+        return view('dashboards.auth.login');
     }
 
     /**
@@ -59,5 +59,14 @@ class LoginController extends Controller
     protected function guard()
     {
         return Auth::guard('admin');
+    }
+
+    protected function redirectTo()
+    {
+        if(Auth::guard('admin')->user()->role=='admin'){
+            return 'dashboard/admin/';
+        }else{
+            return 'dashboard/seller/';
+        }
     }
 }

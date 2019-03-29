@@ -7,8 +7,13 @@ use Illuminate\Http\Request;
 class AdminDashboard extends Controller
 {
 
+    public function __construct()
+    {
+        $this->middleware('admin');
+    }
+    
     public function index()
     {
-        return view('admin.index');
+        return view('dashboards.admin.index');
     }
 }
