@@ -92,4 +92,22 @@ class CartController extends Controller
     {
         //
     }
+
+
+    public function checkAdded($id)
+    {
+        if(!Auth::guest() && Auth::user()->is_admin != 1)
+        {
+            $cart = Cart::where([
+                ['user_id', '=', Auth::user()->id],
+                ['pro_id', '=', $id],
+            ])->get();
+            if($cart != null)
+            {
+                return true;
+            }
+            
+        }
+        return false;
+    }
 }

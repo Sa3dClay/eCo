@@ -8,7 +8,21 @@
                     <a href="{{ url('products/' . $product->id) }}" class="view-details-link"><i class="fa fa-link"></i> See details</a>
             @else
                @if(Auth::user()->is_admin == 0) 
-                    <a href="#" class="add-to-cart-link"><i class="fa fa-shopping-cart"></i> Add to cart</a>
+                    
+                        @if($cart->checkAdded() == true )
+                            <a href="" class="view-details-link" >
+                                <i class="glyphicon glyphicon-remove"></i>Added to cart</a>
+                        @else
+                            <a href="" class="view-details-link" onclick="event.preventDefault(); document.getElementById('remove-submit').click();">
+                                <i class="glyphicon glyphicon-remove"></i>Add to cart</a>
+                        @endif
+                        
+                    
+                    {!! Form::open(['action' => ['ProductsController@destroy',$product->id],'method'=>'POST']) !!}
+                        {{Form::submit('Delete',['id'=>'remove-submit','style'=>'display:none'])}}
+                    {!! Form::close() !!}
+
+                    <!--<a href="#" class="add-to-cart-link"><i class="fa fa-shopping-cart"></i> Add to cart</a>-->
                     <a href="{{ url('products/' . $product->id) }}" class="view-details-link"><i class="fa fa-link"></i> See details</a>
                @else 
                     <a href="#" class="add-to-cart-link"><i class="glyphicon glyphicon-wrench"></i> Update product</a>
