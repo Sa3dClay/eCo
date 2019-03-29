@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Cart;
+use Illuminate\Support\Facades\Auth;
 
 class CartController extends Controller
 {
@@ -35,6 +37,15 @@ class CartController extends Controller
     public function store(Request $request)
     {
         //
+        if(!Auth::guest() && Auth::user()->is_admin != 1)
+        {
+            $cart = new Cart;
+            $cart->user_id = Auth::user()->id ;
+            $cart->pro_id = $request->id ;
+            $cart->n_of_pro = 1;
+            $cart->save();
+            return redirect('/products')->with('success', "Product was added to cart successfuly");
+        }
     }
 
     /**
