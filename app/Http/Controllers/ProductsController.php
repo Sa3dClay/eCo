@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use DB;
 use App\Product;
+use App\Cart;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
@@ -24,7 +25,12 @@ class ProductsController extends Controller
     public function index()
     {
         $products = Product::orderBy('n_sold','desc')->get();
-        return view('products.index')->with('products', $products);
+        $cart = Cart::find(1);
+        $data = [
+            'products' => $products,
+            'cart' => $cart,
+        ];
+        return view('products.index')->with($data);
     }
 
     /**
