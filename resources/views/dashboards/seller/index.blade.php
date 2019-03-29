@@ -14,7 +14,7 @@
                         </div>
                     @endif
 
-                    Welcome {{ Auth::guard('seller')->user()->name }}
+                    Welcome {{ Auth::guard('admin')->user()->name }}
                 </div>
             </div>
         </div>

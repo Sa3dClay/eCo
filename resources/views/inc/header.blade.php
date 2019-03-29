@@ -6,30 +6,29 @@
                     <ul>
                         @guest
                             @if (Auth::guard('admin')->check())
-                                <li><a href="{{ url('admin/register') }}"><i class="fa fa-user-plus"></i> add admin</a></li>
-                                <li><a href="{{ url('seller/register') }}"><i class="fa fa-user-plus"></i> add seller</a></li>
-                                <li><a href="#"><i class="glyphicon glyphicon-search"></i> User Search</a></li>
-                                <li><a href="#"><i class="glyphicon glyphicon-eye-close"></i> Invisible products</a></li> 
-                                <li><a href="#"><i class="glyphicon glyphicon-chevron-right"></i> View reports</a></li>
-                                <li><a href="{{ url('admin/logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
-                                    <i class="fa fa-sign-out"></i> Logout
-                                </a></li>
-                                <form id="logout-form" action="{{ url('admin/logout') }}" method="POST" style="display: none;">
-                                    @csrf
-                                </form>
-                            @else
-                                @if (Auth::guard('seller')->check())
-                                    <li><a href="{{ url('seller/logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                                @if (Auth::guard('admin')->user()->role == 'seller')
+                                    <li><a href="{{ url('dashboard/logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
                                         <i class="fa fa-sign-out"></i> Logout
                                     </a></li>
-                                    <form id="logout-form" action="{{ url('seller/logout') }}" method="POST" style="display: none;">
+                                    <form id="logout-form" action="{{ url('dashboard/logout') }}" method="POST" style="display: none;">
                                         @csrf
                                     </form>
                                 @else
-                                    <li><a href="{{ Request::is('admin/login') ? url('admin/login') : Request::is('seller/login') ? url('seller/login') : url('login') }}"><i class="fa fa-user"></i> Login</a></li>
-                                    @if (!Request::is('admin/login') && !Request::is('seller/login'))
-                                        <li><a href="{{ url('register') }}"><i class="fa fa-user-plus"></i> Register</a></li>
-                                    @endif
+                                    <li><a href="{{ url('dashboard/admin/addmember') }}"><i class="fa fa-user-plus"></i> add member</a></li>
+                                    <li><a href="#"><i class="glyphicon glyphicon-search"></i> User Search</a></li>
+                                    <li><a href="#"><i class="glyphicon glyphicon-eye-close"></i> Invisible products</a></li> 
+                                    <li><a href="#"><i class="glyphicon glyphicon-chevron-right"></i> View reports</a></li>
+                                    <li><a href="{{ url('dashboard/logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                                        <i class="fa fa-sign-out"></i> Logout
+                                    </a></li>
+                                    <form id="logout-form" action="{{ url('dashboard/logout') }}" method="POST" style="display: none;">
+                                        @csrf
+                                    </form>
+                                @endif
+                            @else
+                                <li><a href="{{ Request::is('dashboard/login') ? url('dashboard/login') : url('login') }}"><i class="fa fa-user"></i> Login</a></li>
+                                @if (!Request::is('dashboard/login'))
+                                    <li><a href="{{ url('register') }}"><i class="fa fa-user-plus"></i> Register</a></li>
                                 @endif
                             @endif
                         @else
