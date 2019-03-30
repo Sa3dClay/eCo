@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Validator;
 use App\Admin;
+use App\User;
 
 class AdminDashboard extends Controller
 {
@@ -24,7 +25,8 @@ class AdminDashboard extends Controller
     }
 
     public function showUsers() {
-        return view('dashboards.admin.users.show');
+        $users = User::all();
+        return view('dashboards.admin.users.show', compact('users'));
     }
 
     public function addMembers(Request $request) {
@@ -38,6 +40,7 @@ class AdminDashboard extends Controller
         $admin->name = $request->input('name');
         $admin->email = $request->input('email');
         $admin->password = bcrypt($request->input('password'));
+        $admin->role = $request->input('privilege');
 
         if($admin->save())
             return redirect('dashboard/admin/addmember')->withSuccess('Member has been added');

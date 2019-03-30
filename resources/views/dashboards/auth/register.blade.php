@@ -7,6 +7,14 @@
             <div class="card">
                 <div class="card-header">{{ __('Add new member') }}</div>
 
+                @if (session('success'))
+                    <p class="alert alert-success">{{session('success')}}</p>
+                @endif
+
+                @if (session('danger'))
+                    <p class="alert alert-danger">{{session('danger')}}</p>
+                @endif
+
                 <div class="card-body">
                     <form method="POST" action="{{ url('dashboard/admin/addmember') }}">
                         @csrf
@@ -66,8 +74,8 @@
 
                             <div class="col-md-6">
                                 <select id="privilege" class="form-control" name="privilege" required>
-                                    <option selected>Admin</option>
-                                    <option>Seller</option>
+                                    <option selected value="admin">Admin</option>
+                                    <option value="seller">Seller</option>
                                   </select>
                             </div>
                         </div>
