@@ -43,6 +43,8 @@ Route::group(['prefix' => 'dashboard/admin', 'middleware' => ['admin']], functio
   Route::post('/addmember', 'AdminDashboard@addMembers');
 
   Route::get('/users', 'AdminDashboard@showUsers');
+
+  Route::post('/blockuser', 'AdminDashboard@blockUser');
 });
 
 // seller route

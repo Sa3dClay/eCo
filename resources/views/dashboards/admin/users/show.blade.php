@@ -5,6 +5,9 @@
 	<div class="row">
         <div class="col-md-12">
         <h2 class="usersHeader">Users Lists</h2>
+        @if (session('success'))
+            <p class="alert alert-success">{{session('success')}}</p>
+        @endif
         <div class="table-responsive">
 
                 
@@ -26,8 +29,8 @@
             <td>{{$user->name}}</td>
             <td>{{$user->email}}</td>
             <td>{{$user->created_at}}</td>
-            <td><p data-placement="top" data-toggle="tooltip" title="Edit"><button class="btn btn-warning btn-md" data-title="Edit" data-toggle="modal" data-target="#edit" >{{$user->blocked ? "Unblock": "Block"}}</button></p></td>
-            <td><p data-placement="top" data-toggle="tooltip" title="Delete"><button class="btn btn-danger btn-md" data-title="Delete" data-toggle="modal" data-target="#delete" ><span class="glyphicon glyphicon-trash"></span></button></p></td>
+            <td><p data-placement="top" data-toggle="tooltip" title="Edit"><button class="btn btn-warning btn-md" data-id= "{{$user->id}}" data-title="Edit" id="blockbtn" data-toggle="modal" data-target="#edit" >{{$user->blocked ? "Unblock": "Block"}}</button></p></td>
+            <td><p data-placement="top" data-id= "{{$user->id}}" data-toggle="tooltip" title="Delete"><button class="btn btn-danger btn-md" data-title="Delete" data-toggle="modal" data-target="#delete" ><span class="glyphicon glyphicon-trash"></span></button></p></td>
           </tr>
         @endforeach  
     @endif
@@ -54,13 +57,16 @@
         <h4 class="modal-title custom_align" id="Heading">Block Status</h4>
       </div>
           <div class="modal-body">
-       
        <div class="alert alert-danger"><span class="glyphicon glyphicon-warning-sign"></span> Are you sure you want to take this action?</div>
        
       </div>
         <div class="modal-footer ">
-        <button type="button" class="btn btn-success" ><span class="glyphicon glyphicon-ok-sign"></span> Yes</button>
-        <button type="button" class="btn btn-default" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> No</button>
+        <form method="POST" action="{{url('dashboard/admin/blockuser')}}">
+          @csrf
+          <input type="text" hidden name="user_id" id="user_id" value=""/>
+          <button type="submit" class="btn btn-success" ><span class="glyphicon glyphicon-ok-sign"></span> Yes</button>
+          <button type="button" class="btn btn-default" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> No</button>
+      </form>
       </div>
         </div>
     <!-- /.modal-content --> 

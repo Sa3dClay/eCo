@@ -84,5 +84,10 @@ jQuery(document).ready(function($){
         target: '.navbar-collapse',
         offset: 95
     })      
+
+    $('#blockbtn').on('click', function() {
+        var id = $(this).data('id');
+        $(".modal-footer #user_id").val( id );
+    });
 });
 

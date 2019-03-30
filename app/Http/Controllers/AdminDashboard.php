@@ -48,4 +48,19 @@ class AdminDashboard extends Controller
             return redirect('dashboard/admin/addmember')->withDanger('Something wrong has happened');
         
     }
+
+    public function blockUser(Request $request) {
+        $user = User::find($request->input('user_id'));
+        if($user->blocked){
+            // user blocked and we need to unblock him
+            $user->blocked = 0;
+            $user->save();
+            return redirect('dashboard/admin/users')->withSuccess('Unblocked user successfuly');
+        } else {
+            // we need to block the user
+            $user->blocked = 1;
+            $user->save();
+            return redirect('dashboard/admin/users')->withSuccess('Blocked user successfuly ');
+        }
+    }
 }
