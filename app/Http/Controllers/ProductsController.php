@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use DB;
 use App\Product;
+use App\Http\Controllers\CartController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
@@ -24,7 +25,15 @@ class ProductsController extends Controller
     public function index()
     {
         $products = Product::orderBy('n_sold','desc')->get();
-        return view('products.index')->with('products', $products);
+
+        //passing array of products in cart of this user to check if it the product is add or no
+        $cart = CartController::checkAdded();
+        $data = [
+            'products' => $products,
+            'cartp' => $cart,
+        ];
+
+        return view('products.index')->with($data);
     }
 
     /**
@@ -125,7 +134,14 @@ class ProductsController extends Controller
     {
         $product = Product::find($id);
         
-        return view('products.show')->with('product', $product);
+        //passing array of products in cart of this user to check if it the product is add or no
+        $cart = CartController::checkAdded();
+        $data = [
+            'product' => $product,
+            'cartp' => $cart,
+        ];
+
+        return view('products.show')->with($data);
     }
 
     /**

@@ -4,12 +4,36 @@
         {{-- Image will be replaced --}}
         <div class="product-hover">
             @guest
-                    <a href="{{url('login')}}" class="add-to-cart-link"><i class="fa fa-shopping-cart"></i> Add to cart</a>
-                    <a href="{{ url('products/' . $product->id) }}" class="view-details-link"><i class="fa fa-link"></i> See details</a>
+                <a href="{{url('login')}}" class="add-to-cart-link"><i class="fa fa-shopping-cart"></i> Add to cart</a>
+                <a href="{{ url('products/' . $product->id) }}" class="view-details-link"><i class="fa fa-link"></i> See details</a>
             @else
                 @if(Auth::user()->is_admin == 0) 
-                    <a href="#" class="add-to-cart-link"><i class="fa fa-shopping-cart"></i> Add to cart</a>
+                    
+                    <?php  //print_r($product->id) . '<br>' . print_r($cartp); ?> 
+                        
+                        @if(count($cartp)>0 && in_array($product->id,$cartp))
+                            <a href="#" class="add-to-cart-link"><i class="fa fa-shopping-cart"></i> Added to cart</a>
+                        @else
+                            {!! Form::open(['action' => ['CartController@store'],'method'=>'POST']) !!}
+                                <input name="id" value="{{ $product->id }}" style="display:none">
+                                {{-- Form::number('id',$product->id,['style'=>'display:none']) --}}
+                                <a href="" class="add-to-cart-link" >
+                                    <i class="fa fa-shopping-cart"></i>{{ Form::submit('Add to cart',[]) }}
+                                </a>
+                            {!! Form::close() !!}
+                            <!--<a href="" class="add-to-cart-link" onclick="event.preventDefault(); document.getElementById('add_to_cart').click();">
+                            <i class="fa fa-shopping-cart"></i>Add to cart</a>-->
+                        @endif
+                        
+                    <!--<a href="#" class="add-to-cart-link"><i class="fa fa-shopping-cart"></i> Add to cart</a>-->
                     <a href="{{ url('products/' . $product->id) }}" class="view-details-link"><i class="fa fa-link"></i> See details</a>
+
+                    {{-- {!! Form::open(['action' => ['CartController@store'],'method'=>'POST']) !!}
+                       <!-- <input name="id" value="{{ $product->id }}" style="display:none"> -->
+                        {{ Form::number('id',$product->id,['style'=>'display:none']) }}
+                        {{ Form::hidden('id', $product->id) }}
+                        {{Form::submit('Submit',['id'=>'add_to_cart','style'=>'display:none'])}}
+                    {!! Form::close() !!} --}}
                 @else 
                     <a href="#" class="add-to-cart-link"><i class="glyphicon glyphicon-wrench"></i> Update product</a>
                     

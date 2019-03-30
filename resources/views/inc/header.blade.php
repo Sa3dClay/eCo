@@ -7,6 +7,7 @@
                         @guest
                             @if (Auth::guard('admin')->check())
                                 @if (Auth::guard('admin')->user()->role == 'seller')
+                                    <li><a href="{{ url('dashboard/seller/addproducts') }}"><i class="fa fa-plus"></i> add products</a></li>
                                     <li><a href="{{ url('dashboard/logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
                                         <i class="fa fa-sign-out"></i> Logout
                                     </a></li>
@@ -15,7 +16,7 @@
                                     </form>
                                 @else
                                     <li><a href="{{ url('dashboard/admin/addmember') }}"><i class="fa fa-user-plus"></i> add member</a></li>
-                                    <li><a href="#"><i class="glyphicon glyphicon-search"></i> User Search</a></li>
+                                    <li><a href="{{ url('dashboard/admin/users') }}"><i class="glyphicon glyphicon-search"></i> User Search</a></li>
                                     <li><a href="#"><i class="glyphicon glyphicon-eye-close"></i> Invisible products</a></li> 
                                     <li><a href="#"><i class="glyphicon glyphicon-chevron-right"></i> View reports</a></li>
                                     <li><a href="{{ url('dashboard/logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
