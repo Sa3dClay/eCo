@@ -63,4 +63,13 @@ class AdminDashboard extends Controller
             return redirect('dashboard/admin/users')->withSuccess('Blocked user successfuly ');
         }
     }
+
+    public function deleteUser(Request $request) {
+        $user = User::find($request->input('user_id'));
+
+        if($user->delete())
+            return redirect('dashboard/admin/users')->withSuccess('User has been deleted');
+        else
+            return redirect('dashboard/admin/users')->withDanger('Something wrong has happened');
+    }
 }

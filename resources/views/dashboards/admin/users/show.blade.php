@@ -8,6 +8,9 @@
         @if (session('success'))
             <p class="alert alert-success">{{session('success')}}</p>
         @endif
+        @if (session('danger'))
+            <p class="alert alert-danger">{{session('danger')}}</p>
+        @endif
         <div class="table-responsive">
 
                 
@@ -30,7 +33,7 @@
             <td>{{$user->email}}</td>
             <td>{{$user->created_at}}</td>
             <td><p data-placement="top" data-toggle="tooltip" title="Edit"><button class="btn btn-warning btn-md" data-id= "{{$user->id}}" data-title="Edit" id="blockbtn" data-toggle="modal" data-target="#edit" >{{$user->blocked ? "Unblock": "Block"}}</button></p></td>
-            <td><p data-placement="top" data-id= "{{$user->id}}" data-toggle="tooltip" title="Delete"><button class="btn btn-danger btn-md" data-title="Delete" data-toggle="modal" data-target="#delete" ><span class="glyphicon glyphicon-trash"></span></button></p></td>
+            <td><p data-placement="top" data-toggle="tooltip" title="Delete"><button class="btn btn-danger btn-md" data-id= "{{$user->id}}" data-title="Delete" id="deletebtn" data-toggle="modal" data-target="#delete" ><span class="glyphicon glyphicon-trash"></span></button></p></td>
           </tr>
         @endforeach  
     @endif
@@ -81,16 +84,20 @@
     <div class="modal-content">
           <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></button>
-        <h4 class="modal-title custom_align" id="Heading">Delete this entry</h4>
+        <h4 class="modal-title custom_align" id="Heading">Delete this user</h4>
       </div>
           <div class="modal-body">
        
-       <div class="alert alert-danger"><span class="glyphicon glyphicon-warning-sign"></span> Are you sure you want to delete this Record?</div>
+       <div class="alert alert-danger"><span class="glyphicon glyphicon-warning-sign"></span> Are you sure you want to delete this User?</div>
        
       </div>
         <div class="modal-footer ">
-        <button type="button" class="btn btn-success" ><span class="glyphicon glyphicon-ok-sign"></span> Yes</button>
-        <button type="button" class="btn btn-default" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> No</button>
+          <form method="POST" action="{{url('dashboard/admin/deleteuser')}}">
+              @csrf
+              <input type="text" hidden name="user_id" id="user_id" value=""/>
+              <button type="submit" class="btn btn-success" ><span class="glyphicon glyphicon-ok-sign"></span> Yes</button>
+              <button type="button" class="btn btn-default" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> No</button>
+          </form>
       </div>
         </div>
     <!-- /.modal-content --> 

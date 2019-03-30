@@ -7,6 +7,7 @@
                         @guest
                             @if (Auth::guard('admin')->check())
                                 @if (Auth::guard('admin')->user()->role == 'seller')
+                                    <li><a href="{{ url('dashboard/seller/addproducts') }}"><i class="fa fa-plus"></i> add products</a></li>
                                     <li><a href="{{ url('dashboard/logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
                                         <i class="fa fa-sign-out"></i> Logout
                                     </a></li>

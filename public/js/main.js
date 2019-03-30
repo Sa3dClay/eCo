@@ -89,5 +89,10 @@ jQuery(document).ready(function($){
         var id = $(this).data('id');
         $(".modal-footer #user_id").val( id );
     });
+
+    $('#deletebtn').on('click', function() {
+        var id = $(this).data('id');
+        $(".modal-footer #user_id").val( id );
+    });
 });
 
