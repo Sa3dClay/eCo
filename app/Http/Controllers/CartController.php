@@ -2,7 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use DB;
+use App\Cart;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 
 class CartController extends Controller
 {
@@ -13,7 +17,20 @@ class CartController extends Controller
      */
     public function index()
     {
-        return view('cart.index');
+        // Here we will fet all products that in customer cart, and also get all info fer each product -> inner join
+        if( isset(Auth::user()->id) ) {
+            
+            $products = DB::table('products')->join('cart', function ($join) {
+                $user_id = Auth::user()->id;
+
+                $join->on('products.id', '=', 'cart.pro_id')
+                    ->where('cart.user_id', '=', $user_id);
+            })->get();
+
+            return view('cart.index')->with('products', $products);
+        } else {
+            return redirect('/')->with('error', 'You are not authorized to show this page');
+        }
     }
 
     /**

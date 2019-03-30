@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Peport extends Model
 {
-    protected $tabel="report";    
+    protected $table="report";    
     public $primaryKey="id";
     public $timestumps=true;
     

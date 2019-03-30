@@ -110,7 +110,7 @@ class ProductsController extends Controller
         }
         else
         {
-            return redirect('/products')->with('success', 'You are not authorized to add product');
+            return redirect('/products')->with('error', 'You are not authorized to add product');
         }
 
     }
