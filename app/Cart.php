@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Cart extends Model
 {
-    protected $tabel="cart";    
+    protected $table="cart";    
     public $primaryKey="id";
     public $timestumps=true;
     
