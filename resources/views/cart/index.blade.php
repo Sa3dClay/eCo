@@ -30,24 +30,24 @@
                     <div class="single-sidebar">
                         <h2 class="sidebar-title">Products</h2>
 
-                        @for($x=0; $x<4; $x++)
+                        {{-- @for($x=0; $x<4; $x++) --}}
                             <div class="thubmnail-recent">
                                 <img src="img/product-thumb-1.jpg" class="recent-thumb" alt="">
                                 <h2><a href="#">Sony Smart TV - 2015</a></h2>
                                 <div class="product-sidebar-price">
-                                    <ins>$700.00</ins> <del>$800.00</del>
+                                    <ins>$700.00</ins>
                                 </div>                             
                             </div>
-                        @endfor
+                        {{-- @endfor --}}
 
                     </div>
                     
                     <div class="single-sidebar">
                         <h2 class="sidebar-title">Recent Posts</h2>
                         <ul>
-                            @for($x=0; $x<4; $x++)
+                            {{-- @for($x=0; $x<4; $x++) --}}
                                 <li><a href="#">Sony Smart TV - 2015</a></li>
-                            @endfor
+                            {{-- @endfor --}}
                         </ul>
                     </div>
                 </div>
@@ -68,43 +68,56 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr class="cart_item">
-                                            <td class="product-remove">
-                                                <a title="Remove this item" class="remove" href="#">×</a> 
-                                            </td>
+                                        {{-- Here will be the dynamic view of products --}}
 
-                                            <td class="product-thumbnail">
-                                                <a href="#"><img width="145" height="145" alt="poster_1_up" class="shop_thumbnail" src="img/product-thumb-2.jpg"></a>
-                                            </td>
+                                        @if( isset($products) && count($products) > 0 )
+                                            @foreach ($products as $product)
+                                                
+                                                <tr class="cart_item">
+                                                    <td class="product-remove">
+                                                        {{-- Here is the remove button --}}
+                                                        <a title="Remove this item" class="remove" href="#">×</a> 
+                                                    </td>
+        
+                                                    <td class="product-thumbnail">
+                                                        <a href="{{ url('products/' . $product->id) }}"><img width="145" height="145" alt="poster_1_up" class="shop_thumbnail" src="{{ asset( '/storage/profile_pics/' . $product->profile_pic ) }}"></a>
+                                                    </td>
+        
+                                                    <td class="product-name">
+                                                        <a href="{{ url('products/' . $product->id) }}">{{ $product->name }}</a> 
+                                                    </td>
+        
+                                                    <td class="product-price">
+                                                        <span class="amount">${{ $product->price }}</span> 
+                                                    </td>
+        
+                                                    <td class="product-quantity">
+                                                        <div class="quantity buttons_added">
+                                                            {{-- <input type="button" class="minus" value="-"> --}}
+                                                            <input type="number" size="4" class="input-text qty text" title="Qty" value="1" min="0" step="1">
+                                                            {{-- <input type="button" class="plus" value="+"> --}}
+                                                        </div>
+                                                    </td>
+        
+                                                    <td class="product-subtotal">
+                                                        {{-- Here will be the total price --}}
+                                                        <span class="amount">${{ $product->price }}</span> 
+                                                    </td>
+                                                </tr>
 
-                                            <td class="product-name">
-                                                <a href="#">Ship Your Idea</a> 
-                                            </td>
+                                            @endforeach
+                                        @else
+                                            <p class="blank">No Products Found</p>
+                                        @endif
 
-                                            <td class="product-price">
-                                                <span class="amount">£15.00</span> 
-                                            </td>
-
-                                            <td class="product-quantity">
-                                                <div class="quantity buttons_added">
-                                                    <input type="button" class="minus" value="-">
-                                                    <input type="number" size="4" class="input-text qty text" title="Qty" value="1" min="0" step="1">
-                                                    <input type="button" class="plus" value="+">
-                                                </div>
-                                            </td>
-
-                                            <td class="product-subtotal">
-                                                <span class="amount">£15.00</span> 
-                                            </td>
-                                        </tr>
-
+                                        {{-- End of dynamic view --}}
                                         <tr>
                                             <td class="actions" colspan="6">
-                                                <div class="coupon">
+                                                {{-- <div class="coupon">
                                                     <label for="coupon_code">Coupon:</label>
                                                     <input type="text" placeholder="Coupon code" value="" id="coupon_code" class="input-text" name="coupon_code">
                                                     <input type="submit" value="Apply Coupon" name="apply_coupon" class="button">
-                                                </div>
+                                                </div> --}}
                                                 <input type="submit" value="Update Cart" name="update_cart" class="button">
                                                 <input type="submit" value="Proceed to Checkout" name="proceed" class="checkout-button button alt wc-forward">
                                             </td>
@@ -115,7 +128,7 @@
 
                             <div class="cart-collaterals">
 
-                                <div class="cross-sells">
+                                {{-- <div class="cross-sells">
                                     <h2>You may be interested in...</h2>
                                     <ul class="products">
                                         <li class="product">
@@ -138,7 +151,7 @@
                                             <a class="add_to_cart_button" data-quantity="1" data-product_sku="" data-product_id="22" rel="nofollow" href="#">Select options</a>
                                         </li>
                                     </ul>
-                                </div>
+                                </div> --}}
 
                                 <div class="cart_totals ">
                                     <h2>Cart Totals</h2>
@@ -163,7 +176,7 @@
                                     </table>
                                 </div>
 
-                                <form method="post" action="#" class="shipping_calculator">
+                                {{-- <form method="post" action="#" class="shipping_calculator">
                                     <h2><a class="shipping-calculator-button" data-toggle="collapse" href="#" aria-expanded="false" aria-controls="calcalute-shipping-wrap">Calculate Shipping</a></h2>
 
                                     <section id="calcalute-shipping-wrap" class="shipping-calculator-form collapse">
@@ -425,7 +438,7 @@
                                     <p><button class="button" value="1" name="calc_shipping" type="submit">Update Totals</button></p>
 
                                     </section>
-                                </form>
+                                </form> --}}
 
                             </div>
                         </div>                        

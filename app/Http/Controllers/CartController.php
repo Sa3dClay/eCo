@@ -3,10 +3,11 @@
 namespace App\Http\Controllers;
 
 use DB;
-use App\Product;
 use App\Cart;
+use App\Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 
 class CartController extends Controller
 {
@@ -22,8 +23,20 @@ class CartController extends Controller
     
     public function index()
     {
-         $products=DB::select('select * from products,cart where pro_id=id and user_id='.Auth::user()->id);
-        return view('cart.index')->with('products', $products);
+        // Here we will fet all products that in customer cart, and also get all info fer each product -> inner join
+        if( isset(Auth::user()->id) ) {
+            
+            $products = DB::table('products')->join('cart', function ($join) {
+                $user_id = Auth::user()->id;
+
+                $join->on('products.id', '=', 'cart.pro_id')
+                    ->where('cart.user_id', '=', $user_id);
+            })->get();
+
+            return view('cart.index')->with('products', $products);
+        } else {
+            return redirect('/')->with('error', 'You are not authorized to show this page');
+        }
     }
 
     /**
@@ -45,6 +58,17 @@ class CartController extends Controller
     public function store(Request $request)
     {
         //
+        if(!Auth::guest() && Auth::user()->is_admin != 1)
+        {
+
+         //   return $request->input('id') ;
+            $cart = new Cart;
+            $cart->user_id = Auth::user()->id ;
+            $cart->pro_id = $request->input('id') ;
+            $cart->n_of_pro = 1;
+            $cart->save();
+            return redirect('/products')->with('success', "Product was added to cart successfuly");
+        }
     }
 
     /**
@@ -91,14 +115,41 @@ class CartController extends Controller
     {
         //
     }
-    
-    public function remove_from_cart($id){
+
+
+    public static function checkAdded()
+    {
+        if(!Auth::guest() && Auth::user()->is_admin != 1)
+        {
+            $cart = Cart::select(['pro_id'])->where('user_id', Auth::user()->id)->get()->toArray();
+            
+            //   $cart =null;
+            if($cart != null)
+            {
+                $result = array();
+                foreach($cart as $c1)
+                {
+                    foreach($c1 as $key => $value)
+                    {
+                        array_push($result,$value);
+                    }
+                }
+                
+                return $result;
+            }
+            
+        }
+        return [];
+    }
+
+    public function remove_from_cart($id) {
         $product=Cart::find($id);
+
         if(Auth::user()->id==$product->user_id){
             $product->delete();
         }else{
             return redirect("/cart")->with("error","Authorization error");   
         }
-         return redirect("/cart")->with("success","The product has been removed from your cart");
+        return redirect("/cart")->with("success","The product has been removed from your cart");
     }
 }
