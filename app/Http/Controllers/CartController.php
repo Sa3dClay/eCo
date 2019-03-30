@@ -2,7 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use DB;
+use App\Product;
+use App\Cart;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class CartController extends Controller
 {
@@ -11,9 +15,15 @@ class CartController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+    
     public function index()
     {
-        return view('cart.index');
+         $products=DB::select('select * from products,cart where pro_id=id and user_id='.Auth::user()->id);
+        return view('cart.index')->with('products', $products);
     }
 
     /**
@@ -80,5 +90,15 @@ class CartController extends Controller
     public function destroy($id)
     {
         //
+    }
+    
+    public function remove_from_cart($id){
+        $product=Cart::find($id);
+        if(Auth::user()->id==$product->user_id){
+            $product->delete();
+        }else{
+            return redirect("/cart")->with("error","Authorization error");   
+        }
+         return redirect("/cart")->with("success","The product has been removed from your cart");
     }
 }
