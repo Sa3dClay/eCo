@@ -11,7 +11,7 @@
                     <a href="#" class="add-to-cart-link"><i class="fa fa-shopping-cart"></i> Add to cart</a>
                     <a href="{{ url('products/' . $product->id) }}" class="view-details-link"><i class="fa fa-link"></i> See details</a>
                @else 
-                    <a href="#" class="add-to-cart-link"><i class="glyphicon glyphicon-wrench"></i> Update product</a>
+                <a href="/products/{{$product->id}}/edit" class="add-to-cart-link"><i class="glyphicon glyphicon-wrench"></i> Update product</a>
                     
                     <a href="" class="view-details-link" onclick="event.preventDefault(); document.getElementById('remove-submit').click();">
                         <i class="glyphicon glyphicon-remove"></i>Remove Product</a>
