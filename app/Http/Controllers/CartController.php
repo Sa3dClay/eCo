@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use DB;
 use App\Cart;
+use App\Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
@@ -15,6 +16,11 @@ class CartController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+    
     public function index()
     {
         // Here we will fet all products that in customer cart, and also get all info fer each product -> inner join
@@ -117,8 +123,7 @@ class CartController extends Controller
         {
             $cart = Cart::select(['pro_id'])->where('user_id', Auth::user()->id)->get()->toArray();
             
-
-        //   $cart =null;
+            //   $cart =null;
             if($cart != null)
             {
                 $result = array();
@@ -135,5 +140,16 @@ class CartController extends Controller
             
         }
         return [];
+    }
+
+    public function remove_from_cart($id) {
+        $product=Cart::find($id);
+
+        if(Auth::user()->id==$product->user_id){
+            $product->delete();
+        }else{
+            return redirect("/cart")->with("error","Authorization error");   
+        }
+        return redirect("/cart")->with("success","The product has been removed from your cart");
     }
 }
