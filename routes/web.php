@@ -21,7 +21,7 @@ Auth::routes();
 Route::get('/home', 'HomeController@index')->name('home');
 Route::get('/products/{id}/change_visibilty', 'ProductsController@change_visibility')->name('change_visibilty');
 Route::delete('/Cart/{id}/remove_from_cart', 'CartController@remove_from_cart')->name('remove_from_cart');
-
+Route::get('/products/{strword}/search', 'ProductsController@search')->name('search');
 // admins authentication
 Route::group(['prefix' => 'dashboard'], function () {
   Route::get('/login', 'AdminAuth\LoginController@showLoginForm')->name('login');
