@@ -67,6 +67,7 @@
                                             <th class="product-subtotal">Cost</th>
                                         </tr>
                                     </thead>
+
                                     <tbody>
                                         {{-- Here will be the dynamic view of products --}}
 
@@ -74,13 +75,13 @@
                                             @foreach ($products as $product)
                                             
                                                 <tr class="cart_item">
+                                                    {{-- Here you can remove product when you click the button --}}
                                                     <td class="product-remove">
-                                                       <!-- //{{$product->id}}-->
-                                                     <!--/*{!! Form::open(['action' => ['CartController@remove_from_cart',$product->id],'method'=>'POST']) !!}
-                                                         {{Form::hidden('_method','DELETE')}}
-                                                         {{Form::submit('Delete',['id'=>'remove-item','style'=>'display:none'])}}
-                                                     {!! Form::close() !!}  */-->       
-                                                     <a title="Remove this item" class="remove" href="{{ url('cart/' . $product->id .'/remove_from_cart') }}" <!--onclick="event.preventDefault(); document.getElementById('remove-item').click();-->">X</a> 
+                                                        {{-- {!! Form::open(['action' => ['CartController@remove_from_cart',$product->id],'method'=>'POST']) !!}
+                                                            {{Form::hidden('_method','DELETE')}}
+                                                            {{Form::submit('Delete',['id'=>'remove-item','style'=>'display:none'])}}
+                                                        {!! Form::close() !!} --}}
+                                                        <a title="Remove this item" class="remove" href="{{ url('cart/' . $product->id .'/remove_from_cart') }}">X</a> 
                                                     </td>
         
                                                     <td class="product-thumbnail">
@@ -137,6 +138,7 @@
                                                 <input type="submit" value="Proceed to Checkout" name="proceed" class="checkout-button button alt wc-forward"> --}}
                                             </td>
                                         </tr>
+                                        
                                     </tbody>
                                 </table>
                             {{-- </form> --}}
