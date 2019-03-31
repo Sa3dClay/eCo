@@ -36,7 +36,12 @@
                     <li><a href="#">About Us</a></li>
                     <li><a href="#">Contact</a></li>
                 </ul>
-            </div>  
+                {!! Form::open(['action' => 'ProductsController@search','method'=>'POST','style'=>'padding-top:15px;margin-right=-15px; float:right;']) !!}
+                        {{Form::text('text', '', ['class' => 'form-control', 'placeholder' => 'Search for products...'])}}
+                        {{Form::submit('Search',['style'=>'display:none'])}}
+                    {!! Form::close() !!}
+                    
+            </div>             
         </div>
-    </div>
+    </div>    
 </div> <!-- End mainmenu area -->

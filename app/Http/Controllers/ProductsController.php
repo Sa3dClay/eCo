@@ -281,7 +281,7 @@ class ProductsController extends Controller
             $newstr[$i] = "'".$newstr[$i]."'";
            }
            $words= implode(',', $newstr);
-            $products+=DB::select("SELECT DISTINCT * FROM products WHERE LOWER(name) in ($words) OR LOWER(brand) in ($words) OR LOWER(category) in ($words) order by n_sold desc");
+            $products=DB::select("SELECT DISTINCT * FROM products WHERE LOWER(name) in ($words) OR LOWER(brand) in ($words) OR LOWER(category) in ($words) order by n_sold desc");
             
         }
         $cart = CartController::checkAdded();
@@ -289,7 +289,7 @@ class ProductsController extends Controller
             'products' => $products,
             'cartp' => $cart,
         ];
-
+         
         return view('products.index')->with($data);
     }
 }
