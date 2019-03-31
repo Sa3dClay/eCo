@@ -17,7 +17,7 @@
                                 @else
                                     <li><a href="{{ url('dashboard/admin/addmember') }}"><i class="fa fa-user-plus"></i> add member</a></li>
                                     <li><a href="{{ url('dashboard/admin/users') }}"><i class="glyphicon glyphicon-search"></i> User Search</a></li>
-                                    <li><a href="#"><i class="glyphicon glyphicon-eye-close"></i> Invisible products</a></li> 
+                                    <li><a href="#"><i class="glyphicon glyphicon-eye-close"></i> Invisible products</a></li>
                                     <li><a href="#"><i class="glyphicon glyphicon-chevron-right"></i> View reports</a></li>
                                     <li><a href="{{ url('dashboard/logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
                                         <i class="fa fa-sign-out"></i> Logout
@@ -43,7 +43,7 @@
                             <form id="logout-form" action="{{ url('logout') }}" method="POST" style="display: none;">
                                 @csrf
                             </form>
-                        @endguest    
+                        @endguest
                     </ul>
                 </div>
             </div>
@@ -62,12 +62,13 @@
                     <a href="{{ route('welcome') }}"> <img src="{{ asset('img/eCo.png') }}" /> </a>
                 </div>
             </div>
-            
+           @if(Auth::user()->is_admin == 0)
             <div class="col-sm-6">
                 <div class="shopping-item">
                     <a href="{{route('cart.index')}}">Cart - <span class="cart-amunt">$800</span> <i class="fa fa-shopping-cart"></i> <span class="product-count">5</span></a>
                 </div>
             </div>
+            @endif
         </div>
     </div>
 </div> <!-- End site branding area -->
