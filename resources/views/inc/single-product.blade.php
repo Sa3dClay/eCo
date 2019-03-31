@@ -14,14 +14,23 @@
                         @if(count($cartp)>0 && in_array($product->id,$cartp))
                             <a href="#" class="add-to-cart-link"><i class="fa fa-shopping-cart" ></i> Added to cart</a>
                         @else
-                            <a href="" class="add-to-cart-link"  onclick="event.preventDefault(); document.getElementById('add_to_cart').click();" >
+                            <!--<a href="" class="add-to-cart-link"  onclick="event.preventDefault(); document.getElementById('add_to_cart').click();" >
                                  <i class="fa fa-shopping-cart">Add to cart</i>
                             </a>
-                            {!! Form::open(['action' => ['CartController@store'],'method'=>'POST']) !!}
+                            /*{!! Form::open(['action' => ['CartController@store'],'method'=>'POST']) !!}
                                 <input name="id" value="{{ $product->id }}" style="display:none">
                                 {{-- Form::number('id',$product->id,['style'=>'display:none']) --}}
                                 {{ Form::submit('Add to cart',['id'=>'add_to_cart','style'=>'display:none;']) }}     
+                            {!! Form::close() !!}*/-->
+                              {!! Form::open(['action' => ['CartController@store'],'method'=>'POST']) !!}
+                                <input name="id" value="{{ $product->id }}" style="display:none">
+                                {{-- Form::number('id',$product->id,['style'=>'display:none']) --}}
+                                <a href="" class="add-to-cart-link" >
+                                    <i class="fa fa-shopping-cart"></i>{{ Form::submit('Add to cart',[]) }}
+                                </a>
                             {!! Form::close() !!}
+                            <!--<a href="" class="add-to-cart-link" onclick="event.preventDefault(); document.getElementById('add_to_cart').click();">
+                            <i class="fa fa-shopping-cart"></i>Add to cart</a>-->
                         @endif
                         
                     <!--<a href="#" class="add-to-cart-link"><i class="fa fa-shopping-cart"></i> Add to cart</a>-->
