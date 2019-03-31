@@ -62,15 +62,14 @@
                     <a href="{{ route('welcome') }}"> <img src="{{ asset('img/eCo.png') }}" /> </a>
                 </div>
             </div>
-           @if(Auth::user()->is_admin == 0)
+
             <div class="col-sm-6">
-                @if( isset( Auth::user()->id ) && Auth::user()->is_admin = 0 )
+                @if( isset( Auth::user()->id ) && Auth::user()->is_admin == '0' )
                     <div class="shopping-item">
                         <a href="{{route('cart.index')}}">Cart <!-- - <span class="cart-amunt">$800</span> --> <i class="fa fa-shopping-cart"></i> <!-- <span class="product-count">5</span> --> </a>
                     </div>
                 @endif
-            </div>
-            @endif
+            </div> 
         </div>
     </div>
 </div> <!-- End site branding area -->

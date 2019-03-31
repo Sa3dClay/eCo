@@ -95,7 +95,7 @@
                                                     <td class="product-quantity">
                                                         <div class="quantity buttons_added">
                                                             {{-- <input type="button" class="minus" value="-"> --}}
-                                                            <input type="number" size="4" name="qty" class="input-text qty text" title="Qty" value="{{ $product->n_of_pro }}" min="0" step="1">
+                                                            <input type="number" size="4" name="qty" class="input-text qty text" title="Qty" value="{{ $product->n_of_pro }}" min="1" max="{{ $product->quantity }}" step="1">
                                                             {{-- <input type="button" class="plus" value="+"> --}}
                                                             {{-- <input href="" type="submit"  value="Update Cart" class="button"> --}}
                                                             {{Form::hidden('_method','PUT')}}
