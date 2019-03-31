@@ -249,17 +249,17 @@ class ProductsController extends Controller
         }
     }
     
-     public function change_visibility($id){
-         $product=Product::find($id);
-         if($product->visible==1){
-               $product->visible=0;
-                 $product->save();
-             return redirect("/products")->with("success","The product is invisible NOW");
-         }
-         else{
-              $product->visible=1;
+    public function change_visibility($id){
+        $product=Product::find($id);
+        if($product->visible==1){
+            $product->visible=0;
                 $product->save();
-             return redirect("/products")->with("success","The product is visible NOW");
-         }   
+            return redirect("/products")->with("success","The product is invisible NOW");
+        }
+        else{
+            $product->visible=1;
+            $product->save();
+            return redirect("/products")->with("success","The product is visible NOW");
+        }   
     }
 }

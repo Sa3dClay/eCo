@@ -64,9 +64,11 @@
             </div>
             
             <div class="col-sm-6">
-                <div class="shopping-item">
-                    <a href="{{route('cart.index')}}">Cart - <span class="cart-amunt">$800</span> <i class="fa fa-shopping-cart"></i> <span class="product-count">5</span></a>
-                </div>
+                @if( isset( Auth::user()->id ) && Auth::user()->is_admin = 0 )
+                    <div class="shopping-item">
+                        <a href="{{route('cart.index')}}">Cart <!-- - <span class="cart-amunt">$800</span> --> <i class="fa fa-shopping-cart"></i> <!-- <span class="product-count">5</span> --> </a>
+                    </div>
+                @endif
             </div>
         </div>
     </div>

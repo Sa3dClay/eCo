@@ -55,3 +55,6 @@ Route::group(['prefix' => 'dashboard/seller/', 'middleware' => ['admin']], funct
   Route::get('/', 'SellerDashboard@index');
   // add products page to be added
 });
+
+// Test total cost
+// Route::get('/total', 'CartController@getTotalCost');

@@ -153,28 +153,32 @@
                                     </ul>
                                 </div> --}}
 
-                                <div class="cart_totals ">
-                                    <h2>Cart Totals</h2>
+                                @if( isset($products) && count($products) > 0 && isset($totalCost) )
 
-                                    <table cellspacing="0">
-                                        <tbody>
-                                            <tr class="cart-subtotal">
-                                                <th>Cart Subtotal</th>
-                                                <td><span class="amount">£15.00</span></td>
-                                            </tr>
+                                    <div class="cart_totals ">
+                                        <h2>Cart Totals</h2>
 
-                                            <tr class="shipping">
-                                                <th>Shipping and Handling</th>
-                                                <td>Free Shipping</td>
-                                            </tr>
+                                        <table cellspacing="0">
+                                            <tbody>
+                                                <tr class="cart-subtotal">
+                                                    <th>Cart Subtotal</th>
+                                                    <td><span class="amount">${{ $totalCost }}</span></td>
+                                                </tr>
 
-                                            <tr class="order-total">
-                                                <th>Order Total</th>
-                                                <td><strong><span class="amount">£15.00</span></strong> </td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
+                                                <tr class="shipping">
+                                                    <th>Shipping and Handling</th>
+                                                    <td>Free Shipping</td>
+                                                </tr>
+
+                                                <tr class="order-total">
+                                                    <th>Order Total</th>
+                                                    <td><strong><span class="amount">${{ $totalCost }}</span></strong> </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+
+                                @endif
 
                                 {{-- <form method="post" action="#" class="shipping_calculator">
                                     <h2><a class="shipping-calculator-button" data-toggle="collapse" href="#" aria-expanded="false" aria-controls="calcalute-shipping-wrap">Calculate Shipping</a></h2>
