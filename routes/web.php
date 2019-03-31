@@ -24,6 +24,7 @@ Route::get('/products/{id}/change_visibilty', 'ProductsController@change_visibil
 //Route::delete('/cart/{id}/remove_from_cart', 'CartController@remove_from_cart')->name('remove_from_cart');
 Route::get('/cart/{id}/remove_from_cart', 'CartController@remove_from_cart')->name('remove_from_cart');
 Route::post('/products/search', 'ProductsController@search')->name('search');
+
 // admins authentication
 Route::group(['prefix' => 'dashboard'], function () {
   Route::get('/login', 'AdminAuth\LoginController@showLoginForm')->name('login');

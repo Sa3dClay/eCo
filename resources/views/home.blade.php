@@ -15,6 +15,10 @@
                     @endif
 
                     Welcome {{ Auth::user()->name }}
+
+                    @if ( Auth::user()->is_admin == '1' )
+                        <p><a href="{{ route('products.create') }}">Create Product</a></p>
+                    @endif
                 </div>
             </div>
         </div>
