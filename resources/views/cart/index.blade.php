@@ -90,6 +90,7 @@
                                                     <td class="product-price">
                                                         <span class="amount">${{ $product->price }}</span> 
                                                     </td>
+                                                    
                                                     {!! Form::open(['action' => ['CartController@update',$product->id],'method'=>'PUT']) !!}
                                                     <td class="product-quantity">
                                                         <div class="quantity buttons_added">
@@ -108,17 +109,19 @@
                                                         <span class="amount">${{ $product->price }}</span> 
                                                     </td>
                                                 </tr>
-                                                    <tr>
-                                                        <td class="actions" colspan="6">
-                                                            {{-- <input type="submit" value="Proceed to Checkout" name="proceed" class="checkout-button button alt wc-forward"> --}}
-                                                        </td>
-                                                    </tr>
+                                                
+                                                <tr>
+                                                    <td class="actions" colspan="6">
+                                                        {{-- <input type="submit" value="Proceed to Checkout" name="proceed" class="checkout-button button alt wc-forward"> --}}
+                                                    </td>
+                                                </tr>
                                             @endforeach
                                         @else
                                             <p class="blank">No Products Found</p>
                                         @endif
 
                                         {{-- End of dynamic view --}}
+                                        
                                         <tr>
                                             <td class="actions" colspan="6">
                                                 {{-- <div class="coupon">
