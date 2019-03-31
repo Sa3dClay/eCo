@@ -20,20 +20,21 @@ class CartController extends Controller
     {
         $this->middleware('auth');
     }
-    
+
     public function index()
     {
         // Here we will fet all products that in customer cart, and also get all info fer each product -> inner join
         if( isset(Auth::user()->id) ) {
             
-            $products = DB::table('products')->join('cart', function ($join) {
-                $user_id = Auth::user()->id;
+            $products = $this->getAllCartProducts();
+            $totalCost = $this->getTotalCost();
 
-                $join->on('products.id', '=', 'cart.pro_id')
-                    ->where('cart.user_id', '=', $user_id);
-            })->get();
+            $data = [
+                'products' => $products,
+                'totalCost' => $totalCost
+            ];
 
-            return view('cart.index')->with('products', $products);
+            return view('cart.index')->with($data);
         } else {
             return redirect('/')->with('error', 'You are not authorized to show this page');
         }
@@ -125,7 +126,7 @@ class CartController extends Controller
         {
             $cart = Cart::select(['pro_id'])->where('user_id', Auth::user()->id)->get()->toArray();
             
-            //   $cart =null;
+            // $cart = null;
             if($cart != null)
             {
                 $result = array();
@@ -154,4 +155,33 @@ class CartController extends Controller
         }
         return redirect("/cart")->with("success","The product has been removed from your cart");
     }
+
+    // This function will return all products belongs to the user
+    public function getAllCartProducts() {
+        $products = DB::table('products')->join('cart', function ($join) {
+            $user_id = Auth::user()->id;
+
+            $join->on('products.id', '=', 'cart.pro_id')
+                ->where('cart.user_id', '=', $user_id);
+        })->get();
+
+        return $products;
+    }
+
+    // This function will return the total cost of the cart items
+    public function getTotalCost() {
+        if( isset(Auth::user()->id) ) {
+
+            $products = $this->getAllCartProducts();
+
+            $total = 0;
+            // Get the summation of all products
+            foreach($products as $pro) {
+                $total += $pro->price * $pro->n_of_pro;
+            }
+
+            return $total;
+        }
+    }
+
 }

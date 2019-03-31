@@ -90,11 +90,12 @@
                                                     <td class="product-price">
                                                         <span class="amount">${{ $product->price }}</span> 
                                                     </td>
+                                                    
                                                     {!! Form::open(['action' => ['CartController@update',$product->id],'method'=>'PUT']) !!}
                                                     <td class="product-quantity">
                                                         <div class="quantity buttons_added">
                                                             {{-- <input type="button" class="minus" value="-"> --}}
-                                                            <input type="number" size="4" name="qty" class="input-text qty text" title="Qty" value="{{ $product->n_of_pro }}" min="0" step="1">
+                                                            <input type="number" size="4" name="qty" class="input-text qty text" title="Qty" value="{{ $product->n_of_pro }}" min="1" max="{{ $product->quantity }}" step="1">
                                                             {{-- <input type="button" class="plus" value="+"> --}}
                                                             {{-- <input href="" type="submit"  value="Update Cart" class="button"> --}}
                                                             {{Form::hidden('_method','PUT')}}
@@ -108,17 +109,19 @@
                                                         <span class="amount">${{ $product->price }}</span> 
                                                     </td>
                                                 </tr>
-                                                    <tr>
-                                                        <td class="actions" colspan="6">
-                                                            {{-- <input type="submit" value="Proceed to Checkout" name="proceed" class="checkout-button button alt wc-forward"> --}}
-                                                        </td>
-                                                    </tr>
+                                                
+                                                <tr>
+                                                    <td class="actions" colspan="6">
+                                                        {{-- <input type="submit" value="Proceed to Checkout" name="proceed" class="checkout-button button alt wc-forward"> --}}
+                                                    </td>
+                                                </tr>
                                             @endforeach
                                         @else
                                             <p class="blank">No Products Found</p>
                                         @endif
 
                                         {{-- End of dynamic view --}}
+                                        
                                         <tr>
                                             <td class="actions" colspan="6">
                                                 {{-- <div class="coupon">
@@ -161,28 +164,32 @@
                                     </ul>
                                 </div> --}}
 
-                                <div class="cart_totals ">
-                                    <h2>Cart Totals</h2>
+                                @if( isset($products) && count($products) > 0 && isset($totalCost) )
 
-                                    <table cellspacing="0">
-                                        <tbody>
-                                            <tr class="cart-subtotal">
-                                                <th>Cart Subtotal</th>
-                                                <td><span class="amount">£15.00</span></td>
-                                            </tr>
+                                    <div class="cart_totals ">
+                                        <h2>Cart Totals</h2>
 
-                                            <tr class="shipping">
-                                                <th>Shipping and Handling</th>
-                                                <td>Free Shipping</td>
-                                            </tr>
+                                        <table cellspacing="0">
+                                            <tbody>
+                                                <tr class="cart-subtotal">
+                                                    <th>Cart Subtotal</th>
+                                                    <td><span class="amount">${{ $totalCost }}</span></td>
+                                                </tr>
 
-                                            <tr class="order-total">
-                                                <th>Order Total</th>
-                                                <td><strong><span class="amount">£15.00</span></strong> </td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
+                                                <tr class="shipping">
+                                                    <th>Shipping and Handling</th>
+                                                    <td>Free Shipping</td>
+                                                </tr>
+
+                                                <tr class="order-total">
+                                                    <th>Order Total</th>
+                                                    <td><strong><span class="amount">${{ $totalCost }}</span></strong> </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+
+                                @endif
 
                                 {{-- <form method="post" action="#" class="shipping_calculator">
                                     <h2><a class="shipping-calculator-button" data-toggle="collapse" href="#" aria-expanded="false" aria-controls="calcalute-shipping-wrap">Calculate Shipping</a></h2>
