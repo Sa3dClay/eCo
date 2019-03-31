@@ -91,7 +91,7 @@ class CartController extends Controller
      */
     public function edit($id)
     {
-        //
+       //
     }
 
     /**
@@ -101,9 +101,11 @@ class CartController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, $productId)
     {
-        //
+        $quantity = $request->input('qty');
+        DB::table('cart')->where('user_id', Auth::user()->id)->where('pro_id' ,$productId)->update(['n_of_pro' => $quantity]);
+        return redirect('/cart')->with("success","The cart was updated");
     }
 
     /**

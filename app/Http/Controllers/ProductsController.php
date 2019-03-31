@@ -262,4 +262,34 @@ class ProductsController extends Controller
             return redirect("/products")->with("success","The product is visible NOW");
         }   
     }
+    
+    public function search(Request $request){
+        $strword=$request->input('text');
+        if(strlen($strword)==0){
+            return $this->index();
+        }
+        $str = strtolower($strword);
+        $chars = str_split($str);
+        $str2 = '';
+        $n = strpos($str, ' ');
+        if(!is_numeric($n)) {
+            $str2 = implode($str2, $chars);
+            $products=DB::select("SELECT DISTINCT * from products where LOWER(name) LIKE'$str2%' or LOWER(brand) LIKE'$str2%' or LOWER(category) LIKE'$str2%' order by n_sold desc");
+        }else{
+           $newstr= explode(" ", $str);
+           for($i=0; $i<count($newstr); $i++){
+            $newstr[$i] = "'".$newstr[$i]."'";
+           }
+           $words= implode(',', $newstr);
+            $products+=DB::select("SELECT DISTINCT * FROM products WHERE LOWER(name) in ($words) OR LOWER(brand) in ($words) OR LOWER(category) in ($words) order by n_sold desc");
+            
+        }
+        $cart = CartController::checkAdded();
+        $data = [
+            'products' => $products,
+            'cartp' => $cart,
+        ];
+
+        return view('products.index')->with($data);
+    }
 }

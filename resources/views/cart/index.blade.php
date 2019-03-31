@@ -19,13 +19,13 @@
         <div class="container">
             <div class="row">
                 <div class="col-md-4">
-                    <div class="single-sidebar">
+                    <!--<div class="single-sidebar">
                         <h2 class="sidebar-title">Search Products</h2>
                         <form action="#">
                             <input type="text" placeholder="Search products...">
                             <input type="submit" value="Search">
                         </form>
-                    </div>
+                    </div>-->
                     
                     <div class="single-sidebar">
                         <h2 class="sidebar-title">Products</h2>
@@ -55,7 +55,7 @@
                 <div class="col-md-8">
                     <div class="product-content-right">
                         <div class="woocommerce">
-                            <form method="post" action="#">
+                            {{-- <form method="post" action="#"> --}}
                                 <table cellspacing="0" class="shop_table cart">
                                     <thead>
                                         <tr>
@@ -72,7 +72,7 @@
 
                                         @if( isset($products) && count($products) > 0 )
                                             @foreach ($products as $product)
-                                                
+                                            
                                                 <tr class="cart_item">
                                                     <td class="product-remove">
                                                         {{-- Here is the remove button --}}
@@ -90,21 +90,29 @@
                                                     <td class="product-price">
                                                         <span class="amount">${{ $product->price }}</span> 
                                                     </td>
-        
+                                                    {!! Form::open(['action' => ['CartController@update',$product->id],'method'=>'PUT']) !!}
                                                     <td class="product-quantity">
                                                         <div class="quantity buttons_added">
                                                             {{-- <input type="button" class="minus" value="-"> --}}
-                                                            <input type="number" size="4" class="input-text qty text" title="Qty" value="1" min="0" step="1">
+                                                            <input type="number" size="4" name="qty" class="input-text qty text" title="Qty" value="{{ $product->n_of_pro }}" min="0" step="1">
                                                             {{-- <input type="button" class="plus" value="+"> --}}
+                                                            {{-- <input href="" type="submit"  value="Update Cart" class="button"> --}}
+                                                            {{Form::hidden('_method','PUT')}}
+                                                            {{Form::submit('Update', ['class'=>'btn btn-primary'])}}    
                                                         </div>
                                                     </td>
+                                                    {!! Form::close() !!}
         
                                                     <td class="product-subtotal">
                                                         {{-- Here will be the total price --}}
                                                         <span class="amount">${{ $product->price }}</span> 
                                                     </td>
                                                 </tr>
-
+                                                    <tr>
+                                                        <td class="actions" colspan="6">
+                                                            {{-- <input type="submit" value="Proceed to Checkout" name="proceed" class="checkout-button button alt wc-forward"> --}}
+                                                        </td>
+                                                    </tr>
                                             @endforeach
                                         @else
                                             <p class="blank">No Products Found</p>
@@ -118,13 +126,13 @@
                                                     <input type="text" placeholder="Coupon code" value="" id="coupon_code" class="input-text" name="coupon_code">
                                                     <input type="submit" value="Apply Coupon" name="apply_coupon" class="button">
                                                 </div> --}}
-                                                <input type="submit" value="Update Cart" name="update_cart" class="button">
-                                                <input type="submit" value="Proceed to Checkout" name="proceed" class="checkout-button button alt wc-forward">
+                                                {{-- <input type="submit" value="Update Cart" name="update_cart" class="button">
+                                                <input type="submit" value="Proceed to Checkout" name="proceed" class="checkout-button button alt wc-forward"> --}}
                                             </td>
                                         </tr>
                                     </tbody>
                                 </table>
-                            </form>
+                            {{-- </form> --}}
 
                             <div class="cart-collaterals">
 

@@ -1,6 +1,5 @@
 <?php
     $name = Route::currentRouteName();
-
     switch ($name) {
         case 'welcome':
             $home = true;
