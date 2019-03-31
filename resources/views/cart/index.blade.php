@@ -64,7 +64,7 @@
                                             <th class="product-name">Product</th>
                                             <th class="product-price">Price</th>
                                             <th class="product-quantity">Quantity</th>
-                                            <th class="product-subtotal">Total</th>
+                                            <th class="product-subtotal">Cost</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -75,8 +75,12 @@
                                             
                                                 <tr class="cart_item">
                                                     <td class="product-remove">
-                                                        {{-- Here is the remove button --}}
-                                                        <a title="Remove this item" class="remove" href="#">×</a> 
+                                                       <!-- //{{$product->id}}-->
+                                                     <!--/*{!! Form::open(['action' => ['CartController@remove_from_cart',$product->id],'method'=>'POST']) !!}
+                                                         {{Form::hidden('_method','DELETE')}}
+                                                         {{Form::submit('Delete',['id'=>'remove-item','style'=>'display:none'])}}
+                                                     {!! Form::close() !!}  */-->       
+                                                     <a title="Remove this item" class="remove" href="{{ url('cart/' . $product->id .'/remove_from_cart') }}" <!--onclick="event.preventDefault(); document.getElementById('remove-item').click();-->">X</a> 
                                                     </td>
         
                                                     <td class="product-thumbnail">

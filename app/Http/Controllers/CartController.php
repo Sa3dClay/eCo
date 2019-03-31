@@ -138,21 +138,17 @@ class CartController extends Controller
                     }
                 }
                 
-                return $result;
+                return array_unique($result);
             }
             
         }
         return [];
     }
 
-    public function remove_from_cart($id) {
-        $product=Cart::find($id);
-
-        if(Auth::user()->id==$product->user_id){
-            $product->delete();
-        }else{
-            return redirect("/cart")->with("error","Authorization error");   
-        }
+    public function remove_from_cart($pro_id) {
+       // echo $pro_id;
+        $product=Cart::findBy($pro_id, Auth::user()->id);
+        $product->delete();
         return redirect("/cart")->with("success","The product has been removed from your cart");
     }
 
