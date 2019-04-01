@@ -19,7 +19,8 @@ class ProductsController extends Controller
     public function __construct()
     {
         //$this->middleware('auth');
-        $this->middleware('auth',['except'=>['index','show']]);
+          $this->middleware('auth',['except'=>['index','show','search']]);
+        //$this->middleware('auth:admin',['only'=>['destroy','change_visibility','edit','create']]);
     }
    
     public function index()
@@ -274,22 +275,21 @@ class ProductsController extends Controller
         $n = strpos($str, ' ');
         if(!is_numeric($n)) {
             $str2 = implode($str2, $chars);
-            $products=DB::select("SELECT DISTINCT * from products where LOWER(name) LIKE'$str2%' or LOWER(brand) LIKE'$str2%' or LOWER(category) LIKE'$str2%' order by n_sold desc");
+            $products=Product::find_no_space($str2);
         }else{
            $newstr= explode(" ", $str);
            for($i=0; $i<count($newstr); $i++){
             $newstr[$i] = "'".$newstr[$i]."'";
            }
            $words= implode(',', $newstr);
-            $products=DB::select("SELECT DISTINCT * FROM products WHERE LOWER(name) in ($words) OR LOWER(brand) in ($words) OR LOWER(category) in ($words) order by n_sold desc");
-            
+            $products= Product::find_space($words);
         }
         $cart = CartController::checkAdded();
         $data = [
             'products' => $products,
             'cartp' => $cart,
         ];
-         
+        
         return view('products.index')->with($data);
     }
 }

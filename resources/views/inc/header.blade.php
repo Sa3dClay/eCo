@@ -7,7 +7,7 @@
                         @guest
                             @if (Auth::guard('admin')->check())
                                 @if (Auth::guard('admin')->user()->role == 'seller')
-                                    <li><a href="{{ url('dashboard/seller/addproducts') }}"><i class="fa fa-plus"></i> add products</a></li>
+                                   <li><a href="{{ url('dashboard/seller/addproducts') }}"><i class="fa fa-plus"></i> add products</a></li>
                                     <li><a href="{{ url('dashboard/logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
                                         <i class="fa fa-sign-out"></i> Logout
                                     </a></li>
@@ -69,7 +69,7 @@
                         <a href="{{route('cart.index')}}">Cart <!-- - <span class="cart-amunt">$800</span> --> <i class="fa fa-shopping-cart"></i> <!-- <span class="product-count">5</span> --> </a>
                     </div>
                 @endif
-            </div> 
+            </div>
         </div>
     </div>
 </div> <!-- End site branding area -->
