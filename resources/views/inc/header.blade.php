@@ -15,6 +15,7 @@
                                         @csrf
                                     </form>
                                 @else
+                                    <li><a href="{{ url('products/create') }}"><i class="fa fa-plus"></i> add products</a></li>
                                     <li><a href="{{ url('dashboard/admin/addmember') }}"><i class="fa fa-user-plus"></i> add member</a></li>
                                     <li><a href="{{ url('dashboard/admin/users') }}"><i class="glyphicon glyphicon-search"></i> User Search</a></li>
                                     <li><a href="#"><i class="glyphicon glyphicon-eye-close"></i> Invisible products</a></li>
