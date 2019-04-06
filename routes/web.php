@@ -15,6 +15,7 @@ Route::get('/', 'PagesController@index')->name('welcome');
 
 Route::resource('products', 'ProductsController');
 Route::resource('cart', 'CartController');
+Route::resource('reports', 'ReportController');
 
 Auth::routes();
 

@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Report;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class ReportController extends Controller
 {
@@ -19,8 +21,8 @@ class ReportController extends Controller
     
     public function index()
     {
-        $reports=Report::orderBy('created_at','desc')->get();
-        return view('dashboard/admin')->with('reports',$reports);
+        $reports=Report::orderBy('created_at','asc')->get();
+        return view('reports.index')->with('reports',$reports);
     }
 
     /**

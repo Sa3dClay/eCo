@@ -18,7 +18,7 @@
 
                     <!--<div class="links">
                         <a href="{//{ route('products.create') }}">Create Product</a>
-                    </div>-->
+                    </div>-->         
                 </div>
             </div>
         </div>
