@@ -35,6 +35,8 @@
                     @if(Auth::guard('admin')->check())
                         @if (Auth::guard('admin')->user()->role == 'admin')
                             <li><a href="{{url('reports')}}">REPORTS</a></li>
+                        @else
+                            <li><a href="#">MY PRODUCTS</a></li>
                         @endif
                         @else
                             <li><a href="#">Checkout</a></li>

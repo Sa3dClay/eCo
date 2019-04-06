@@ -21,8 +21,12 @@ class ReportController extends Controller
     
     public function index()
     {
-        $reports=Report::orderBy('created_at','asc')->get();
-        return view('reports.index')->with('reports',$reports);
+       if(Auth::guard('admin')->user()->role == 'admin'){ 
+            $reports=Report::orderBy('created_at','asc')->get();
+            return view('reports.index')->with('reports',$reports);
+       }else{
+           return redirect('/');
+       }
     }
 
     /**

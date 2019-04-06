@@ -62,7 +62,7 @@ class ProductsController extends Controller
      */
     public function store(Request $request) //untill we remove is_admin,we'are checking for it
     {
-         if(!Auth::guest()&&Auth::user()->is_admin == 1||Auth::guard('admin')->user()->role == 'seller'){
+         if(!Auth::guest()&&Auth::user()->is_admin == 1||Auth::guard('admin')->check()){
                 $this->validate($request, [
                     'name' => 'required',
                     'price' => 'required',
