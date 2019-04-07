@@ -31,13 +31,14 @@
                         {{-- Here should be a button to remove from cart --}}
                         <a href="#" class="add-to-cart-link"><i class="fa fa-shopping-cart" ></i> Added to cart</a>
                     @else
-                        {{-- Add to cart button --}}
-                        <a href="#" class="add-to-cart-link" onclick="event.preventDefault(); document.getElementById('add_to_cart').click();" >
+                        {{-- Add to cart button --}} <?php //echo (isset($loop) ? 'add_to_cart'.$loop->iteration : 'add_to_cart') ?>
+                        <a href="#" class="add-to-cart-link" onclick="event.preventDefault(); document.getElementById('<?php echo (isset($loop) ? 'add_to_cart'.$loop->iteration : 'add_to_cart') ?>').click();">
                             <i class="fa fa-shopping-cart"></i> Add to cart
                         </a>
                         {!! Form::open(['action' => 'CartController@store', 'method' => 'POST']) !!}
                             <input type="number" name="id" value="{{ $product->id }}" style="display:none" />
-                            {{ Form::submit('Add to cart', ['id'=>'add_to_cart', 'style'=>'display:none;']) }}
+                            <button type="submit" style="display:none" id="<?php echo (isset($loop) ? 'add_to_cart'.$loop->iteration : 'add_to_cart') ?>">Add To Cart</button>
+                            {{-- {{ Form::submit('Add to cart', ['id'=>'add_to_cart' . isset($loop) ? $loop->iteration, 'style'=>'display:none;']) }} --}}
                         {!! Form::close() !!}
                         
                         {{-- {!! Form::open(['action' => ['CartController@store'], 'method'=>'POST']) !!}

@@ -16,7 +16,7 @@
                                     <li><a href="{{ url('dashboard/admin/addmember') }}"><i class="fa fa-user-plus"></i> add member</a></li>
                                     <li><a href="{{ url('dashboard/admin/users') }}"><i class="glyphicon glyphicon-search"></i> User Search</a></li>
                                     <li><a href="#"><i class="glyphicon glyphicon-eye-close"></i> Invisible products</a></li>
-                                    <li><a href="#"><i class="glyphicon glyphicon-chevron-right"></i> View reports</a></li>
+                                    <li><a href="{{ url('reports') }}"><i class="glyphicon glyphicon-chevron-right"></i> View reports</a></li>
                                 @endif
                                 {{-- Logout for Admin and Seller --}}
                                 <li><a href="{{ url('dashboard/logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
