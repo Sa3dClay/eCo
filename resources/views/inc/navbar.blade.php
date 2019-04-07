@@ -32,9 +32,17 @@
                     <li class="<?php if(isset($home)) echo 'active' ?>"><a href="{{ url('/') }}">Home</a></li>
                     <li class="<?php if(isset($shop)) echo 'active' ?>"><a href="{{ url('/products') }}">Shop</a></li>
                     <!-- <li class="<?php if(isset($cart)) echo 'active' ?>"><a href="{{ url('/cart') }}">Cart</a></li> -->
-                    <li><a href="#">Checkout</a></li>
-                    <li><a href="#">About Us</a></li>
-                    <li><a href="#">Contact</a></li>
+                    @if(Auth::guard('admin')->check())
+                        @if (Auth::guard('admin')->user()->role == 'admin')
+                            <li><a href="{{url('reports')}}">REPORTS</a></li>
+                        @else
+                            <li><a href="#">MY PRODUCTS</a></li>
+                        @endif
+                        @else
+                            <li><a href="#">Checkout</a></li>
+                            <li><a href="#">About Us</a></li>
+                            <li><a href="#">Contact</a></li>
+                    @endif    
                 </ul>
                 {!! Form::open(['action' => 'ProductsController@search','method'=>'POST','style'=>'padding-top:15px;margin-right=-15px; float:right;']) !!}
                         {{Form::text('text', '', ['class' => 'form-control', 'placeholder' => 'Search for products...'])}}

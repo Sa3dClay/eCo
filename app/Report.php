@@ -4,7 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Peport extends Model
+class Report extends Model
 {
     protected $table="report";    
     public $primaryKey="id";
