@@ -43,6 +43,8 @@
 <body>
     
     @include('inc.header')
+
+    @include('inc.messages')
     
     @include('inc.navbar')
 

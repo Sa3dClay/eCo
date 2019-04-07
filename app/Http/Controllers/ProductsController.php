@@ -4,10 +4,10 @@ namespace App\Http\Controllers;
 
 use DB;
 use App\Product;
-use App\Http\Controllers\CartController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
+use App\Http\Controllers\CartController;
 
 class ProductsController extends Controller
 {
@@ -29,7 +29,7 @@ class ProductsController extends Controller
         $cart = CartController::checkAdded();
         $data = [
             'products' => $products,
-            'cartp' => $cart,
+            'cartpros' => $cart,
         ];
 
         return view('products.index')->with($data);
