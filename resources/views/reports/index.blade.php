@@ -13,15 +13,14 @@
             </div>
         </div>
     </div>
-<div class="container">
-                
+<div class="container">         
     <p>All reports that <b> you haven't seen them</b></p>            
     <table class="table table-hover">
       <thead>
         <tr>
           <th style="color: #1ABC9C">User id</th>
           <th style="color: #1ABC9C">report</th>
-          <th style="color: #1ABC9C">created at</th>
+          <th style="color: #1ABC9C">created at</th>       
         </tr>
       </thead>
       <tbody>

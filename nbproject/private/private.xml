@@ -5,9 +5,10 @@
         <group>
             <file>file:/C:/xampp/htdocs/eco/resources/views/inc/single-product.blade.php</file>
             <file>file:/C:/xampp/htdocs/eco/app/Http/Controllers/CartController.php</file>
+            <file>file:/C:/xampp/htdocs/eco/app/Http/Controllers/ReportController.php</file>
+            <file>file:/C:/xampp/htdocs/eco/resources/views/reports/index.blade.php</file>
             <file>file:/C:/xampp/htdocs/eco/resources/views/cart/index.blade.php</file>
             <file>file:/C:/xampp/htdocs/eco/routes/web.php</file>
-            <file>file:/C:/xampp/htdocs/eco/resources/views/inc/header.blade.php</file>
             <file>file:/C:/xampp/htdocs/eco/app/Http/Controllers/ProductsController.php</file>
         </group>
     </open-files>

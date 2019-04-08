@@ -25,7 +25,7 @@ class ReportController extends Controller
             $reports=Report::orderBy('created_at','asc')->get();
             return view('reports.index')->with('reports',$reports);
        }else{
-           return redirect('/');
+           return redirect('/')->with("error","You are not authorized to view this page");
        }
     }
 
@@ -92,6 +92,12 @@ class ReportController extends Controller
      */
     public function destroy($id)
     {
-        //
+       if(Auth::guard('admin')->user()->role == 'admin'){ 
+            $report= Report::find($id);
+            $report->delete();
+            return redirect('/reports')->with("success","The report was marked as seen");
+       }else{
+           return redirect('/')->with("error","Can't mark this report as SEEN");
+       }
     }
 }
