@@ -13,14 +13,15 @@
             </div>
         </div>
     </div>
-<div class="container">         
-    <p>All reports that <b> you haven't seen them</b></p>            
+<div class="container">
+    <p>All reports that <b> you haven't seen them</b></p>
     <table class="table table-hover">
       <thead>
         <tr>
           <th style="color: #1ABC9C">User id</th>
           <th style="color: #1ABC9C">report</th>
-          <th style="color: #1ABC9C">created at</th>       
+          <th style="color: #1ABC9C">created at</th>
+          <th style="color: #1ABC9C">Have you seen it?</th>
         </tr>
       </thead>
       <tbody>
@@ -29,10 +30,13 @@
               <td>{{$report->user_id}}</td>
               <td>{{$report->message}}</td>
               <td>{{$report->created_at}}</td>
+              <td>{!! Form::open(['action' => ['ReportController@destroy',$report->id],'method'=>'POST']) !!}
+                      {{Form::hidden('_method','DELETE')}}
+                      {{Form::submit('Mark as seen',['id'=>'remove-submit','style'=>'border-radius:5px'])}}
+                  {!! Form::close() !!}</td>
             </tr>
-        @endforeach    
+        @endforeach
       </tbody>
     </table>
 </div>
 @endsection
-

@@ -18,10 +18,10 @@ class ReportController extends Controller
         $this->middleware('admin',['only'=>['destroy','index']]);
         $this->middleware('auth',['only'=>['create','store']]);
     }
-    
+
     public function index()
     {
-       if(Auth::guard('admin')->user()->role == 'admin'){ 
+       if(Auth::guard('admin')->user()->role == 'admin'){
             $reports=Report::orderBy('created_at','asc')->get();
             return view('reports.index')->with('reports',$reports);
        }else{
@@ -92,7 +92,7 @@ class ReportController extends Controller
      */
     public function destroy($id)
     {
-       if(Auth::guard('admin')->user()->role == 'admin'){ 
+       if(Auth::guard('admin')->user()->role == 'admin'){
             $report= Report::find($id);
             $report->delete();
             return redirect('/reports')->with("success","The report was marked as seen");
