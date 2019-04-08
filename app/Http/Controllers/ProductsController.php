@@ -4,10 +4,10 @@ namespace App\Http\Controllers;
 
 use DB;
 use App\Product;
-use App\Http\Controllers\CartController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
+use App\Http\Controllers\CartController;
 
 class ProductsController extends Controller
 {
@@ -29,7 +29,7 @@ class ProductsController extends Controller
         $cart = CartController::checkAdded();
         $data = [
             'products' => $products,
-            'cartp' => $cart,
+            'cartpros' => $cart,
         ];
 
         return view('products.index')->with($data);
@@ -62,65 +62,61 @@ class ProductsController extends Controller
      */
     public function store(Request $request) //untill we remove is_admin,we'are checking for it
     {
-         if(!Auth::guest()&&Auth::user()->is_admin == 1||Auth::guard('admin')->check()){
-                $this->validate($request, [
-                    'name' => 'required',
-                    'price' => 'required',
-                    'brand' => 'required',
-                    'quantity' => 'required',
-                    'category' => 'required',
-                    'desc' => 'required',
-                    'profile_pic' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048'
-                ]);
+        if( !Auth::guest() && Auth::user()->is_admin == 1 || Auth::guard('admin')->check() ){
+            $this->validate($request, [
+                'name' => 'required',
+                'price' => 'required',
+                'brand' => 'required',
+                'quantity' => 'required',
+                'category' => 'required',
+                'desc' => 'required',
+                'profile_pic' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048'
+            ]);
 
-                // Handle File Upload
-                if($request->hasFile('profile_pic')){
-                    // Get filename with the extension
-                    $filenameWithExt = $request->file('profile_pic')->getClientOriginalName();
-                    // Get just filename
-                    $filename = pathinfo($filenameWithExt, PATHINFO_FILENAME);
-                    // Get just ext
-                    $extension = $request->file('profile_pic')->getClientOriginalExtension();
-                    // Filename to store
-                    $fileNameToStore= $filename.'_'.time().'.'.$extension;
-                    // Upload Image
-                    $path = $request->file('profile_pic')->storeAs('public/profile_pics', $fileNameToStore);
-                } else {
-                    $fileNameToStore = 'noimage.jpg';
-                }
-                // Create Product
-                /* the commentet statment should be used for testing */
+            // Handle File Upload
+            if($request->hasFile('profile_pic')){
+                // Get filename with the extension
+                $filenameWithExt = $request->file('profile_pic')->getClientOriginalName();
+                // Get just filename
+                $filename = pathinfo($filenameWithExt, PATHINFO_FILENAME);
+                // Get just ext
+                $extension = $request->file('profile_pic')->getClientOriginalExtension();
+                // Filename to store
+                $fileNameToStore= $filename.'_'.time().'.'.$extension;
+                // Upload Image
+                $path = $request->file('profile_pic')->storeAs('public/profile_pics', $fileNameToStore);
+            } else {
+                $fileNameToStore = 'noimage.jpg';
+            }
+            // Create Product
+            /* the commentet statment should be used for testing */
 
-                $product = new Product;
-                $product->name = $request->input('name');
+            $product = new Product;
+            $product->name = $request->input('name');
 
-                $product->price = $request->input('price');
-                // $product->price = 1;
+            $product->price = $request->input('price');
+            // $product->price = 1;
 
-                $product->brand = $request->input('brand');
+            $product->brand = $request->input('brand');
 
-                $product->quantity = $request->input('quantity');
-                // $product->quantity = 1;
+            $product->quantity = $request->input('quantity');
+            // $product->quantity = 1;
 
-                $product->category = $request->input('category');
-                $product->desc = $request->input('desc');
+            $product->category = $request->input('category');
+            $product->desc = $request->input('desc');
 
-                // $product->owner_id = 1;
-                if(Auth::user()!=null){ //it will case redundant id(s)
-                  $product->owner_id = Auth::user()->id ; 
-                }else{
-                    $product->owner_id=Auth::guard('admin')->user()->id;
-                }
-                $product->profile_pic = $fileNameToStore;
-                $product->save();
-                return redirect('/products')->with('success', 'Product Added');
-                
-         }
-        else
-        {
+            // $product->owner_id = 1;
+            if(Auth::user()!=null){ //it will case redundant id(s)
+                $product->owner_id = Auth::user()->id ; 
+            }else{
+                $product->owner_id=Auth::guard('admin')->user()->id;
+            }
+            $product->profile_pic = $fileNameToStore;
+            $product->save();
+            return redirect('/products')->with('success', 'Product Added');
+        } else {
             return redirect('/products')->with('error', 'You are not authorized to add product');
         }
-
     }
 
     /**

@@ -124,45 +124,29 @@
 
     <div class="maincontent-area">
         <div class="zigzag-bottom"></div>
+
         <div class="container">
             <div class="row">
-                <div class="col-md-12">
-                    <div class="latest-product">
-                        <h2 class="section-title">Latest Products</h2>
-
-                        <div class="product-carousel">
-                            {{-- Dynamic products view --}}
-                            @if( isset($products) && count($products) > 0 )
-                                @foreach ($products as $product)
-                                    @if($product->visible==1)
-                                        {{-- Single product --}}
-                                        <div class="single-product">
-                                            <div class="product-f-image">
-                                                <img src="{{ asset( '/storage/profile_pics/' . $product->profile_pic ) }}" alt="product image" style="width:250px ;height:300px">
-                                                <div class="product-hover">
-                                                   <!-- <a href="#" class="add-to-cart-link"><i class="fa fa-shopping-cart"></i> Add to cart</a>-->
-                                                    <a href="{{ url('products/' . $product->id) }}" class="view-details-link"><i class="fa fa-link"></i> See details</a>
-                                                </div>
-                                            </div>
-                                            <h2><a href="{{ url('products/' . $product->id) }}">{{ $product->name }}</a></h2>                                
-                                            <div class="product-carousel-price">
-                                                <ins>${{ $product->price }}</ins>
-                                                <span>{{ $product->brand }}</span>
-                                            </div> 
-                                        </div>
-                                        {{-- End of single product --}}
-                                    @endif
-                                @endforeach
-                            @else
-                                <p class="blank">No Products Found</p>
+                <div class="latest-product">
+                        
+                    @if( isset($products) && count($products) > 0 )
+                        @foreach ($products as $product)
+                            @if($product->visible==1)
+                        
+                                <div class="col-lg-3 col-md-4 col-sm-6">
+                                    @include('inc.single-product')
+                                </div>
+    
                             @endif
-                            {{-- End of dynamic products view --}}
-                        </div><!-- End product-carousel -->
-
-                    </div>
+                        @endforeach
+                    @else
+                        <p class="blank">No Products Found</p>
+                    @endif
+    
                 </div>
             </div>
         </div>
+
     </div> <!-- End main content area -->
 
     <div class="brands-area">

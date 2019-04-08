@@ -119,7 +119,7 @@ class CartController extends Controller
         //
     }
 
-
+    // Check if the product in the cart
     public static function checkAdded()
     {
         if(!Auth::guest() && Auth::user()->is_admin != 1)
@@ -145,11 +145,25 @@ class CartController extends Controller
         return [];
     }
 
+    // remove product from cart
     public function remove_from_cart($pro_id) {
-       // echo $pro_id;
-        $product=Cart::findBy($pro_id, Auth::user()->id);
-        $product->delete();
-        return redirect("/cart")->with("success","The product has been removed from your cart");
+        if( isset(Auth::user()->id) ) {
+            // $product = Cart::findBy($pro_id, Auth::user()->id);
+            $check = DB::table('cart')->where([
+                ['user_id', '=', Auth::user()->id],
+                ['pro_id', '=', $pro_id],
+            ])->delete();
+
+            if( $check ) {
+                return redirect("/cart")->with("success", "The product has been removed from your cart");
+            }
+            else {
+                return redirect("/cart")->with("error", "Error with last action");
+            }
+
+        } else {
+            return redirect("/cart")->with("error", "Unauthorized action");
+        }
     }
 
     // This function will return all products belongs to the user
