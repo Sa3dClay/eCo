@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use App\Http\Controllers\CartController;
+use App\Http\Controllers\wish_listController;
 
 class ProductsController extends Controller
 {
@@ -27,9 +28,11 @@ class ProductsController extends Controller
 
         //passing array of products in cart of this user to check if it the product is add or no
         $cart = CartController::checkAdded();
+        $wl = wish_listController::checkAdded();
         $data = [
             'products' => $products,
             'cartpros' => $cart,
+            'wishlistProducts' => $wl,
         ];
 
         return view('products.index')->with($data);

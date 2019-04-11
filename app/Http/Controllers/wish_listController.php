@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Wish_List;
+use Illuminate\Support\Facades\Auth;
+use DB;
 
 class wish_listController extends Controller
 {
@@ -104,11 +106,11 @@ class wish_listController extends Controller
                 return redirect("/products")->with("success", "The product has been removed from your wish list");
             }
             else {
-                return redirect("/cart")->with("error", "Error with last action");
+                return redirect("/products")->with("error", "Error with last action");
             }
 
         } else {
-            return redirect("/cart")->with("error", "Unauthorized action");
+            return redirect("/products")->with("error", "Unauthorized action");
         }
     }
 
@@ -116,13 +118,13 @@ class wish_listController extends Controller
     {
         if(!Auth::guest() && Auth::user()->is_admin != 1)
         {
-            $cart = Cart::select(['wishlist'])->where('user_id', Auth::user()->id)->get()->toArray();
+            $wl = Wish_List::select(['pro_id'])->where('user_id', Auth::user()->id)->get()->toArray();
             
             // $cart = null;
-            if($cart != null)
+            if($wl != null)
             {
                 $result = array();
-                foreach($cart as $c1)
+                foreach($wl as $c1)
                 {
                     foreach($c1 as $key => $value)
                     {

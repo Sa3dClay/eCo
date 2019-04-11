@@ -55,11 +55,47 @@
         </div>
     </div>
     {{-- Product Info --}}
-    <h2><a href="{{ url('products/' . $product->id) }}">{{ $product->name }}</a></h2>
-    <div class="product-carousel-price">
-        <ins>${{ $product->price }}</ins>
-        <span>{{ $product->brand }}</span>
-    </div>
+
+    <?php // print_r($wishlistProducts)?>
+
+    <table style="border-size:0;width:150% ">
+        <tr>
+            <td style=width:50% ><h2><a href="{{ url('products/' . $product->id) }}">{{ $product->name }}</a></h2></td>
+            <td>
+                    @if(Auth::user()->is_admin == 0)
+                    {{-- Customer --}}
+                        {{-- Check wishlist --}}
+                        
+                        @if( isset($wishlistProducts) && count($wishlistProducts)>0 && in_array($product->id, $wishlistProducts))
+                            {{-- remove from wish list button --}}
+                            <a title="Remove from wishlist" href="{{ url('wishlist/' . $product->id .'/remove_from_wishlist') }}">
+                                <img src="img/remvefrom_wishlist.svg" alt="Add to wish list" height="30" width="30">
+                            </a> 
+                        @else
+                            {{-- Here should be a button to add to cart --}}
+                            <a href="#" onclick="event.preventDefault(); document.getElementById('<?php echo (isset($loop) ? 'add_to_WL'.$loop->iteration : 'add_to_WL') ?>').click();">
+                                <img src="img/addto_wishlist.svg" alt="Add to wish list" height="30" width="30">
+                            </a>
+                            {!! Form::open(['action' => 'wish_listController@store', 'method' => 'POST']) !!}
+                                <input type="number" name="id" value="{{ $product->id }}" style="display:none" />
+                                <button type="submit" style="display:none" id="<?php echo (isset($loop) ? 'add_to_WL'.$loop->iteration : 'add_to_WL') ?>">Add To wishlist</button>
+                            {!! Form::close() !!}
+                        @endif
+                    @endif
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <div class="product-carousel-price">
+                        <ins>${{ $product->price }}</ins>
+                        <span>{{ $product->brand }}</span>
+                </div>
+            </td>
+            <td></td>
+        </tr>
+    </table>
+    
+    
     @guest
         {{-- do no thing --}}
     @else
