@@ -112,5 +112,29 @@ class wish_listController extends Controller
         }
     }
 
+    public static function checkAdded()
+    {
+        if(!Auth::guest() && Auth::user()->is_admin != 1)
+        {
+            $cart = Cart::select(['wishlist'])->where('user_id', Auth::user()->id)->get()->toArray();
+            
+            // $cart = null;
+            if($cart != null)
+            {
+                $result = array();
+                foreach($cart as $c1)
+                {
+                    foreach($c1 as $key => $value)
+                    {
+                        array_push($result,$value);
+                    }
+                }
+                
+                return array_unique($result);
+            }
+            
+        }
+        return [];
+    }
 
 }
