@@ -90,4 +90,27 @@ class wish_listController extends Controller
     {
         //
     }
+
+
+    public function remove_from_WishList($pro_id) {
+        if( isset(Auth::user()->id) ) {
+            // $product = Cart::findBy($pro_id, Auth::user()->id);
+            $check = DB::table('wishlist')->where([
+                ['user_id', '=', Auth::user()->id],
+                ['pro_id', '=', $pro_id],
+            ])->delete();
+
+            if( $check ) {
+                return redirect("/products")->with("success", "The product has been removed from your wish list");
+            }
+            else {
+                return redirect("/cart")->with("error", "Error with last action");
+            }
+
+        } else {
+            return redirect("/cart")->with("error", "Unauthorized action");
+        }
+    }
+
+
 }
