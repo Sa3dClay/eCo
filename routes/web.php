@@ -17,6 +17,8 @@ Route::resource('products', 'ProductsController');
 Route::resource('cart', 'CartController');
 Route::resource('reports', 'ReportController');
 Route::resource('wishlist', 'wish_listController');
+Route::get('contact', 'ReportController@create');
+Route::post('contact', 'ReportController@store');
 
 Route::get('/wishlist/{id}/remove_from_wishlist', 'wish_listController@remove_from_WishList')->name('remove_from_wishList');
 
