@@ -62,7 +62,7 @@
         <tr>
             <td style=width:50% ><h2><a href="{{ url('products/' . $product->id) }}">{{ $product->name }}</a></h2></td>
             <td>
-                    @if(Auth::user()->is_admin == 0)
+                    @if(!Auth::guest() && Auth::user()->is_admin == 0)
                     {{-- Customer --}}
                         {{-- Check wishlist --}}
                         
