@@ -40,7 +40,7 @@
                             <button type="submit" style="display:none" id="<?php echo (isset($loop) ? 'add_to_cart'.$loop->iteration : 'add_to_cart') ?>">Add To Cart</button>
                             {{-- {{ Form::submit('Add to cart', ['id'=>'add_to_cart' . isset($loop) ? $loop->iteration, 'style'=>'display:none;']) }} --}}
                         {!! Form::close() !!}
-                        
+
                         {{-- {!! Form::open(['action' => ['CartController@store'], 'method'=>'POST']) !!}
                             <input type="number" name="id" value="{{ $product->id }}" style="display:none">
                             <a href="" class="add-to-cart-link" >
@@ -65,12 +65,12 @@
                     @if(!Auth::guest() && Auth::user()->is_admin == 0)
                     {{-- Customer --}}
                         {{-- Check wishlist --}}
-                        
+
                         @if( isset($wishlistProducts) && count($wishlistProducts)>0 && in_array($product->id, $wishlistProducts))
                             {{-- remove from wish list button --}}
                             <a title="Remove from wishlist" href="{{ url('wishlist/' . $product->id .'/remove_from_wishlist') }}">
                                 <img src="img/remvefrom_wishlist.svg" alt="Add to wish list" height="30" width="30">
-                            </a> 
+                            </a>
                         @else
                             {{-- Here should be a button to add to cart --}}
                             <a href="#" onclick="event.preventDefault(); document.getElementById('<?php echo (isset($loop) ? 'add_to_WL'.$loop->iteration : 'add_to_WL') ?>').click();">
@@ -94,15 +94,21 @@
             <td></td>
         </tr>
     </table>
-    
-    
+
+
     @guest
-        {{-- do no thing --}}
+        <div class="admin-btns">
+            @if (Auth::guard('admin')->check())
+                @if (Auth::guard('admin')->user()->role == 'admin')
+                    <a href="{{ route('change_visibilty',$product->id) }}" ><i class="glyphicon glyphicon-eye-close"></i> Set as Invisible</a>
+                @endif
+            @endif
+        </div>
     @else
         <div class="admin-btns">
-            @if(Auth::user()->is_admin == 1)    
+            @if(Auth::user()->is_admin == 1)
                 <a href="{{ route('change_visibilty',$product->id) }}" ><i class="glyphicon glyphicon-eye-close"></i> Set as Invisible</a>
-            @endif 
+            @endif
         </div>
-    @endguest              
+    @endguest
 </div>

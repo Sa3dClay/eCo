@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Validator;
 use App\Admin;
 use App\User;
+use App\product;
 
 class AdminDashboard extends Controller
 {
@@ -14,7 +15,7 @@ class AdminDashboard extends Controller
     {
         $this->middleware('admin');
     }
-    
+
     public function index()
     {
         return view('dashboards.admin.index');
@@ -46,7 +47,7 @@ class AdminDashboard extends Controller
             return redirect('dashboard/admin/addmember')->withSuccess('Member has been added');
         else
             return redirect('dashboard/admin/addmember')->withDanger('Something wrong has happened');
-        
+
     }
 
     public function blockUser(Request $request) {
@@ -71,5 +72,10 @@ class AdminDashboard extends Controller
             return redirect('dashboard/admin/users')->withSuccess('User has been deleted');
         else
             return redirect('dashboard/admin/users')->withDanger('Something wrong has happened');
+    }
+
+    public function get_invisible(){
+          $products = Product::where('visible','0')->get();
+          return view('products.invisible')->with('products',$products);
     }
 }

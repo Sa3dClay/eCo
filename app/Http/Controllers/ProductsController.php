@@ -110,7 +110,7 @@ class ProductsController extends Controller
 
             // $product->owner_id = 1;
             if(Auth::user()!=null){ //it will case redundant id(s)
-                $product->owner_id = Auth::user()->id ; 
+                $product->owner_id = Auth::user()->id ;
             }else{
                 $product->owner_id=Auth::guard('admin')->user()->id;
             }
@@ -131,7 +131,7 @@ class ProductsController extends Controller
     public function show($id)
     {
         $product = Product::find($id);
-        
+
         //passing array of products in cart of this user to check if it the product is add or no
         $cart = CartController::checkAdded();
         $data = [
@@ -164,7 +164,7 @@ class ProductsController extends Controller
      */
     public function update(Request $request, $id)
     {
-        
+
         if(!Auth::guest() && Auth::user()->is_admin == 1)
         {
             //Validation on submited Data
@@ -203,7 +203,7 @@ class ProductsController extends Controller
             // $product->price = 1;
 
             $product->brand = $request->input('brand');
-            
+
             $product->quantity = $request->input('quantity');
             // $product->quantity = 1;
 
@@ -216,7 +216,7 @@ class ProductsController extends Controller
             if($request->hasFile('profile_pic')){
                 $product->profile_pic = $fileNameToStore;
             }
-            
+
             $product->save();
             return redirect('/products')->with('success', 'Product Updated Successfully');
 
@@ -236,7 +236,7 @@ class ProductsController extends Controller
     public function destroy($id)
     {
         $product= Product::find($id);
-        if(auth()->user()->is_admin==1 || auth()->user()->id==$product->owner_id){ 
+        if(auth()->user()->is_admin==1 || auth()->user()->id==$product->owner_id){
             if($product->profile_pic!='noimage.jpg'){
                 Storage::delete('public/profile_pics/'.$product->profile_pic);
             }
@@ -246,7 +246,7 @@ class ProductsController extends Controller
             return redirect('/products')->with('error', "Authorization error");
         }
     }
-    
+
     public function change_visibility($id){
         $product=Product::find($id);
         if($product->visible==1){
@@ -258,9 +258,9 @@ class ProductsController extends Controller
             $product->visible=1;
             $product->save();
             return redirect("/products")->with("success","The product is visible NOW");
-        }   
+        }
     }
-    
+
     public function search(Request $request){
         $strword=$request->input('text');
         if(strlen($strword)==0){
@@ -286,7 +286,20 @@ class ProductsController extends Controller
             'products' => $products,
             'cartp' => $cart,
         ];
-        
+
         return view('products.index')->with($data);
     }
+
+  /*  public function get_invisible(){
+      //if( !Auth::guest() && Auth::user()->is_admin == 1 || Auth::guard('admin')->check() ){
+       if(Auth::guard('admin')->check()){
+          if(Auth::guard('admin')->user()->role('admin')){
+            $products = Product::where('visible','0')->get();
+            return view('products.invisible')->with('products',$products);
+          }
+          return redirect('/')->with('error', "Authorization error");
+       }
+       return redirect('/')->with('error', "Authorization error");
+    }*/
+
 }

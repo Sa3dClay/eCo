@@ -68,7 +68,7 @@
             <div class="col-sm-6">
                 @if( isset( Auth::user()->id ) && Auth::user()->is_admin == '0' )
                     <div class="shopping-item">
-                        <a href="{{route('cart.index')}}">Cart 
+                        <a href="{{route('cart.index')}}">Cart
                             <!-- - <span class="cart-amunt">$800</span> -->
                             <i class="fa fa-shopping-cart"></i>
                             @if( isset($cartpros) && count($cartpros)>0 )
