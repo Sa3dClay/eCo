@@ -2,13 +2,19 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-use App\Wish_List;
-use Illuminate\Support\Facades\Auth;
 use DB;
+use App\Wish_List;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class wish_listController extends Controller
 {
+    // Constructor
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -16,7 +22,33 @@ class wish_listController extends Controller
      */
     public function index()
     {
-        //
+        // Here we will get all products that in customer wish list, and also get all info fer each product
+        if( isset(Auth::user()->id) ) {
+            
+            $wl_products = $this->getWLProducts();
+            $wl = $this->checkAdded();
+
+            $data = [
+                'wl_products' => $wl_products,
+                'wishlistProducts' => $wl,
+            ];
+
+            return view('wishlist.index')->with($data);
+        } else {
+            return redirect('/')->with('error', 'You are not authorized to show this page');
+        }
+    }
+
+    // This function will return all products belongs to the user from his wish list
+    public function getWLProducts() {
+        $products = DB::table('products')->join('wishlist', function ($join) {
+            $user_id = Auth::user()->id;
+
+            $join->on('products.id', '=', 'wishlist.pro_id')
+                ->where('wishlist.user_id', '=', $user_id);
+        })->get();
+
+        return $products;
     }
 
     /**
@@ -37,14 +69,13 @@ class wish_listController extends Controller
      */
     public function store(Request $request)
     {
-        //
         if(!Auth::guest() && Auth::user()->is_admin != 1)
         {
             $WL = new Wish_List;
             $WL->user_id = Auth::user()->id ;
             $WL->pro_id = $request->input('id') ;
             $WL->save();
-            return redirect('/products')->with('success', "Product is added to your wish list successfuly");
+            return back()->with('success', "Product is added to your wish list successfuly");
         }
     }
 
@@ -93,24 +124,22 @@ class wish_listController extends Controller
         //
     }
 
-
     public function remove_from_WishList($pro_id) {
         if( isset(Auth::user()->id) ) {
-            // $product = Cart::findBy($pro_id, Auth::user()->id);
+
             $check = DB::table('wishlist')->where([
                 ['user_id', '=', Auth::user()->id],
                 ['pro_id', '=', $pro_id],
             ])->delete();
 
             if( $check ) {
-                return redirect("/products")->with("success", "The product has been removed from your wish list");
-            }
-            else {
-                return redirect("/products")->with("error", "Error with last action");
+                return back()->with("success", "The product has been removed from your wish list");
+            } else {
+                return back()->with("error", "Error with last action");
             }
 
         } else {
-            return redirect("/products")->with("error", "Unauthorized action");
+            return back()->with("error", "Unauthorized action");
         }
     }
 
@@ -120,7 +149,7 @@ class wish_listController extends Controller
         {
             $wl = Wish_List::select(['pro_id'])->where('user_id', Auth::user()->id)->get()->toArray();
             
-            // $cart = null;
+            // $wishlist = null;
             if($wl != null)
             {
                 $result = array();

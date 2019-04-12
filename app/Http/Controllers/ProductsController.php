@@ -45,16 +45,7 @@ class ProductsController extends Controller
      */
     public function create()
     {
-
-       /* if(!Auth::guest() && Auth::user()->is_admin == 1)
-        {*/
-            return view('products.create');
-        //}
-        /*else
-        {
-            return redirect('/products');
-        }*/
-        // redirect should be the url
+        return view('products.create');
     }
 
     /**
@@ -134,9 +125,12 @@ class ProductsController extends Controller
 
         //passing array of products in cart of this user to check if it the product is add or no
         $cart = CartController::checkAdded();
+        $wl = wish_listController::checkAdded();
+
         $data = [
             'product' => $product,
-            'cartp' => $cart,
+            'cartpros' => $cart,
+            'wishlistProducts' => $wl,
         ];
 
         return view('products.show')->with($data);
@@ -290,16 +284,18 @@ class ProductsController extends Controller
         return view('products.index')->with($data);
     }
 
-  /*  public function get_invisible(){
-      //if( !Auth::guest() && Auth::user()->is_admin == 1 || Auth::guard('admin')->check() ){
-       if(Auth::guard('admin')->check()){
-          if(Auth::guard('admin')->user()->role('admin')){
-            $products = Product::where('visible','0')->get();
-            return view('products.invisible')->with('products',$products);
-          }
-          return redirect('/')->with('error', "Authorization error");
-       }
-       return redirect('/')->with('error', "Authorization error");
-    }*/
+    // public function get_invisible(){
+    //     if( Auth::guard('admin')->check() ) {
 
+    //         if( Auth::guard('admin')->user()->role('admin') ) {
+    //             $products = Product::where('visible','0')->get();
+    //             return view('products.invisible')->with('products',$products);
+    //         } else {
+    //             return redirect('/')->with('error', "Authorization error");
+    //         }
+
+    //     } else {
+    //         return redirect('/')->with('error', "Authorization error");
+    //     }
+    // }
 }

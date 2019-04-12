@@ -36,7 +36,7 @@
                             {{-- Customer --}}
                             <li><a href="{{ url('/home') }}"><i class="fa fa-user"></i> {{ Auth::user()->name }}</a></li>
                             <li><a href="{{ url('/cart') }}"><i class="fa fa-cart-plus"></i> My Cart</a></li>
-                            <li><a href="#"><i class="fa fa-heart"></i> Wishlist</a></li>
+                            <li><a href="{{ url('/wishlist') }}"><i class="fa fa-heart"></i> Wishlist</a></li>
                             <li><a href="#"><i class="fa fa-check"></i> Checkout</a></li>
                             {{-- Logout --}}
                             <li><a href="{{ url('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">

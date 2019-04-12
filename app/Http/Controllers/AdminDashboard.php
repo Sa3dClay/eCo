@@ -75,7 +75,7 @@ class AdminDashboard extends Controller
     }
 
     public function get_invisible(){
-          $products = Product::where('visible','0')->get();
-          return view('products.invisible')->with('products',$products);
+        $products = Product::where('visible', '0')->get();
+        return view('products.invisible')->with('products', $products);
     }
 }

@@ -39,93 +39,75 @@
                 <div class="col-md-8">
                     <div class="product-content-right">
                         <div class="woocommerce">
-                            {{-- <form method="post" action="#"> --}}
-                                <table cellspacing="0" class="shop_table cart">
-                                    <thead>
-                                        <tr>
-                                            <th class="product-remove">&nbsp;</th>
-                                            <th class="product-thumbnail">&nbsp;</th>
-                                            <th class="product-name">Product</th>
-                                            <th class="product-price">Price</th>
-                                            <th class="product-quantity">Quantity</th>
-                                            <th class="product-subtotal">Cost</th>
-                                        </tr>
-                                    </thead>
+                            
+                            <table cellspacing="0" class="shop_table cart">
+                                <thead>
+                                    <tr>
+                                        <th class="product-remove">&nbsp;</th>
+                                        <th class="product-thumbnail">&nbsp;</th>
+                                        <th class="product-name">Product</th>
+                                        <th class="product-price">Price</th>
+                                        <th class="product-quantity">Quantity</th>
+                                        <th class="product-subtotal">Cost</th>
+                                    </tr>
+                                </thead>
 
-                                    <tbody>
-                                        {{-- Here will be the dynamic view of products --}}
+                                <tbody>
+                                    {{-- Here will be the dynamic view of products --}}
 
-                                        @if( isset($products) && count($products) > 0 )
-                                            @foreach ($products as $product)
-                                            
-                                                <tr class="cart_item">
-                                                    {{-- Here you can remove product when you click the button --}}
-                                                    <td class="product-remove">
-                                                        {{-- {!! Form::open(['action' => ['CartController@remove_from_cart',$product->id],'method'=>'POST']) !!}
-                                                            {{Form::hidden('_method','DELETE')}}
-                                                            {{Form::submit('Delete',['id'=>'remove-item','style'=>'display:none'])}}
-                                                        {!! Form::close() !!} --}}
-                                                        <a title="Remove this item" class="remove" href="{{ url('cart/' . $product->id .'/remove_from_cart') }}">X</a> 
-                                                    </td>
-        
-                                                    <td class="product-thumbnail">
-                                                        <a href="{{ url('products/' . $product->id) }}"><img width="145" height="145" alt="poster_1_up" class="shop_thumbnail" src="{{ asset( '/storage/profile_pics/' . $product->profile_pic ) }}"></a>
-                                                    </td>
-        
-                                                    <td class="product-name">
-                                                        <a href="{{ url('products/' . $product->id) }}">{{ $product->name }}</a> 
-                                                    </td>
-        
-                                                    <td class="product-price">
-                                                        <span class="amount">${{ $product->price }}</span> 
-                                                    </td>
-                                                    
-                                                    {!! Form::open(['action' => ['CartController@update',$product->id],'method'=>'PUT']) !!}
-                                                    <td class="product-quantity">
-                                                        <div class="quantity buttons_added">
-                                                            {{-- <input type="button" class="minus" value="-"> --}}
-                                                            <input type="number" size="4" name="qty" class="input-text qty text" title="Qty" value="{{ $product->n_of_pro }}" min="1" max="{{ $product->quantity }}" step="1">
-                                                            {{-- <input type="button" class="plus" value="+"> --}}
-                                                            {{-- <input href="" type="submit"  value="Update Cart" class="button"> --}}
-                                                            {{Form::hidden('_method','PUT')}}
-                                                            {{Form::submit('Update', ['class'=>'btn btn-primary'])}}    
-                                                        </div>
-                                                    </td>
-                                                    {!! Form::close() !!}
-        
-                                                    <td class="product-subtotal">
-                                                        {{-- Here will be the total price --}}
-                                                        <span class="amount">${{ $product->price }}</span> 
-                                                    </td>
-                                                </tr>
+                                    @if( isset($products) && count($products) > 0 )
+                                        @foreach ($products as $product)
+                                        
+                                            <tr class="cart_item">
+                                                {{-- Here you can remove product when you click the button --}}
+                                                <td class="product-remove">
+                                                    {{-- {!! Form::open(['action' => ['CartController@remove_from_cart',$product->id],'method'=>'POST']) !!}
+                                                        {{Form::hidden('_method','DELETE')}}
+                                                        {{Form::submit('Delete',['id'=>'remove-item','style'=>'display:none'])}}
+                                                    {!! Form::close() !!} --}}
+                                                    <a title="Remove this item" class="remove" href="{{ url('cart/' . $product->id .'/remove_from_cart') }}">
+                                                        <i class="glyphicon glyphicon-remove"></i>
+                                                    </a> 
+                                                </td>
+    
+                                                <td class="product-thumbnail">
+                                                    <a href="{{ url('products/' . $product->id) }}"><img width="145" height="145" alt="poster_1_up" class="shop_thumbnail" src="{{ asset( '/storage/profile_pics/' . $product->profile_pic ) }}"></a>
+                                                </td>
+    
+                                                <td class="product-name">
+                                                    <a href="{{ url('products/' . $product->id) }}">{{ $product->name }}</a> 
+                                                </td>
+    
+                                                <td class="product-price">
+                                                    <span class="amount">${{ $product->price }}</span> 
+                                                </td>
                                                 
-                                                <tr>
-                                                    <td class="actions" colspan="6">
-                                                        {{-- <input type="submit" value="Proceed to Checkout" name="proceed" class="checkout-button button alt wc-forward"> --}}
-                                                    </td>
-                                                </tr>
-                                            @endforeach
-                                        @else
-                                            <p class="blank">No Products Found</p>
-                                        @endif
+                                                {!! Form::open(['action' => ['CartController@update',$product->id],'method'=>'PUT']) !!}
+                                                <td class="product-quantity">
+                                                    <div class="quantity buttons_added">
+                                                        
+                                                        <input type="number" size="4" name="qty" class="input-text qty text" title="Qty" value="{{ $product->n_of_pro }}" min="1" max="{{ $product->quantity }}" step="1">
+                                                        
+                                                        {{-- <input href="" type="submit"  value="Update Cart" class="button"> --}}
+                                                        {{Form::hidden('_method','PUT')}}
+                                                        {{Form::submit('Update', ['class'=>'btn btn-primary'])}}    
+                                                    </div>
+                                                </td>
+                                                {!! Form::close() !!}
+    
+                                                <td class="product-subtotal">
+                                                    {{-- Here will be the total price --}}
+                                                    <span class="amount">${{ $product->price }}</span> 
+                                                </td>
+                                            </tr>
+                                        @endforeach
+                                    @else
+                                        <p class="blank">No Products Found</p>
+                                    @endif
 
-                                        {{-- End of dynamic view --}}
-                                        
-                                        <tr>
-                                            <td class="actions" colspan="6">
-                                                {{-- <div class="coupon">
-                                                    <label for="coupon_code">Coupon:</label>
-                                                    <input type="text" placeholder="Coupon code" value="" id="coupon_code" class="input-text" name="coupon_code">
-                                                    <input type="submit" value="Apply Coupon" name="apply_coupon" class="button">
-                                                </div> --}}
-                                                {{-- <input type="submit" value="Update Cart" name="update_cart" class="button">
-                                                <input type="submit" value="Proceed to Checkout" name="proceed" class="checkout-button button alt wc-forward"> --}}
-                                            </td>
-                                        </tr>
-                                        
-                                    </tbody>
-                                </table>
-                            {{-- </form> --}}
+                                    {{-- End of dynamic view --}}
+                                </tbody>
+                            </table>
 
                             <div class="cart-collaterals">
 

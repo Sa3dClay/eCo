@@ -7,23 +7,23 @@ use App\Cart;
 use App\Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Storage;
 
 class CartController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+    // Constructor
     public function __construct()
     {
         $this->middleware('auth');
     }
 
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
     public function index()
     {
-        // Here we will fet all products that in customer cart, and also get all info fer each product -> inner join
+        // Here we will get all products that in customer cart, and also get all info fer each product -> inner join
         if( isset(Auth::user()->id) ) {
             
             $products = $this->getAllCartProducts();
@@ -61,14 +61,14 @@ class CartController extends Controller
         //
         if(!Auth::guest() && Auth::user()->is_admin != 1)
         {
-
-         //   return $request->input('id') ;
             $cart = new Cart;
+            
             $cart->user_id = Auth::user()->id ;
             $cart->pro_id = $request->input('id') ;
             $cart->n_of_pro = 1;
             $cart->save();
-            return redirect('/products')->with('success', "Product was added to cart successfuly");
+            
+            return back()->with('success', "Product was added to cart successfuly");
         }
     }
 
@@ -148,21 +148,21 @@ class CartController extends Controller
     // remove product from cart
     public function remove_from_cart($pro_id) {
         if( isset(Auth::user()->id) ) {
-            // $product = Cart::findBy($pro_id, Auth::user()->id);
+            
             $check = DB::table('cart')->where([
                 ['user_id', '=', Auth::user()->id],
                 ['pro_id', '=', $pro_id],
             ])->delete();
 
             if( $check ) {
-                return redirect("/cart")->with("success", "The product has been removed from your cart");
+                return back()->with("success", "The product has been removed from your cart");
             }
             else {
-                return redirect("/cart")->with("error", "Error with last action");
+                return back()->with("error", "Error with last action");
             }
 
         } else {
-            return redirect("/cart")->with("error", "Unauthorized action");
+            back()->with("error", "Unauthorized action");
         }
     }
 
