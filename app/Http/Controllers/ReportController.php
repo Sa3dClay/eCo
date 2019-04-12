@@ -50,9 +50,9 @@ class ReportController extends Controller
     public function store(Request $request)
     {
         //
-        $id = User::where('email', $request->input('email'))->pluck('id')->first();
+        // $id = User::where('email', $request->input('email'))->pluck('id')->first();
         $report = new Report;
-        $report->user_id = $id;
+        $report->user_id = Auth::user()->id;
         $report->message = $request->input('message');
 
         if($report->save())

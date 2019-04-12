@@ -45,7 +45,7 @@
                         <li><a href="#">Checkout</a></li>
                     @endif
                     <li><a href="#">About Us</a></li>
-                    <li><a href="/contact">Contact</a></li>
+                    <li><a href="{{ url('/contact') }}">Contact</a></li>
                 </ul>
                 {!! Form::open(['action' => 'ProductsController@search','method'=>'POST','style'=>'padding-top:15px;margin-right=-15px; float:right;']) !!}
                     {{Form::text('text', '', ['class' => 'form-control', 'placeholder' => 'Search for products...'])}}
