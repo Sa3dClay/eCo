@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Report;
+use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -37,6 +38,7 @@ class ReportController extends Controller
     public function create()
     {
         //
+        return view('reports.create.create');
     }
 
     /**
@@ -48,6 +50,16 @@ class ReportController extends Controller
     public function store(Request $request)
     {
         //
+        $id = User::where('email', $request->input('email'))->pluck('id')->first();
+        $report = new Report;
+        $report->user_id = $id;
+        $report->message = $request->input('message');
+
+        if($report->save())
+            return redirect('contact')->with('success', 'Your message has been sent');
+        else
+            return redirect('contact')->with('error', 'We could not send your message');
+        
     }
 
     /**
@@ -59,6 +71,7 @@ class ReportController extends Controller
     public function show($id)
     {
         //
+        
     }
 
     /**
