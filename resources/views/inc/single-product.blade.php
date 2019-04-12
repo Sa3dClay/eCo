@@ -99,14 +99,14 @@
     @guest
         <div class="admin-btns">
             @if (Auth::guard('admin')->check())
-                @if (Auth::guard('admin')->user()->role == 'admin')
+                @if (Auth::guard('admin')->user()->role == 'admin' && $product->visible==1)
                     <a href="{{ route('change_visibilty',$product->id) }}" ><i class="glyphicon glyphicon-eye-close"></i> Set as Invisible</a>
                 @endif
             @endif
         </div>
     @else
         <div class="admin-btns">
-            @if(Auth::user()->is_admin == 1)
+            @if(Auth::user()->is_admin == 1 && $product->visible==1)
                 <a href="{{ route('change_visibilty',$product->id) }}" ><i class="glyphicon glyphicon-eye-close"></i> Set as Invisible</a>
             @endif
         </div>
