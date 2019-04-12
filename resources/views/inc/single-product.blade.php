@@ -101,6 +101,8 @@
             @if (Auth::guard('admin')->check())
                 @if (Auth::guard('admin')->user()->role == 'admin' && $product->visible==1)
                     <a href="{{ route('change_visibilty',$product->id) }}" ><i class="glyphicon glyphicon-eye-close"></i> Set as Invisible</a>
+                  @else
+                  <a href="{{ route('change_visibilty',$product->id) }}" ><i class="glyphicon glyphicon-eye-open"></i> Set as Visible</a>
                 @endif
             @endif
         </div>
@@ -108,6 +110,8 @@
         <div class="admin-btns">
             @if(Auth::user()->is_admin == 1 && $product->visible==1)
                 <a href="{{ route('change_visibilty',$product->id) }}" ><i class="glyphicon glyphicon-eye-close"></i> Set as Invisible</a>
+              @else
+                <a href="{{ route('change_visibilty',$product->id) }}" ><i class="glyphicon glyphicon-eye-open"></i> Set as Visible</a>
             @endif
         </div>
     @endguest
