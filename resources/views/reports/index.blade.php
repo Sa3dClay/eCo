@@ -14,7 +14,7 @@
         </div>
     </div>
 <div class="container">
-    <p>All reports that <b> you haven't seen them</b></p>
+    <p>All reports that <b> you haven't seen yet</b></p>
     <table class="table table-hover">
       <thead>
         <tr>
