@@ -17,6 +17,9 @@ Route::resource('products', 'ProductsController');
 Route::resource('cart', 'CartController');
 Route::resource('reports', 'ReportController');
 Route::resource('wishlist', 'wish_listController');
+Route::resource('notifications', 'NotificationController');
+Route::resource('invoice', 'InvoiceController');
+
 Route::get('contact', 'ReportController@create');
 Route::post('contact', 'ReportController@store');
 
