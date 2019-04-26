@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Http\Controllers\CartController;
+use Illuminate\Support\Facades\Auth;
 
 class InvoiceController extends Controller
 {
@@ -24,6 +26,34 @@ class InvoiceController extends Controller
     public function create()
     {
         //
+        
+
+        if( isset(Auth::user()->id) ) {
+            
+            $cartController = new CartController;
+            $products = $cartController->getAllCartProducts();
+            $totalCost = $cartController->getTotalCost();
+
+            $total_Cost_For_Each_Product = array();
+
+            foreach($products as $pro) {
+              //  $total_Cost_For_Each_Product[$pro->id] = $pro->price * $pro->n_of_pro;
+              array_push($total_Cost_For_Each_Product , $pro->price * $pro->n_of_pro);
+            }
+
+            $data = [
+                'products' => $products,
+                'subTotalCost' => $totalCost,
+                'totalCost_per_prodcut' => $total_Cost_For_Each_Product,
+                'eCoPercintage' => "15%",
+                'totalCost' => $totalCost + ( $totalCost * 0.15 ) 
+            ];
+
+            return view('invoice.create_invoice')->with($data);
+        } else {
+            return redirect('/')->with('error', 'You are not authorized to show this page');
+        }
+
     }
 
     /**
