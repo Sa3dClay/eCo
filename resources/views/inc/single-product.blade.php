@@ -92,6 +92,11 @@
                 <div class="product-carousel-price">
                     <ins>${{ $product->price }}</ins>
                     <span>{{ $product->brand }}</span>
+                    @if (Auth::guard('admin')->check())
+                        @if (Auth::guard('admin')->user()->role == 'admin')
+                            <!--<span><b>created by</b> {//{$product->owner_id }}</span> -->
+                        @endif
+                    @endif
                 </div>
             </td>
             <td></td>
@@ -109,7 +114,7 @@
                     @else
                         <a href="{{ route('change_visibilty', $product->id) }}" ><i class="glyphicon glyphicon-eye-open"></i> Set as Visible</a>
                     @endif
-                
+
                 @endif
             @endif
         </div>
