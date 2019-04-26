@@ -52,7 +52,7 @@
                                         <tr>
                                             <td>{{ $pro->name }}</td>
                                             <td class="text-center">{{ $pro->price . " $"  }}</td>
-                                            <td class="text-center">{{ $pro->quantity }}</td>
+                                            <td class="text-center">{{ $pro->n_of_pro }}</td>
                                             <td class="text-right">{{ $totalCost_per_prodcut[$i] . " $" }}</td>
                                         </tr>
                                         <?php $i++ ?>
@@ -210,7 +210,7 @@
             <div class = "row">
                 <div class="col-md-3">
                     <div class="form-group">
-                        <input type="radio" name="payment_m" value="paypal"> {{Form::label('visa', 'PayPal')}}
+                        <input type="radio" name="payment_m" value="PayPal"> {{Form::label('visa', 'PayPal')}}
                     </div>
                 </div>
                 <div class="col-md-9">

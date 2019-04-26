@@ -42,7 +42,7 @@
                         @endif
                     @elseif( Auth::user() )
                         <li class="<?php if(isset($cart)) echo 'active' ?>"><a href="{{ url('cart') }}">Cart</a></li>
-                        <li><a href="#">Checkout</a></li>
+                        <li><a href="{{ url('/invoice/create') }}">Checkout</a></li>
                     @endif
                     <li><a href="#">About Us</a></li>
                     <li><a href="{{ url('/contact') }}">Contact</a></li>
