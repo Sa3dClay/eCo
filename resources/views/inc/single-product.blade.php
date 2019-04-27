@@ -29,6 +29,10 @@
                             <a href="" class="view-details-link" onclick="event.preventDefault(); document.getElementById('<?php echo (isset($loop) ? 'remove_product'.$loop->iteration : 'remove_product') ?>').click();">
                                 <i class="glyphicon glyphicon-remove"></i> Remove Product
                             </a>
+                            {!! Form::open(['action' => ['ProductsController@destroy', $product->id], 'method'=>'POST']) !!}
+                                {{Form::hidden('_method','DELETE')}}
+                                <button type="submit" style="display:none" id="<?php echo (isset($loop) ? 'remove_product'.$loop->iteration : 'remove_product') ?>">Remove Product</button>
+                            {!! Form::close() !!}
                         @else
                             {{-- Details --}}
                             <a href="{{ url('products/' . $product->id) }}" class="view-details-link"><i class="fa fa-link"></i> See details</a>

@@ -1,9 +1,6 @@
 @extends('layouts.app')
 
-
-
 @section('content')
-
 
     <div class="product-big-title-area">
         <div class="container">
@@ -17,9 +14,7 @@
         </div>
     </div>
 
-
     <div class="container">
-
 
         <br>
 
@@ -84,23 +79,13 @@
             </div>
         </div>
 
-
-
-
         <hr>
 
         <h2>Personal Info</h2>
         
         <br>
         
-
-
-
-
-
         {!! Form::open(['action' => 'InvoiceController@store', 'method' => 'POST', 'enctype' => 'multipart/form-data']) !!}
-            
-
 
             <div class = "row">
                 <div class="col-md-12">
@@ -224,15 +209,11 @@
             
         {!! Form::close() !!}
 
-
         <br>
-
-
 
     </div>
     
-
-
+    
     <script>
 
         function maxLengthCheck(object)
@@ -240,7 +221,7 @@
             if (object.value.length > object.maxLength)
             object.value = object.value.slice(0, object.maxLength)
         }
+
     </script>
-          
     
 @endsection
