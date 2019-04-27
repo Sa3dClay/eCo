@@ -13,9 +13,19 @@ class NotificationController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+
     public function index()
     {
-       //
+      if(Auth::guard('admin')->check()){
+        $notifications=Notification::where([['user_id','=',Auth::guard("admin")->user()->id],
+                                     ['user_role','!=','normal']])->orderBy('created_at','desc')->get();
+      }else if(!Auth::guest()){
+        $notifications=Notification::where([['user_id','=',Auth::user()->id],
+                                     ['user_role','=','normal']])->orderBy('created_at','desc')->get();
+      }else{
+        return redirect('/')->with('error', 'Authentication error');
+      }
+        return view('notifications.index')->with('notifications',$notifications);
     }
 
     /**

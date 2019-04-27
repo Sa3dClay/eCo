@@ -21,18 +21,20 @@
         </tr>
       </thead>
       <tbody>
-        @foreach($notifications as $notification)
-            <tr>
-              <td>
-                <i class="glyphicon glyphicon-envelope"> </i>
-                <b>{{$notification->title}}</b>
-              </br>
-              {{$notification->message}}.
-              </br></br>
-              <i class="glyphicon glyphicon-time"> {{$notification->created_at}}</i>
-            </td>
-          </tr>
-        @endforeach
+        @if(isset($notifications))
+          @foreach($notifications as $notification)
+              <tr>
+                <td>
+                  <i class="glyphicon glyphicon-envelope"> </i>
+                  <b>{{$notification->title}}</b>
+                </br>
+                {{$notification->message}}.
+                </br></br>
+                <i class="glyphicon glyphicon-time"> {{$notification->created_at}}</i>
+              </td>
+            </tr>
+          @endforeach
+        @endif
       </tbody>
     </table>
 </div>

@@ -25,17 +25,19 @@
         </tr>
       </thead>
       <tbody>
-        @foreach($reports as $report)
-            <tr>
-              <td>{{$report->user_id}}</td>
-              <td>{{$report->message}}</td>
-              <td>{{$report->created_at}}</td>
-              <td>{!! Form::open(['action' => ['ReportController@destroy',$report->id],'method'=>'POST']) !!}
-                      {{Form::hidden('_method','DELETE')}}
-                      {{Form::submit('Mark as seen',['id'=>'remove-submit','style'=>'border-radius:5px'])}}
-                  {!! Form::close() !!}</td>
-            </tr>
-        @endforeach
+        @if(isset($reports))
+          @foreach($reports as $report)
+              <tr>
+                <td>{{$report->user_id}}</td>
+                <td>{{$report->message}}</td>
+                <td>{{$report->created_at}}</td>
+                <td>{!! Form::open(['action' => ['ReportController@destroy',$report->id],'method'=>'POST']) !!}
+                        {{Form::hidden('_method','DELETE')}}
+                        {{Form::submit('Mark as seen',['id'=>'remove-submit','style'=>'border-radius:5px'])}}
+                    {!! Form::close() !!}</td>
+              </tr>
+          @endforeach
+        @endif
       </tbody>
     </table>
 </div>
