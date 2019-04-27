@@ -25,6 +25,7 @@
                                 <form id="logout-form" action="{{ url('dashboard/logout') }}" method="POST" style="display: none;">
                                     @csrf
                                 </form>
+                                <a href="{{ url('notifications') }}" style="float:right;margin-top:10px"><i class="glyphicon glyphicon-bell"></i> Notifications</a>
                             @else
                                 {{-- Redirecting to login page --}}
                                 <li><a href="{{ Request::is('dashboard/login') ? url('dashboard/login') : url('login') }}"><i class="fa fa-user"></i> Login</a></li>
@@ -45,6 +46,7 @@
                             <form id="logout-form" action="{{ url('logout') }}" method="POST" style="display: none;">
                                 @csrf
                             </form>
+                            <a href="{{ url('notifications') }}" style="float:right;margin-top:10px"><i class="glyphicon glyphicon-bell"></i> Notifications</a>
                         @endguest
                     </ul>
                 </div>
@@ -53,7 +55,6 @@
         </div><!-- End Of Row -->
     </div><!-- End of container -->
 </div> <!-- End header area -->
-
 <div class="site-branding-area">
     <div class="container">
         <div class="row">
