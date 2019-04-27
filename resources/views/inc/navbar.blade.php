@@ -29,7 +29,7 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-            </div> 
+            </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
                     <li class="<?php if(isset($home)) echo 'active' ?>"><a href="{{ url('/') }}">Home</a></li>
@@ -40,18 +40,21 @@
                         @elseif(Auth::guard('admin')->user()->role == 'seller')
                             <li><a href="#">MY PRODUCTS</a></li>
                         @endif
+                        <li><a href="#">My products</a></li>
                     @elseif( Auth::user() )
                         <li class="<?php if(isset($cart)) echo 'active' ?>"><a href="{{ url('cart') }}">Cart</a></li>
                         <li><a href="{{ url('/invoice/create') }}">Checkout</a></li>
                     @endif
-                    <li><a href="#">About Us</a></li>
-                    <li><a href="{{ url('/contact') }}">Contact</a></li>
+                    @if(!Auth::guard('admin')->check())
+                        <li><a href="#">About Us</a></li>
+                        <li><a href="{{ url('/contact') }}">Contact</a></li>
+                    @endif
                 </ul>
                 {!! Form::open(['action' => 'ProductsController@search','method'=>'POST','style'=>'padding-top:15px;margin-right=-15px; float:right;']) !!}
                     {{Form::text('text', '', ['class' => 'form-control', 'placeholder' => 'Search for products...'])}}
                     {{Form::submit('Search',['style'=>'display:none'])}}
-                {!! Form::close() !!}        
-            </div>             
+                {!! Form::close() !!}
+            </div>
         </div>
-    </div>    
+    </div>
 </div> <!-- End mainmenu area -->
