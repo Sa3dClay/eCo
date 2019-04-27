@@ -68,7 +68,7 @@
                                         <td class="no-line"></td>
                                         <td class="no-line"></td>
                                         <td class="no-line text-center"><strong>Shipping AND Service</strong></td>
-                                        <td class="no-line text-right">{{ $eCoPercintage . " $"  }}</td>
+                                        <td class="no-line text-right">{{ $eCoPercintage }}</td>
                                     </tr>
                                     <tr>
                                         <td class="no-line"></td>
@@ -159,7 +159,7 @@
                 <div class="col-md-12">
                     <div class="form-group">
                         {{Form::label('phone_number', 'Phone Number')}}
-                        {{Form::number('phone_number', '', ['class' => 'form-control', 'placeholder' => 'Phone Number' ,'required'])}}
+                        {{Form::number('phone_number', '', ['class' => 'form-control', 'placeholder' => 'Phone Number' ,'required' , 'maxlength'=>20 , 'oninput' => "maxLengthCheck(this)"])}}
                     </div>
                 </div>
             </div>
@@ -168,7 +168,7 @@
                 <div class="col-md-12">
                     <div class="form-group">
                         {{Form::label('zip_code', 'Zip Code')}}
-                        {{Form::number('zip_code', '', ['class' => 'form-control', 'placeholder' => 'Zip Code' ,'required'])}}
+                        {{Form::number('zip_code', '', ['class' => 'form-control', 'placeholder' => 'Zip Code' ,'required','maxlength'=>10 ,  'oninput' => "maxLengthCheck(this)"])}}
                     </div>
                 </div>
             </div>
@@ -233,5 +233,14 @@
     
 
 
+    <script>
+
+        function maxLengthCheck(object)
+        {
+            if (object.value.length > object.maxLength)
+            object.value = object.value.slice(0, object.maxLength)
+        }
+    </script>
+          
     
 @endsection

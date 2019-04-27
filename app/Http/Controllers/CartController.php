@@ -194,4 +194,36 @@ class CartController extends Controller
         }
     }
 
+    // Remove all products for users cart
+    public function remove_all_from_cart()
+    {
+
+
+        if( isset(Auth::user()->id) && Auth::user()->is_admin == 0 ) {
+            
+            $products = $this->getAllCartProducts();
+
+            foreach($products as $pro)
+            {
+
+                $check = DB::table('cart')->where([
+                    ['user_id', '=', Auth::user()->id],
+                    ['pro_id', '=', $pro->id],
+                ])->delete();
+    
+                if( $check ) {
+                    continue;
+                }
+                else {
+                    return view('ERROR WITH REMOVING CART');
+                }
+
+            }
+            
+
+        } else {
+            back()->with("error", "Unauthorized action");
+        }
+    }
+
 }

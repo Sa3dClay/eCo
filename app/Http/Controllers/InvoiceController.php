@@ -129,11 +129,16 @@ class InvoiceController extends Controller
                 $soldProduct = new Sold_products;
 
                 $soldProduct->product_id = $pro->id;
-                $soldProduct->invoice_id = $pro->n_of_pro;
-                $soldProduct->n_of_pro = $pro->id;
+                $soldProduct->invoice_id = $invoiceID;
+                $soldProduct->n_of_pro = $pro->n_of_pro;
 
                 $soldProduct->save();
             }
+
+            // Removing all products from user's cart
+
+            $cart = new CartController ;
+            $cart->remove_all_from_cart();
 
 
             return redirect('/products')->with('success', 'Your order is submited');
