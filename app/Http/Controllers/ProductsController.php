@@ -19,7 +19,7 @@ class ProductsController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('admin',['only'=>['destroy','change_visibility','edit','create']]);
+        $this->middleware('admin',['only'=>['destroy','change_visibility','edit','create','get_my_products']]);
     }
 
     public function index()
@@ -284,6 +284,11 @@ class ProductsController extends Controller
         return view('products.index')->with($data);
     }
 
+    public function get_my_products(){
+      $products = Product::where('owner_id',Auth::guard('admin')->user()->id)->orderBy('created_at','desc')->get();
+
+      return view('products.my_products')->with('products',$products);
+    }
     // public function get_invisible(){
     //     if( Auth::guard('admin')->check() ) {
 
