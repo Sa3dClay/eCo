@@ -12,12 +12,12 @@
                             <i class="glyphicon glyphicon-wrench"></i> Update product
                         </a>
                         {{-- Delete product --}}
-                        <a href="" class="view-details-link" onclick="event.preventDefault(); document.getElementById('remove-submit').click();">
+                        <a href="" class="view-details-link" onclick="event.preventDefault(); document.getElementById('<?php echo (isset($loop) ? 'remove_product'.$loop->iteration : 'remove_product') ?>').click();">
                             <i class="glyphicon glyphicon-remove"></i> Remove Product
                         </a>
-                        {!! Form::open(['action' => ['ProductsController@destroy',$product->id],'method'=>'POST']) !!}
+                        {!! Form::open(['action' => ['ProductsController@destroy', $product->id], 'method'=>'POST']) !!}
                             {{Form::hidden('_method','DELETE')}}
-                            {{Form::submit('Delete',['id'=>'remove-submit','style'=>'display:none'])}}
+                            <button type="submit" style="display:none" id="<?php echo (isset($loop) ? 'remove_product'.$loop->iteration : 'remove_product') ?>">Remove Product</button>
                         {!! Form::close() !!}
                     {{-- Seller --}}
                     @else

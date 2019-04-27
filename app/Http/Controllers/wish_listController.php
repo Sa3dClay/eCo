@@ -138,6 +138,10 @@ class wish_listController extends Controller
                 return back()->with("error", "Error with last action");
             }
 
+        } else if( Auth::guard('admin')->check() ) {
+            $check = DB::table('wishlist')->where('pro_id', $pro_id)->delete();
+            return $check;
+            
         } else {
             return back()->with("error", "Unauthorized action");
         }

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use DB;
 use App\Product;
+use App\Cart;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
@@ -229,33 +230,44 @@ class ProductsController extends Controller
      */
     public function destroy($id)
     {
-        $product= Product::find($id);
-        if(auth()->user()->is_admin==1 || auth()->user()->id==$product->owner_id){
-            if($product->profile_pic!='noimage.jpg'){
+        // echo $id;
+        $product = Product::find($id);
+
+        if( Auth::guard('admin')->check() ) {
+            if($product->profile_pic != 'noimage.jpg') {
                 Storage::delete('public/profile_pics/'.$product->profile_pic);
             }
-            $product->delete();
-            return redirect('/products')->with("success","Product was removed successfuly");
-        }else{
-            return redirect('/products')->with('error', "Authorization error");
+
+            $cart = new CartController;
+            $wl = new wish_listController;
+            $cart->remove_from_cart($id);
+            $wl->remove_from_WishList($id);
+
+            if( $product->delete() ) {
+                return redirect('/products')->with("success", "Product was removed successfuly");
+            } else {
+                return redirect('/products')->with("error", "Error with last action");
+            }
+
+        } else {
+            return redirect('/products')->with("error", "Authorization error");
         }
     }
 
     public function change_visibility($id){
         $product=Product::find($id);
-        if($product->visible==1){
+        if($product->visible==1) {
             $product->visible=0;
-                $product->save();
+            $product->save();
             return redirect("/products")->with("success","The product is invisible NOW");
-        }
-        else{
+        } else {
             $product->visible=1;
             $product->save();
             return redirect("/products")->with("success","The product is visible NOW");
         }
     }
 
-    public function search(Request $request){
+    public function search(Request $request) {
         $strword=$request->input('text');
         if(strlen($strword)==0){
             return $this->index();
@@ -267,12 +279,12 @@ class ProductsController extends Controller
         if(!is_numeric($n)) {
             $str2 = implode($str2, $chars);
             $products=Product::find_no_space($str2);
-        }else{
-           $newstr= explode(" ", $str);
-           for($i=0; $i<count($newstr); $i++){
-            $newstr[$i] = "'".$newstr[$i]."'";
-           }
-           $words= implode(',', $newstr);
+        } else {
+            $newstr= explode(" ", $str);
+            for($i=0; $i<count($newstr); $i++){
+                $newstr[$i] = "'".$newstr[$i]."'";
+            }
+            $words= implode(',', $newstr);
             $products= Product::find_space($words);
         }
         $cart = CartController::checkAdded();
