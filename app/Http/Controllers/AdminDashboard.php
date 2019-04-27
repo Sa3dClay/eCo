@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Validator;
 use App\Admin;
 use App\User;
@@ -77,5 +78,11 @@ class AdminDashboard extends Controller
     public function get_invisible(){
         $products = Product::where('visible', '0')->get();
         return view('products.invisible')->with('products', $products);
+    }
+
+    public function get_my_products(){
+      $products = Product::where('owner_id',Auth::guard('admin')->user()->id)->orderBy('created_at','desc')->get();
+
+      return view('products.my_products')->with('products',$products);
     }
 }

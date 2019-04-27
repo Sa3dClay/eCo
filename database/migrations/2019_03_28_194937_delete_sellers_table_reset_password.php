@@ -13,7 +13,7 @@ class DeleteSellersTableResetPassword extends Migration
      */
     public function up()
     {
-        Schema::drop('seller_password_resets');
+        Schema::dropIfExists('seller_password_resets');
     }
 
     /**

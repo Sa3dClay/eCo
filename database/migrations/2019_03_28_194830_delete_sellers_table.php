@@ -13,7 +13,7 @@ class DeleteSellersTable extends Migration
      */
     public function up()
     {
-        Schema::drop('sellers');
+        Schema::dropIfExists('sellers');
     }
 
     /**

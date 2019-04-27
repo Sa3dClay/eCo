@@ -25,8 +25,14 @@
                         <a href="{{ url('products/' . $product->id . '/edit') }}" class="add-to-cart-link">
                             <i class="glyphicon glyphicon-wrench"></i> Update product
                         </a>
-                        {{-- Details --}}
-                        <a href="{{ url('products/' . $product->id) }}" class="view-details-link"><i class="fa fa-link"></i> See details</a>
+                        @if(Route::currentRouteName() == "get_my_products")
+                            <a href="" class="view-details-link" onclick="event.preventDefault(); document.getElementById('<?php echo (isset($loop) ? 'remove_product'.$loop->iteration : 'remove_product') ?>').click();">
+                                <i class="glyphicon glyphicon-remove"></i> Remove Product
+                            </a>
+                        @else
+                            {{-- Details --}}
+                            <a href="{{ url('products/' . $product->id) }}" class="view-details-link"><i class="fa fa-link"></i> See details</a>
+                        @endif
                     @endif
                 @else
                     {{-- Unregistered user --}}
@@ -92,6 +98,11 @@
                 <div class="product-carousel-price">
                     <ins>${{ $product->price }}</ins>
                     <span>{{ $product->brand }}</span>
+                    @if (Auth::guard('admin')->check())
+                        @if (Auth::guard('admin')->user()->role == 'admin')
+                            <!--<span><b>created by</b> {//{$product->owner_id }}</span> -->
+                        @endif
+                    @endif
                 </div>
             </td>
             <td></td>
@@ -109,9 +120,13 @@
                     @else
                         <a href="{{ route('change_visibilty', $product->id) }}" ><i class="glyphicon glyphicon-eye-open"></i> Set as Visible</a>
                     @endif
-                
+
                 @endif
             @endif
         </div>
     @endguest
 </div>
+{!! Form::open(['action' => ['ProductsController@destroy',$product->id],'method'=>'POST']) !!}
+    {{Form::hidden('_method','DELETE')}}
+    {{Form::submit('Delete',['id'=>'remove-submit','style'=>'display:none'])}}
+{!! Form::close() !!}

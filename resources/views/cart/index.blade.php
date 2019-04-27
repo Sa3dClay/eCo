@@ -180,6 +180,12 @@
 
                                     </section>
                                 </form> --}}
+                                
+                                
+
+                                <a href="{{ url('/invoice/create') }}" ><button type="button" class="btn btn-success" >Check Out</button></a>
+
+
 
                             </div>
                         </div>                        
