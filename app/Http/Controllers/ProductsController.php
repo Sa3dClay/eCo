@@ -19,7 +19,7 @@ class ProductsController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('admin',['only'=>['destroy','change_visibility','edit','create','get_my_products']]);
+        $this->middleware('admin',['only'=>['destroy','change_visibility','edit','create']]);
     }
 
     public function index()
@@ -159,8 +159,7 @@ class ProductsController extends Controller
     public function update(Request $request, $id)
     {
 
-        if(!Auth::guest() && Auth::user()->is_admin == 1)
-        {
+        if( !Auth::guest() && Auth::user()->is_admin == 1 || Auth::guard('admin')->check() ){
             //Validation on submited Data
             $this->validate($request, [
                 'name' => 'required',
@@ -205,7 +204,11 @@ class ProductsController extends Controller
             $product->desc = $request->input('desc');
 
             // $product->owner_id = 1;
-            $product->owner_id = Auth::user()->id ;
+            if(Auth::user()!=null){ //it will case redundant id(s)
+                $product->owner_id = Auth::user()->id ;
+            }else{
+                $product->owner_id=Auth::guard('admin')->user()->id;
+            }
 
             if($request->hasFile('profile_pic')){
                 $product->profile_pic = $fileNameToStore;
@@ -230,7 +233,7 @@ class ProductsController extends Controller
     public function destroy($id)
     {
         $product= Product::find($id);
-        if(auth()->user()->is_admin==1 || auth()->user()->id==$product->owner_id){
+        if( !Auth::guest() && Auth::user()->is_admin == 1 || Auth::guard('admin')->check() ){
             if($product->profile_pic!='noimage.jpg'){
                 Storage::delete('public/profile_pics/'.$product->profile_pic);
             }
@@ -284,11 +287,12 @@ class ProductsController extends Controller
         return view('products.index')->with($data);
     }
 
-    public function get_my_products(){
-      $products = Product::where('owner_id',Auth::guard('admin')->user()->id)->orderBy('created_at','desc')->get();
+    // public function get_my_products(){
+    //   $products = Product::where('owner_id',Auth::guard('admin')->user()->id)->orderBy('created_at','desc')->get();
+    //
+    //   return view('products.my_products')->with('products',$products);
+    // }
 
-      return view('products.my_products')->with('products',$products);
-    }
     // public function get_invisible(){
     //     if( Auth::guard('admin')->check() ) {
 

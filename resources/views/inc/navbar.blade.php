@@ -37,10 +37,8 @@
                     @if(Auth::guard('admin')->check())
                         @if(Auth::guard('admin')->user()->role == 'admin')
                             <li class="<?php if(isset($repo)) echo 'active' ?>"><a href="{{url('reports')}}">Reports</a></li>
-                        @elseif(Auth::guard('admin')->user()->role == 'seller')
-                            <li><a href="#">MY PRODUCTS</a></li>
                         @endif
-                        <li><a href="#">My products</a></li>
+                        <li><a href="{{ route('get_my_products') }}">MY PRODUCTS</a></li>
                     @elseif( Auth::user() )
                         <li class="<?php if(isset($cart)) echo 'active' ?>"><a href="{{ url('cart') }}">Cart</a></li>
                         <li><a href="{{ url('/invoice/create') }}">Checkout</a></li>

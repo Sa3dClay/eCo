@@ -15,18 +15,20 @@
                         <a href="" class="view-details-link" onclick="event.preventDefault(); document.getElementById('remove-submit').click();">
                             <i class="glyphicon glyphicon-remove"></i> Remove Product
                         </a>
-                        {!! Form::open(['action' => ['ProductsController@destroy',$product->id],'method'=>'POST']) !!}
-                            {{Form::hidden('_method','DELETE')}}
-                            {{Form::submit('Delete',['id'=>'remove-submit','style'=>'display:none'])}}
-                        {!! Form::close() !!}
                     {{-- Seller --}}
                     @else
                         {{-- Update product --}}
                         <a href="{{ url('products/' . $product->id . '/edit') }}" class="add-to-cart-link">
                             <i class="glyphicon glyphicon-wrench"></i> Update product
                         </a>
-                        {{-- Details --}}
-                        <a href="{{ url('products/' . $product->id) }}" class="view-details-link"><i class="fa fa-link"></i> See details</a>
+                        @if(Route::currentRouteName()=="get_my_products")
+                          <a href="" class="view-details-link" onclick="event.preventDefault(); document.getElementById('remove-submit').click();">
+                              <i class="glyphicon glyphicon-remove"></i> Remove Product
+                          </a>
+                        @else
+                          {{-- Details --}}
+                          <a href="{{ url('products/' . $product->id) }}" class="view-details-link"><i class="fa fa-link"></i> See details</a>
+                        @endif
                     @endif
                 @else
                     {{-- Unregistered user --}}
@@ -120,3 +122,7 @@
         </div>
     @endguest
 </div>
+{!! Form::open(['action' => ['ProductsController@destroy',$product->id],'method'=>'POST']) !!}
+    {{Form::hidden('_method','DELETE')}}
+    {{Form::submit('Delete',['id'=>'remove-submit','style'=>'display:none'])}}
+{!! Form::close() !!}

@@ -33,6 +33,7 @@ Route::get('/products/{id}/change_visibilty', 'ProductsController@change_visibil
 //Route::get('/products/get_invisible', 'ProductsController@get_invisible')->name('get_invisible');
 //Route::delete('/cart/{id}/remove_from_cart', 'CartController@remove_from_cart')->name('remove_from_cart');
 Route::get('/cart/{id}/remove_from_cart', 'CartController@remove_from_cart')->name('remove_from_cart');
+Route::get('/get_my_products', 'AdminDashboard@get_my_products')->name('get_my_products');
 Route::post('/products/search', 'ProductsController@search')->name('search');
 
 // admins authentication
@@ -58,6 +59,7 @@ Route::group(['prefix' => 'dashboard/admin', 'middleware' => ['admin']], functio
 
   Route::get('/users', 'AdminDashboard@showUsers');
   Route::get('/get_invisible', 'AdminDashboard@get_invisible')->name('get_invisible');
+  //Route::get('/get_my_products', 'AdminDashboard@get_my_products')->name('get_my_products');
 
   Route::post('/blockuser', 'AdminDashboard@blockUser');
   Route::post('/deleteuser', 'AdminDashboard@deleteUser');
@@ -66,6 +68,7 @@ Route::group(['prefix' => 'dashboard/admin', 'middleware' => ['admin']], functio
 // seller route
 Route::group(['prefix' => 'dashboard/seller/', 'middleware' => ['admin']], function () {
   Route::get('/', 'SellerDashboard@index');
+  //Route::get('/get_my_products', 'SellerDashboard@get_my_products')->name('get_my_products');
   // add products page to be added
 });
 
