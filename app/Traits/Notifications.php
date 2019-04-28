@@ -51,4 +51,21 @@ trait Notifications {
         $alert->save();
     }
 
+    public function newProduct($id, $pro_name, $role) {
+        $alert = new Notification;
+        $alert->user_id = $id;
+        $alert->title = "You updated your store";
+        $alert->message = "Added a new product " . $pro_name;
+        $alert->user_role = $role;
+        $alert->save();
+    }
+
+    public function sellerProduct($id, $name , $pro_name, $role) {
+        $alert = new Notification;
+        $alert->user_id = $id;
+        $alert->title = "Seller " . $name . " updated his store";
+        $alert->message = "Added a new product " . $pro_name;
+        $alert->user_role = $role;
+        $alert->save();
+    }
 }
