@@ -47,7 +47,7 @@ class NotificationController extends Controller
      */
     public function create()
     {
-        //
+        
     }
 
     /**

@@ -9,8 +9,12 @@ use App\Admin;
 use App\User;
 use App\product;
 
+use App\Traits\Notifications;
+
 class AdminDashboard extends Controller
 {
+
+    use Notifications;
 
     public function __construct()
     {
@@ -45,8 +49,10 @@ class AdminDashboard extends Controller
         $admin->password = bcrypt($request->input('password'));
         $admin->role = $request->input('privilege');
 
-        if($admin->save())
+        if($admin->save()){
+            $this->createSeller(Auth::guard("admin")->user()->id, "seller");
             return redirect('dashboard/admin/addmember')->withSuccess('Member has been added');
+        }
         else
             return redirect('dashboard/admin/addmember')->withDanger('Something wrong has happened');
 
@@ -58,11 +64,13 @@ class AdminDashboard extends Controller
             // user blocked and we need to unblock him
             $user->blocked = 0;
             $user->save();
+            $this->userToUnblock($user->id, "normal");
             return redirect('dashboard/admin/users')->withSuccess('Unblocked user successfuly');
         } else {
             // we need to block the user
             $user->blocked = 1;
             $user->save();
+            $this->userToBlock($user->id, "normal");
             return redirect('dashboard/admin/users')->withSuccess('Blocked user successfuly ');
         }
     }
