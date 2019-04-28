@@ -24,7 +24,14 @@ class ReportController extends Controller
     {
        if(Auth::guard('admin')->user()->role == 'admin'){
             $reports=Report::orderBy('created_at','asc')->get();
-            return view('reports.index')->with('reports',$reports);
+
+            $countNew = NotificationController::checkAdded();
+
+            $data = [
+                'reports' => $reports,
+                'countNew' => $countNew
+            ];
+            return view('reports.index')->with($data);
        }else{
            return redirect('/')->with("error","You are not authorized to view this page");
        }
@@ -37,8 +44,17 @@ class ReportController extends Controller
      */
     public function create()
     {
-        //
-        return view('reports.create.create');
+      $cart = CartController::checkAdded();
+      $wl = wish_listController::checkAdded();
+      $countNew = NotificationController::checkAdded();
+
+      $data = [
+          'cartpros' => $cart,
+          'wishlistProducts' => $wl,
+          'countNew' => $countNew
+      ];
+
+        return view('reports.create.create')->with($data);
     }
 
     /**
@@ -59,7 +75,7 @@ class ReportController extends Controller
             return redirect('contact')->with('success', 'Your message has been sent');
         else
             return redirect('contact')->with('error', 'We could not send your message');
-        
+
     }
 
     /**
@@ -71,7 +87,7 @@ class ReportController extends Controller
     public function show($id)
     {
         //
-        
+
     }
 
     /**

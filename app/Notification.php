@@ -14,7 +14,7 @@ class Notification extends Model
         return $this->belongsTo("App\User");
     }
 
-    public function Super_user(){
+    public static function Super_user(){
         return $this->belongsTo("App\Admin");
     }
 

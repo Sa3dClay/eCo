@@ -25,7 +25,11 @@
                                 <form id="logout-form" action="{{ url('dashboard/logout') }}" method="POST" style="display: none;">
                                     @csrf
                                 </form>
-                                <a href="{{ url('notifications') }}" style="float:right;margin-top:10px"><i class="glyphicon glyphicon-bell"></i> Notifications</a>
+                                <a href="{{ url('notifications') }}" style="float:right;margin-top:10px"><i class="glyphicon glyphicon-bell"></i> Notifications
+                                  @if(isset($countNew) && $countNew>0 )
+                                      <span class="product-count" style="margin-top:15px">{{ $countNew }}</span>
+                                  @endif
+                                </a>
                             @else
                                 {{-- Redirecting to login page --}}
                                 <li><a href="{{ Request::is('dashboard/login') ? url('dashboard/login') : url('login') }}"><i class="fa fa-user"></i> Login</a></li>
@@ -46,7 +50,11 @@
                             <form id="logout-form" action="{{ url('logout') }}" method="POST" style="display: none;">
                                 @csrf
                             </form>
-                            <a href="{{ url('notifications') }}" style="float:right;margin-top:10px"><i class="glyphicon glyphicon-bell"></i> Notifications</a>
+                            <a href="{{ url('notifications') }}" style="float:right;margin-top:10px"><i class="glyphicon glyphicon-bell"></i> Notifications
+                              @if(isset($countNew) && $countNew>0 )
+                                  <span class="product-count" style="margin-top:15px">{{ $countNew }}</span>
+                              @endif
+                            </a>
                         @endguest
                     </ul>
                 </div>

@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\wish_listController;
+use App\Http\Controllers\NotificationController;
 
 class ProductsController extends Controller
 {
@@ -29,10 +30,12 @@ class ProductsController extends Controller
         //passing array of products in cart of this user to check if it the product is add or no
         $cart = CartController::checkAdded();
         $wl = wish_listController::checkAdded();
+        $countNew = NotificationController::checkAdded();
         $data = [
             'products' => $products,
             'cartpros' => $cart,
             'wishlistProducts' => $wl,
+            'countNew' => $countNew
         ];
 
         return view('products.index')->with($data);
@@ -45,7 +48,8 @@ class ProductsController extends Controller
      */
     public function create()
     {
-        return view('products.create');
+      $countNew = NotificationController::checkAdded();
+        return view('products.create')=>with('countNew',$countNew);
     }
 
     /**
