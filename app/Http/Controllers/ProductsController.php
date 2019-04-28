@@ -49,8 +49,8 @@ class ProductsController extends Controller
      */
     public function create()
     {
-      $countNew = NotificationController::checkAdded();
-        return view('products.create')=>with('countNew',$countNew);
+        $countNew = NotificationController::checkAdded();
+        return view('products.create')->with('countNew',$countNew);
     }
 
     /**
