@@ -8,8 +8,13 @@ use Illuminate\Support\Facades\Auth;
 use App\Sold_products;
 use App\Invoice;
 
+use App\Traits\Notifications;
+
 class InvoiceController extends Controller
 {
+
+    use Notifications;
+
     /**
      * Display a listing of the resource.
      *
@@ -157,7 +162,7 @@ class InvoiceController extends Controller
             $cart = new CartController ;
             $cart->remove_all_from_cart();
 
-
+            $this->userOrder(Auth::user()->id, $invoice->id, "normal");
             return redirect('/products')->with('success', 'Your order is submited');
         } else {
             return redirect('/products')->with('error', 'You are not authorized to add product');

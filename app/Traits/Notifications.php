@@ -32,4 +32,23 @@ trait Notifications {
         $alert->user_role = $role;
         $alert->save();
     }
+
+    public function markedAsSeen($id, $role) {
+        $alert = new Notification;
+        $alert->user_id = $id;
+        $alert->title = "Your report updates";
+        $alert->message = "Our team currently working on your issue and we will keep you in touch with any updates.";
+        $alert->user_role = $role;
+        $alert->save();
+    }
+
+    public function userOrder($id, $ord_num, $role) {
+        $alert = new Notification;
+        $alert->user_id = $id;
+        $alert->title = "Confirmation of order number " . $ord_num;
+        $alert->message = "Thank you for using eCo, we will ship your items as fast as possible.";
+        $alert->user_role = $role;
+        $alert->save();
+    }
+
 }

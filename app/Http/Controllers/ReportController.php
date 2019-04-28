@@ -7,8 +7,11 @@ use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
+use App\Traits\Notifications;
+
 class ReportController extends Controller
 {
+    use Notifications;
     /**
      * Display a listing of the resource.
      *
@@ -124,6 +127,7 @@ class ReportController extends Controller
        if(Auth::guard('admin')->user()->role == 'admin'){
             $report= Report::find($id);
             $report->delete();
+            $this->markedAsSeen($report->user_id, "normal");
             return redirect('/reports')->with("success","The report was marked as seen");
        }else{
            return redirect('/')->with("error","Can't mark this report as SEEN");
