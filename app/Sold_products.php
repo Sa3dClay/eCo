@@ -9,7 +9,7 @@ class Sold_products extends Model
     protected $table="sold_products";
     public $timestumps=true;
 
-    public function user(){
+    public function invoice(){
         return $this->belongsTo("App\Invoice");
     }
 
