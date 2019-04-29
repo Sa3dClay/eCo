@@ -104,6 +104,15 @@ class AdminDashboard extends Controller
             return redirect('dashboard/admin/users')->withDanger('Something wrong has happened');
     }
 
+    public function deleteSeller(Request $request) {
+        $seller = Admin::find($request->input('user_id'));
+
+        if($seller->delete())
+            return redirect('dashboard/admin/users')->withSuccess('User has been deleted');
+        else
+            return redirect('dashboard/admin/users')->withDanger('Something wrong has happened');
+    }
+
     public function get_invisible(){
         $products = Product::where('visible', '0')->get();
 
