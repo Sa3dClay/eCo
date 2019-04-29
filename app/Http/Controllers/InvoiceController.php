@@ -8,8 +8,13 @@ use Illuminate\Support\Facades\Auth;
 use App\Sold_products;
 use App\Invoice;
 
+use App\Traits\Notifications;
+
 class InvoiceController extends Controller
 {
+
+    use Notifications;
+
     /**
      * Display a listing of the resource.
      *
@@ -17,7 +22,18 @@ class InvoiceController extends Controller
      */
     public function index()
     {
+        //don't forget this data
+
+        // $cart = CartController::checkAdded();
+        // $wl = wish_listController::checkAdded();
+        // $countNew = NotificationController::checkAdded();
         //
+        // $data = [
+        //     'notifications' => $notifications,
+        //     'cartpros' => $cart,
+        //     'wishlistProducts' => $wl,
+        //     'countNew' => $countNew
+        // ];
     }
 
     /**
@@ -29,7 +45,7 @@ class InvoiceController extends Controller
     {
         //
         if( isset(Auth::user()->id) ) {
-            
+
             $cartController = new CartController;
             $products = $cartController->getAllCartProducts();
             $totalCost = $cartController->getTotalCost();
@@ -40,13 +56,20 @@ class InvoiceController extends Controller
                 //  $total_Cost_For_Each_Product[$pro->id] = $pro->price * $pro->n_of_pro;
                 array_push($total_Cost_For_Each_Product , $pro->price * $pro->n_of_pro);
             }
+            
+            $cart = CartController::checkAdded();
+            $wl = wish_listController::checkAdded();
+            $countNew = NotificationController::checkAdded();
 
             $data = [
+                'cartpros' => $cart,
+                'wishlistProducts' => $wl,
+                'countNew' => $countNew,
                 'products' => $products,
                 'subTotalCost' => $totalCost,
                 'totalCost_per_prodcut' => $total_Cost_For_Each_Product,
                 'eCoPercintage' => "15%",
-                'totalCost' => $totalCost + ( $totalCost * 0.15 ) 
+                'totalCost' => $totalCost + ( $totalCost * 0.15 )
             ];
 
             return view('invoice.create_invoice')->with($data);
@@ -97,7 +120,7 @@ class InvoiceController extends Controller
                     ]);
                     $invoice->visaORacc  = $request->input('paypalAccount');
                     break;
-                
+
                 default:
                     return view("error");
             }
@@ -109,7 +132,7 @@ class InvoiceController extends Controller
             $invoice->phone_number = $request->input('phone_number');
             $invoice->zip_code = $request->input('zip_code');
             $invoice->payment_m = $request->input('payment_m');
-            
+
             // Store Invoice
             $invoice->save();
 
@@ -141,6 +164,10 @@ class InvoiceController extends Controller
             // Removing all products from user's cart
             $cart->remove_all_from_cart();
 
+<<<<<<< HEAD
+=======
+            $this->userOrder(Auth::user()->id, $invoice->id, "normal");
+>>>>>>> d78985414b18567cc559996698a5cab89126d928
             return redirect('/products')->with('success', 'Your order is submited');
             
         } else {

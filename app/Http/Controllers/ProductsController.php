@@ -5,14 +5,21 @@ namespace App\Http\Controllers;
 use DB;
 use App\Product;
 use App\Cart;
+use App\Admin;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\wish_listController;
+use App\Http\Controllers\NotificationController;
+
+use App\Traits\Notifications;
+
 
 class ProductsController extends Controller
 {
+
+    use Notifications;
     /**
      * Display a listing of the resource.
      *
@@ -30,10 +37,12 @@ class ProductsController extends Controller
         //passing array of products in cart of this user to check if it the product is add or no
         $cart = CartController::checkAdded();
         $wl = wish_listController::checkAdded();
+        $countNew = NotificationController::checkAdded();
         $data = [
             'products' => $products,
             'cartpros' => $cart,
             'wishlistProducts' => $wl,
+            'countNew' => $countNew
         ];
 
         return view('products.index')->with($data);
@@ -46,7 +55,8 @@ class ProductsController extends Controller
      */
     public function create()
     {
-        return view('products.create');
+        $countNew = NotificationController::checkAdded();
+        return view('products.create')->with('countNew',$countNew);
     }
 
     /**
@@ -108,6 +118,13 @@ class ProductsController extends Controller
             }
             $product->profile_pic = $fileNameToStore;
             $product->save();
+
+            $seller = Admin::find(Auth::guard('admin')->user()->id);
+
+            $this->newProduct($seller->id, $product->name , "seller");
+            // to add which admin you need to send this notification to?
+            $this->sellerProduct(1, $seller->name , $product->name , "seller");
+
             return redirect('/products')->with('success', 'Product Added');
         } else {
             return redirect('/products')->with('error', 'You are not authorized to add product');

@@ -9,8 +9,12 @@ use App\Admin;
 use App\User;
 use App\product;
 
+use App\Traits\Notifications;
+
 class AdminDashboard extends Controller
 {
+
+    use Notifications;
 
     public function __construct()
     {
@@ -19,7 +23,8 @@ class AdminDashboard extends Controller
 
     public function index()
     {
-        return view('dashboards.admin.index');
+       $countNew = NotificationController::checkAdded();
+        return view('dashboards.admin.index')->with($countNew);
     }
 
     public function showRegister() {
@@ -44,8 +49,10 @@ class AdminDashboard extends Controller
         $admin->password = bcrypt($request->input('password'));
         $admin->role = $request->input('privilege');
 
-        if($admin->save())
+        if($admin->save()){
+            $this->createSeller(Auth::guard("admin")->user()->id, "seller");
             return redirect('dashboard/admin/addmember')->withSuccess('Member has been added');
+        }
         else
             return redirect('dashboard/admin/addmember')->withDanger('Something wrong has happened');
 
@@ -57,11 +64,13 @@ class AdminDashboard extends Controller
             // user blocked and we need to unblock him
             $user->blocked = 0;
             $user->save();
+            $this->userToUnblock($user->id, "normal");
             return redirect('dashboard/admin/users')->withSuccess('Unblocked user successfuly');
         } else {
             // we need to block the user
             $user->blocked = 1;
             $user->save();
+            $this->userToBlock($user->id, "normal");
             return redirect('dashboard/admin/users')->withSuccess('Blocked user successfuly ');
         }
     }
@@ -77,12 +86,23 @@ class AdminDashboard extends Controller
 
     public function get_invisible(){
         $products = Product::where('visible', '0')->get();
-        return view('products.invisible')->with('products', $products);
+
+        $countNew = NotificationController::checkAdded();
+        $data = [
+            'products' => $products,
+            'countNew' => $countNew
+        ];
+        return view('products.invisible')->with($data);
     }
 
     public function get_my_products(){
       $products = Product::where('owner_id',Auth::guard('admin')->user()->id)->orderBy('created_at','desc')->get();
 
-      return view('products.my_products')->with('products',$products);
+      $countNew = NotificationController::checkAdded();
+      $data = [
+          'products' => $products,
+          'countNew' => $countNew
+      ];
+      return view('products.my_products')->with($data);
     }
 }

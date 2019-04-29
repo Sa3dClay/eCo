@@ -23,6 +23,15 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('home');
+      $cart = CartController::checkAdded();
+      $wl = wish_listController::checkAdded();
+      $countNew = NotificationController::checkAdded();
+
+      $data = [
+          'cartpros' => $cart,
+          'wishlistProducts' => $wl,
+          'countNew' => $countNew
+      ];
+        return view('home')->with($data);
     }
 }
