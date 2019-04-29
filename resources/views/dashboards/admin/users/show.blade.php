@@ -23,7 +23,7 @@
               <th>Block status</th>
               <th>Delete</th>
             </thead>
-            
+
             <tbody>
               @if (!empty($users))
                 @foreach ($users as $user)
@@ -48,13 +48,13 @@
                       </form>
                     </td>
                   </tr>
-                @endforeach  
+                @endforeach
               @endif
-    
+
             </tbody>
           </table>
 
-          <div class="clearfix"></div> 
+          <div class="clearfix"></div>
         </div>
       </div>
 	  </div> <!-- End Row -->
@@ -79,11 +79,11 @@
           </form>
         </div>
       </div>
-      <!-- /.modal-content --> 
+      <!-- /.modal-content -->
     </div>
-    <!-- /.modal-dialog --> 
+    <!-- /.modal-dialog -->
   </div>
-    
+
   <div class="modal fade" id="delete" tabindex="-1" role="dialog" aria-labelledby="edit" aria-hidden="true">
     <div class="modal-dialog">
       <div class="modal-content">
@@ -103,9 +103,109 @@
           </form>
         </div>
       </div>
-      <!-- /.modal-content --> 
+      <!-- /.modal-content -->
     </div>
-    <!-- /.modal-dialog --> 
+    <!-- /.modal-dialog -->
   </div>
 
+  <div class="container">
+	  <div class="row">
+      <div class="col-md-12">
+        <h2 class="usersHeader">Sellers Lists</h2>
+
+        <div class="table-responsive">
+          <table id="mytable" class="table table-bordred table-striped">
+            <thead>
+              <th>Name</th>
+              <th>Email</th>
+              <th>Created</th>
+              <th>Block status</th>
+              <th>Delete</th>
+            </thead>
+
+            <tbody>
+              @if (!empty($admins))
+                @foreach ($admins as $admin)
+                    @if($admin->role=='seller')
+                        <tr>
+                          <td>{{$admin->name}}</td>
+                          <td>{{$admin->email}}</td>
+                          <td>{{$admin->created_at}}</td>
+
+                          <td>
+                            <form method="POST" action="{{url('dashboard/admin/blockuser')}}">
+                              @csrf
+                              <input type="text" hidden name="user_id" value="{{$user->id}}"/>
+                              <button type="submit" class="btn btn-warning btn-md">{{$admin->blocked ? "Unblock": "Block"}}</button>
+                            </form>
+                          </td>
+
+                          <td>
+                            <form method="POST" action="{{url('dashboard/admin/deleteuser')}}">
+                              @csrf
+                              <input type="text" hidden name="user_id" value="{{$user->id}}"/>
+                              <button type="submit" class="btn btn-danger btn-md" ><span class="glyphicon glyphicon-trash"></span></button>
+                            </form>
+                          </td>
+                        </tr>
+                    @endif
+                @endforeach
+              @endif
+
+            </tbody>
+          </table>
+
+          <div class="clearfix"></div>
+        </div>
+      </div>
+	  </div> <!-- End Row -->
+  </div> <!-- End Container -->
+
+  <div class="modal fade" id="edit" tabindex="-1" role="dialog" aria-labelledby="edit" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></button>
+          <h4 class="modal-title custom_align" id="Heading">Block Status</h4>
+        </div>
+        <div class="modal-body">
+          <div class="alert alert-danger"><span class="glyphicon glyphicon-warning-sign"></span> Are you sure you want to take this action?</div>
+        </div>
+        <div class="modal-footer ">
+          <form method="POST" action="{{url('dashboard/admin/blockSeller')}}">
+            @csrf
+            <input type="text" hidden name="user_id" id="user_id" value=""/>
+            <button type="submit" class="btn btn-success" ><span class="glyphicon glyphicon-ok-sign"></span> Yes</button>
+            <button type="button" class="btn btn-default" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> No</button>
+          </form>
+        </div>
+      </div>
+      <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+  </div>
+
+  <div class="modal fade" id="delete" tabindex="-1" role="dialog" aria-labelledby="edit" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></button>
+          <h4 class="modal-title custom_align" id="Heading">Delete this user</h4>
+        </div>
+        <div class="modal-body">
+          <div class="alert alert-danger"><span class="glyphicon glyphicon-warning-sign"></span> Are you sure you want to delete this User?</div>
+        </div>
+        <div class="modal-footer ">
+          <form method="POST" action="{{url('dashboard/admin/deleteuser')}}">
+            @csrf
+            <input type="text" hidden name="user_id" id="user_id" value=""/>
+            <button type="submit" class="btn btn-success" ><span class="glyphicon glyphicon-ok-sign"></span> Yes</button>
+            <button type="button" class="btn btn-default" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> No</button>
+          </form>
+        </div>
+      </div>
+      <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+  </div>
 @endsection

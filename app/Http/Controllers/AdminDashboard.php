@@ -33,7 +33,10 @@ class AdminDashboard extends Controller
 
     public function showUsers() {
         $users = User::all();
-        return view('dashboards.admin.users.show', compact('users'));
+        $data = [
+            'users' => $users,
+        ];
+        return view('dashboards.admin.users.show')->with($data);
     }
 
     public function addMembers(Request $request) {
