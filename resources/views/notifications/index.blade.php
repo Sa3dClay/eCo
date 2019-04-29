@@ -13,6 +13,7 @@
             </div>
         </div>
     </div>
+
 <div class="container">
     <table class="table table-hover">
       <thead>
@@ -27,9 +28,9 @@
                 <td>
                   <i class="glyphicon glyphicon-envelope"> </i>
                   <b>{{$notification->title}}</b>
-                </br>
+                
                 {{$notification->message}}.
-                </br></br>
+                
                 <i class="glyphicon glyphicon-time"> {{$notification->created_at}}</i>
               </td>
             </tr>
