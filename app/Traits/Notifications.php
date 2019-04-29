@@ -3,6 +3,7 @@
 namespace App\Traits;
 
 use App\Notification;
+use App\Admin;
 
 trait Notifications {
 
@@ -55,17 +56,21 @@ trait Notifications {
         $alert = new Notification;
         $alert->user_id = $id;
         $alert->title = "You updated your store";
-        $alert->message = "Added a new product " . $pro_name;
+        $alert->message = "Added a new product '" . $pro_name."'";
         $alert->user_role = $role;
         $alert->save();
     }
 
     public function sellerProduct($id, $name , $pro_name, $role) {
-        $alert = new Notification;
-        $alert->user_id = $id;
-        $alert->title = "Seller " . $name . " updated his store";
-        $alert->message = "Added a new product " . $pro_name;
-        $alert->user_role = $role;
-        $alert->save();
+        //$admins=Admin::where("role","admin")->get();
+        //foreach ($admins as $admin) {
+          $alert = new Notification;
+          $alert->user_id = $id;
+          $alert->title = "Seller " . $name . " updated his store";
+          $alert->message = "Added a new product '" . $pro_name."'";
+          $alert->user_role = $role;
+          $alert->save();
+        //}
+
     }
 }

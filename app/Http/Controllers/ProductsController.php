@@ -336,9 +336,13 @@ class ProductsController extends Controller
             $products= Product::find_space($words);
         }
         $cart = CartController::checkAdded();
+        $wl = wish_listController::checkAdded();
+        $countNew = NotificationController::checkAdded();
         $data = [
             'products' => $products,
-            'cartp' => $cart,
+            'cartpros' => $cart,
+            'wishlistProducts' => $wl,
+            'countNew' => $countNew
         ];
 
         return view('products.index')->with($data);

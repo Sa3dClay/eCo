@@ -47,7 +47,7 @@ class NotificationController extends Controller
      */
     public function create()
     {
-        
+
     }
 
     /**
@@ -58,7 +58,7 @@ class NotificationController extends Controller
      */
     public function store(Request $request)
     {
-    //  date("Y-m-d h:m:s");
+    //  date("Y-m-d H:i:s");
         //
     }
 
@@ -120,7 +120,7 @@ class NotificationController extends Controller
         }
         if(isset($notes)){
           foreach ($notes as $note) {
-                  if($note->created_at>$note->updated_at){
+                  if($note->created_at >= $note->updated_at){
                     $countNew++;
                   }
           }
@@ -131,11 +131,12 @@ class NotificationController extends Controller
     private function mark_last_view($check){ # 1 for a normal user & 0 for an admin&seller
       if($check==0){
         Notification::where([['user_id','=',Auth::guard("admin")->user()->id],
-                                     ['user_role','!=','normal']])->update(array('updated_at' => date("Y-m-d h:m:s")));
+                                     ['user_role','!=','normal']])->update(array('updated_at' => date("Y-m-d H:i:s")));
       }else{
         Notification::where([['user_id','=',Auth::user()->id],
-                                     ['user_role','=','normal']])->update(array('updated_at' => date("Y-m-d h:m:s")));
+                                     ['user_role','=','normal']])->update(array('updated_at' => date("Y-m-d H:i:s")));
       }
+      // echo date("Y-m-d h:i:s");
     }
 
 }

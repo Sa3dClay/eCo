@@ -87,11 +87,13 @@ class AdminDashboard extends Controller
             // seller blocked and we need to unblock him
             $admin->blocked = 0;
             $admin->save();
+            $this->userToUnblock($user->id, "seller");
             return redirect('dashboard/admin/users')->withSuccess('Unblocked Seller successfully');
         } else {
             // we need to block the seller
             $admin->blocked = 1;
             $admin->save();
+            $this->userToBlock($user->id, "seller");
             return redirect('dashboard/admin/users')->withSuccess('Blocked Seller successfully ');
         }
     }
