@@ -7,17 +7,18 @@ use Illuminate\Support\Facades\Auth;
 use Validator;
 use App\Admin;
 use App\User;
-use App\product;
+//use App\product;
 
 use App\Traits\Notifications;
 
 class AdminDashboard extends Controller
 {
-
+    private $product;
     use Notifications;
 
     public function __construct()
     {
+        $this->product=new ProductsController;
         $this->middleware('admin');
     }
 
@@ -114,24 +115,12 @@ class AdminDashboard extends Controller
     }
 
     public function get_invisible(){
-        $products = Product::where('visible', '0')->get();
-
-        $countNew = NotificationController::checkAdded();
-        $data = [
-            'products' => $products,
-            'countNew' => $countNew
-        ];
-        return view('products.invisible')->with($data);
+      $data=$this->product->get_invisible();
+      return view('products.invisible')->with($data);
     }
 
     public function get_my_products(){
-      $products = Product::where('owner_id',Auth::guard('admin')->user()->id)->orderBy('created_at','desc')->get();
-
-      $countNew = NotificationController::checkAdded();
-      $data = [
-          'products' => $products,
-          'countNew' => $countNew
-      ];
+      $data=$this->product->get_my_products();
       return view('products.my_products')->with($data);
     }
 }
