@@ -33,8 +33,10 @@ class AdminDashboard extends Controller
 
     public function showUsers() {
         $users = User::all();
+        $admins = Admin::all();
         $data = [
             'users' => $users,
+            'admins' => $admins
         ];
         return view('dashboards.admin.users.show')->with($data);
     }
@@ -77,6 +79,7 @@ class AdminDashboard extends Controller
             return redirect('dashboard/admin/users')->withSuccess('Blocked user successfuly ');
         }
     }
+
 
     public function deleteUser(Request $request) {
         $user = User::find($request->input('user_id'));
