@@ -80,6 +80,20 @@ class AdminDashboard extends Controller
         }
     }
 
+    public function blockSeller(Request $request) {
+        $admin = Admin::find($request->input('user_id'));
+        if($admin->blocked){
+            // seller blocked and we need to unblock him
+            $admin->blocked = 1;
+            $admin->save();
+            return redirect('dashboard/admin/users')->withSuccess('Unblocked user successfuly');
+        } else {
+            // we need to block the seller
+            $user->blocked = 0;
+            $user->save();
+            return redirect('dashboard/admin/users')->withSuccess('Blocked user successfuly ');
+        }
+    }
 
     public function deleteUser(Request $request) {
         $user = User::find($request->input('user_id'));
