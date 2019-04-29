@@ -124,6 +124,7 @@ class wish_listController extends Controller
         //
     }
 
+    // remove product from wishlist
     public function remove_from_WishList($pro_id) {
         if( isset(Auth::user()->id) ) {
 
@@ -138,13 +139,21 @@ class wish_listController extends Controller
                 return back()->with("error", "Error with last action");
             }
 
-        } else if( Auth::guard('admin')->check() ) {
+        } /*else if( Auth::guard('admin')->check() ) {
             $check = DB::table('wishlist')->where('pro_id', $pro_id)->delete();
             return $check;
             
-        } else {
+        }*/ else {
             return back()->with("error", "Unauthorized action");
         }
+    }
+
+    // remove from all wishlists
+    public function remove_from_all_wishLists($pro_id) {
+        
+        $check = DB::table('wishlist')->where('pro_id', $pro_id)->delete();
+        
+        return $check;
     }
 
     public static function checkAdded()

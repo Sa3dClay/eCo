@@ -28,8 +28,6 @@ class InvoiceController extends Controller
     public function create()
     {
         //
-        
-
         if( isset(Auth::user()->id) ) {
             
             $cartController = new CartController;
@@ -39,8 +37,8 @@ class InvoiceController extends Controller
             $total_Cost_For_Each_Product = array();
 
             foreach($products as $pro) {
-              //  $total_Cost_For_Each_Product[$pro->id] = $pro->price * $pro->n_of_pro;
-              array_push($total_Cost_For_Each_Product , $pro->price * $pro->n_of_pro);
+                //  $total_Cost_For_Each_Product[$pro->id] = $pro->price * $pro->n_of_pro;
+                array_push($total_Cost_For_Each_Product , $pro->price * $pro->n_of_pro);
             }
 
             $data = [
@@ -67,7 +65,7 @@ class InvoiceController extends Controller
     public function store(Request $request)
     {
         //
-        if( !Auth::guest()){
+        if( !Auth::guest() ) {
             $this->validate($request, [
                 'address' => 'required',
                 'country' => 'required',
@@ -76,7 +74,6 @@ class InvoiceController extends Controller
                 'zip_code' => 'required',
                 'payment_m' => 'required'
             ]);
-
 
             // Create Invoice
             $invoice = new Invoice;
@@ -105,7 +102,6 @@ class InvoiceController extends Controller
                     return view("error");
             }
 
-
             $invoice->user_id = Auth::user()->id;
             $invoice->address = $request->input('address');
             $invoice->country = $request->input('country');
@@ -120,9 +116,12 @@ class InvoiceController extends Controller
             $invoiceID = $invoice->id;
 
             // Add Sold Products
+            $cart = new CartController;
 
-            $cartController = new CartController;
-            $products = $cartController->getAllCartProducts();
+            $products = $cart->getAllCartProducts();
+
+            // Create object from product controller
+            $proCtr = new ProductsController;
 
             foreach($products as $pro)
             {
@@ -133,15 +132,17 @@ class InvoiceController extends Controller
                 $soldProduct->n_of_pro = $pro->n_of_pro;
 
                 $soldProduct->save();
+
+                // Remove a quantity of product from products table
+                $proCtr->update_qunatity($pro->id, $pro->n_of_pro);
+
             }
 
             // Removing all products from user's cart
-
-            $cart = new CartController ;
             $cart->remove_all_from_cart();
 
-
             return redirect('/products')->with('success', 'Your order is submited');
+            
         } else {
             return redirect('/products')->with('error', 'You are not authorized to add product');
         }

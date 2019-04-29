@@ -26,7 +26,7 @@
                     </div>
                     
                     <div class="col-md-4">
-                        <p><b>Description:</b> {{ $product->desc }}</p>
+                        <p style="padding-top: 20px;"><b>Description:</b> {{ $product->desc }}</p>
                     </div>
 
                     <div class="col-md-2"></div>

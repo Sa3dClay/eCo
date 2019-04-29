@@ -161,13 +161,21 @@ class CartController extends Controller
                 return back()->with("error", "Error with last action");
             }
 
-        } else if( Auth::guard('admin')->check() ) {
+        } /*else if( Auth::guard('admin')->check() ) {
             $check = DB::table('cart')->where('pro_id', $pro_id)->delete();
             return $check;
 
-        } else {
+        }*/ else {
             back()->with("error", "Unauthorized action");
         }
+    }
+
+    // remove product from all carts
+    public function remove_from_all_carts($pro_id) {
+
+        $check = DB::table('cart')->where('pro_id', $pro_id)->delete();
+        
+        return $check;
     }
 
     // This function will return all products belongs to the user
@@ -202,8 +210,7 @@ class CartController extends Controller
     public function remove_all_from_cart()
     {
 
-
-        if( isset(Auth::user()->id) && Auth::user()->is_admin == 0 ) {
+        if( isset(Auth::user()->id) ) {
             
             $products = $this->getAllCartProducts();
 
@@ -223,7 +230,6 @@ class CartController extends Controller
                 }
 
             }
-            
 
         } else {
             back()->with("error", "Unauthorized action");

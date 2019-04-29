@@ -233,15 +233,15 @@ class ProductsController extends Controller
     {
         $product = Product::find($id);
 
-        if( Auth::guard('admin')->check() ) {
+        if( Auth::guard('admin')->check() || Auth::user() ) {
             if($product->profile_pic != 'noimage.jpg') {
                 Storage::delete('public/profile_pics/'.$product->profile_pic);
             }
 
             $cart = new CartController;
             $wl = new wish_listController;
-            $cart->remove_from_cart($id);
-            $wl->remove_from_WishList($id);
+            $cart->remove_from_all_carts($id);
+            $wl->remove_from_all_wishLists($id);
 
             if( $product->delete() ) {
                 return redirect('/products')->with("success", "Product was removed successfuly");
@@ -254,19 +254,41 @@ class ProductsController extends Controller
         }
     }
 
-    public function change_visibility($id){
-        $product=Product::find($id);
-        if($product->visible==1) {
-            $product->visible=0;
-            $product->save();
-            return redirect("/products")->with("success","The product is invisible NOW");
+    // Update product quantity
+    public function update_qunatity($id, $qnt) {
+        $product = Product::find($id);
+
+        $product->quantity = $product->quantity - $qnt;
+
+        if($product->quantity <= 0) {
+            $this->destroy($product->id);
         } else {
-            $product->visible=1;
             $product->save();
-            return redirect("/products")->with("success","The product is visible NOW");
         }
     }
 
+    // Change visibility of any product by admin
+    public function change_visibility($id){
+        $product = Product::find($id);
+
+        if($product->visible == 1) {
+
+            $product->visible = 0;
+            $product->save();
+
+            return redirect("/products")->with("success","The product is invisible NOW");
+
+        } else {
+
+            $product->visible = 1;
+            $product->save();
+
+            return redirect("/products")->with("success","The product is visible NOW");
+
+        }
+    }
+
+    // Search for products
     public function search(Request $request) {
         $strword=$request->input('text');
         if(strlen($strword)==0){
