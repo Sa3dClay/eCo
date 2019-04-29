@@ -70,13 +70,13 @@ class AdminDashboard extends Controller
             $user->blocked = 0;
             $user->save();
             $this->userToUnblock($user->id, "normal");
-            return redirect('dashboard/admin/users')->withSuccess('Unblocked user successfuly');
+            return redirect('dashboard/admin/users')->withSuccess('Unblocked user successfully');
         } else {
             // we need to block the user
             $user->blocked = 1;
             $user->save();
             $this->userToBlock($user->id, "normal");
-            return redirect('dashboard/admin/users')->withSuccess('Blocked user successfuly ');
+            return redirect('dashboard/admin/users')->withSuccess('Blocked user successfully ');
         }
     }
 
@@ -84,14 +84,14 @@ class AdminDashboard extends Controller
         $admin = Admin::find($request->input('user_id'));
         if($admin->blocked){
             // seller blocked and we need to unblock him
-            $admin->blocked = 1;
+            $admin->blocked = 0;
             $admin->save();
-            return redirect('dashboard/admin/users')->withSuccess('Unblocked user successfuly');
+            return redirect('dashboard/admin/users')->withSuccess('Unblocked Seller successfully');
         } else {
             // we need to block the seller
-            $user->blocked = 0;
-            $user->save();
-            return redirect('dashboard/admin/users')->withSuccess('Blocked user successfuly ');
+            $admin->blocked = 1;
+            $admin->save();
+            return redirect('dashboard/admin/users')->withSuccess('Blocked Seller successfully ');
         }
     }
 
@@ -108,7 +108,7 @@ class AdminDashboard extends Controller
         $seller = Admin::find($request->input('user_id'));
 
         if($seller->delete())
-            return redirect('dashboard/admin/users')->withSuccess('User has been deleted');
+            return redirect('dashboard/admin/users')->withSuccess('Seller has been deleted');
         else
             return redirect('dashboard/admin/users')->withDanger('Something wrong has happened');
     }

@@ -63,6 +63,8 @@ Route::group(['prefix' => 'dashboard/admin', 'middleware' => ['admin']], functio
 
   Route::post('/blockuser', 'AdminDashboard@blockUser');
   Route::post('/deleteuser', 'AdminDashboard@deleteUser');
+  Route::post('/blockSeller', 'AdminDashboard@blockSeller');
+  Route::post('/deleteSeller', 'AdminDashboard@deleteSeller');
 });
 
 // seller route
