@@ -284,6 +284,15 @@ class ProductsController extends Controller
         }
     }
 
+    // Update number of sold product
+    public function update_nSold($id, $qnt) {
+        $product = Product::find($id);
+
+        $product->n_sold = $product->n_sold + $qnt;
+
+        $product->save();
+    }
+
     // Change visibility of any product by admin
     public function change_visibility($id){
         $product = Product::find($id);

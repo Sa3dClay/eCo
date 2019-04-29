@@ -159,15 +159,16 @@ class InvoiceController extends Controller
                 // Remove a quantity of product from products table
                 $proCtr->update_qunatity($pro->id, $pro->n_of_pro);
 
+                // Update number of sold items for each product
+                $proCtr->update_nSold($pro->id, $pro->n_of_pro);
+
             }
 
             // Removing all products from user's cart
             $cart->remove_all_from_cart();
 
-<<<<<<< HEAD
-=======
             $this->userOrder(Auth::user()->id, $invoice->id, "normal");
->>>>>>> d78985414b18567cc559996698a5cab89126d928
+
             return redirect('/products')->with('success', 'Your order is submited');
             
         } else {
