@@ -144,11 +144,12 @@ class ProductsController extends Controller
         //passing array of products in cart of this user to check if it the product is add or no
         $cart = CartController::checkAdded();
         $wl = wish_listController::checkAdded();
-
+        $countNew = NotificationController::checkAdded();
         $data = [
-            'product' => $product,
+            'products' => $products,
             'cartpros' => $cart,
             'wishlistProducts' => $wl,
+            'countNew' => $countNew
         ];
 
         return view('products.show')->with($data);

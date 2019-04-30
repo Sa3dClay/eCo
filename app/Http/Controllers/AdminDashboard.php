@@ -25,7 +25,7 @@ class AdminDashboard extends Controller
     public function index()
     {
        $countNew = NotificationController::checkAdded();
-        return view('dashboards.admin.index')->with($countNew);
+        return view('dashboards.admin.index')->with('countNew',$countNew);
     }
 
     public function showRegister() {

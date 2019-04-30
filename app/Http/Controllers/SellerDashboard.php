@@ -10,9 +10,10 @@ class SellerDashboard extends Controller
     {
         $this->middleware('admin');
     }
-    
+
     public function index()
     {
-        return view('dashboards.seller.index');
+        $countNew = NotificationController::checkAdded();
+        return view('dashboards.seller.index')->with('countNew',$countNew);
     }
 }
