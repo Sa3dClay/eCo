@@ -94,54 +94,56 @@ class InvoiceController extends Controller
     {
         //
         if( !Auth::guest() ) {
-            $this->validate($request, [
-                'address' => 'required',
-                'country' => 'required',
-                'city' => 'required',
-                'phone_number' => 'required',
-                'zip_code' => 'required',
-                'payment_m' => 'required'
-            ]);
-
             // Create Invoice
             $invoice = new Invoice;
+            if($request->input('use_info')==1 && $this->check_for_recent()){
+              $invoice=$this->use_recent_data($invoice);
+            }else{
+              $this->validate($request, [
+                  'address' => 'required',
+                  'country' => 'required',
+                  'city' => 'required',
+                  'phone_number' => 'required',
+                  'zip_code' => 'required',
+                  'payment_m' => 'required'
+              ]);
 
-            switch ($request->input('payment_m')) {
-                case 'Bank Account':
-                    $this->validate($request, [
-                        'bankNumber' => 'required'
-                    ]);
-                    $invoice->visaORacc  = $request->input('bankNumber');
-                    break;
-                case 'Visa':
-                    $this->validate($request, [
-                        'visaNumber' => 'required'
-                    ]);
-                    $invoice->visaORacc  = $request->input('visaNumber');
-                    break;
-                case 'PayPal':
-                    $this->validate($request, [
-                        'paypalAccount' => 'required'
-                    ]);
-                    $invoice->visaORacc  = $request->input('paypalAccount');
-                    break;
+              switch ($request->input('payment_m')) {
+                  case 'Bank Account':
+                      $this->validate($request, [
+                          'bankNumber' => 'required'
+                      ]);
+                      $invoice->visaORacc  = $request->input('bankNumber');
+                      break;
+                  case 'Visa':
+                      $this->validate($request, [
+                          'visaNumber' => 'required'
+                      ]);
+                      $invoice->visaORacc  = $request->input('visaNumber');
+                      break;
+                  case 'PayPal':
+                      $this->validate($request, [
+                          'paypalAccount' => 'required'
+                      ]);
+                      $invoice->visaORacc  = $request->input('paypalAccount');
+                      break;
 
-                default:
-                    return view("error");
+                  default:
+                      return view("error");
+              }
+
+              $invoice->user_id = Auth::user()->id;
+              $invoice->address = $request->input('address');
+              $invoice->country = $request->input('country');
+              $invoice->city = $request->input('city');
+              $invoice->phone_number = $request->input('phone_number');
+              $invoice->zip_code = $request->input('zip_code');
+              $invoice->payment_m = $request->input('payment_m');
+
+              $this->update_recent_data($invoice);
             }
-
-            $invoice->user_id = Auth::user()->id;
-            $invoice->address = $request->input('address');
-            $invoice->country = $request->input('country');
-            $invoice->city = $request->input('city');
-            $invoice->phone_number = $request->input('phone_number');
-            $invoice->zip_code = $request->input('zip_code');
-            $invoice->payment_m = $request->input('payment_m');
-
-            $this->update_recent_data();
-            // Store Invoice
+              // Store Invoice
             $invoice->save();
-
             $invoiceID = $invoice->id;
 
             // Add Sold Products
@@ -230,11 +232,30 @@ class InvoiceController extends Controller
     private function update_recent_data($invoice){
         User::where('id',Auth::user()->id)->update(array('address' => $invoice->address,
          'country' => $invoice->country, 'city' => $invoice->city, 'phone_number' => $invoice->phone_number,
-          'zip_code' => $invoice->zip_code, 'payment_m'=> $invoice->payment_m));
+          'zip_code' => $invoice->zip_code, 'payment_m'=> $invoice->payment_m, 'visaORacc' => $invoice->visaORacc));
 
     }
 
-    private function use_recent_data(Request $request){
+    private function use_recent_data($invoice){
+      $user = User::find(Auth::user()->id);
 
+      $invoice->user_id = $user->id;
+      $invoice->address = $user->address;
+      $invoice->country = $user->country;
+      $invoice->city = $user->city;
+      $invoice->phone_number = $user->phone_number;
+      $invoice->zip_code = $user->zip_code;
+      $invoice->payment_m = $user->payment_m;
+      $invoice->visaORacc = $user->visaORacc;
+
+      return $invoice;
+    }
+
+    private function check_for_recent(){
+       $user = User::find(Auth::user()->id);
+       if($user->visaORacc==null){
+         return false;
+       }
+      return true;
     }
 }

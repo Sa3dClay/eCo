@@ -118,7 +118,7 @@
                   <div class="col-md-12">
                       <div class="form-group">
                           {{Form::label('address', 'Address')}}
-                          {{Form::text('address', '', ['class' => 'form-control', 'placeholder' => 'Address' ,'required'])}}
+                          {{Form::text('address', '', ['class' => 'form-control', 'placeholder' => 'Address'])}}
                       </div>
                   </div>
               </div>
@@ -127,7 +127,7 @@
                   <div class="col-md-12">
                       <div class="form-group">
                           {{Form::label('country', 'Country')}}
-                          {{Form::text('country', '', ['class' => 'form-control', 'placeholder' => 'Country' ,'required'])}}
+                          {{Form::text('country', '', ['class' => 'form-control', 'placeholder' => 'Country'])}}
                       </div>
                   </div>
               </div>
@@ -136,7 +136,7 @@
                   <div class="col-md-12">
                       <div class="form-group">
                           {{Form::label('city', 'City')}}
-                          {{Form::text('city', '', ['class' => 'form-control', 'placeholder' => 'City' ,'required'])}}
+                          {{Form::text('city', '', ['class' => 'form-control', 'placeholder' => 'City'])}}
                       </div>
                   </div>
               </div>
@@ -145,7 +145,7 @@
                   <div class="col-md-12">
                       <div class="form-group">
                           {{Form::label('phone_number', 'Phone Number')}}
-                          {{Form::number('phone_number', '', ['class' => 'form-control', 'placeholder' => 'Phone Number' ,'required' , 'maxlength'=>20 , 'oninput' => "maxLengthCheck(this)"])}}
+                          {{Form::number('phone_number', '', ['class' => 'form-control', 'placeholder' => 'Phone Number', 'maxlength'=>20 , 'oninput' => "maxLengthCheck(this)"])}}
                       </div>
                   </div>
               </div>
@@ -154,7 +154,7 @@
                   <div class="col-md-12">
                       <div class="form-group">
                           {{Form::label('zip_code', 'Zip Code')}}
-                          {{Form::number('zip_code', '', ['class' => 'form-control', 'placeholder' => 'Zip Code' ,'required','maxlength'=>10 ,  'oninput' => "maxLengthCheck(this)"])}}
+                          {{Form::number('zip_code', '', ['class' => 'form-control', 'placeholder' => 'Zip Code' ,'maxlength'=>10 ,  'oninput' => "maxLengthCheck(this)"])}}
                       </div>
                   </div>
               </div>
