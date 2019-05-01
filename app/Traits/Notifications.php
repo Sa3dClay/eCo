@@ -28,8 +28,10 @@ trait Notifications {
     public function createSeller($id, $role) {
         $alert = new Notification;
         $alert->user_id = $id;
-        $alert->title = "Add new seller";
-        $alert->message = "You've just added a new seller successfully";
+        //$alert->title = "Add new seller";
+        //$alert->message = "You've just added a new seller successfully";
+        $alert->title = "Add new member";
+        $alert->message = "You've just added a new member successfully";
         $alert->user_role = $role;
         $alert->save();
     }
@@ -62,15 +64,16 @@ trait Notifications {
     }
 
     public function sellerProduct($id, $name , $pro_name, $role) {
-        //$admins=Admin::where("role","admin")->get();
-        //foreach ($admins as $admin) {
+        $admins=Admin::where("role","admin")->get();
+        foreach ($admins as $admin) {
           $alert = new Notification;
-          $alert->user_id = $id;
+          //$alert->user_id = $id;
+          $alert->user_id = $admin->id; //for each admin ,send a notification
           $alert->title = "Seller " . $name . " updated his store";
           $alert->message = "Added a new product '" . $pro_name."'";
           $alert->user_role = $role;
           $alert->save();
-        //}
+        }
 
     }
 }
