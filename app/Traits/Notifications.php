@@ -49,7 +49,7 @@ trait Notifications {
         $alert = new Notification;
         $alert->user_id = $id;
         $alert->title = "Confirmation of order number " . $ord_num;
-        $alert->message = "Thank you for using eCo, we will ship your items as fast as possible.";
+        $alert->message = "Thank you for using eCo,you will receive the order in 3 or 5 days of work, we will ship your items as fast as possible.";
         $alert->user_role = $role;
         $alert->save();
     }
