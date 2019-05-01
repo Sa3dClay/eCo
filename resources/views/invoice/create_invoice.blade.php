@@ -19,9 +19,9 @@
         <br>
 
         <h2>Order</h2>
-        
+
         <br>
-        
+
         <div class="row">
             <div class="col-md-12">
                 <br>
@@ -52,7 +52,7 @@
                                         </tr>
                                         <?php $i++ ?>
                                     @endforeach
-   
+
                                     <tr>
                                         <td class="thick-line"></td>
                                         <td class="thick-line"></td>
@@ -82,9 +82,9 @@
         <hr>
 
         <h2>Personal Info</h2>
-        
+
         <br>
-        
+
         {!! Form::open(['action' => 'InvoiceController@store', 'method' => 'POST', 'enctype' => 'multipart/form-data']) !!}
 
             <div class = "row">
@@ -95,7 +95,7 @@
                             <p>{{ Auth::user()->name }}</p>
                         @else
                             <p>Guest</p>
-                        @endauth     
+                        @endauth
                     </div>
                 </div>
             </div>
@@ -108,112 +108,114 @@
                             <p>{{ Auth::user()->email }}</p>
                         @else
                             <p>Guest</p>
-                        @endauth     
+                        @endauth
                     </div>
                 </div>
             </div>
-            
-            <div class = "row">
-                <div class="col-md-12">
-                    <div class="form-group">
-                        {{Form::label('address', 'Address')}}
-                        {{Form::text('address', '', ['class' => 'form-control', 'placeholder' => 'Address' ,'required'])}}
-                    </div>
-                </div>
-            </div>
+            <input type="checkbox" id="use_info" name="use_info" value="1" onclick="change()"><b> Use my recent data</b></br></br>
+            <div class="container" id="info">
+              <div class = "row">
+                  <div class="col-md-12">
+                      <div class="form-group">
+                          {{Form::label('address', 'Address')}}
+                          {{Form::text('address', '', ['class' => 'form-control', 'placeholder' => 'Address' ,'required'])}}
+                      </div>
+                  </div>
+              </div>
 
-            <div class = "row">
-                <div class="col-md-12">
-                    <div class="form-group">
-                        {{Form::label('country', 'Country')}}
-                        {{Form::text('country', '', ['class' => 'form-control', 'placeholder' => 'Country' ,'required'])}}
-                    </div>
-                </div>
-            </div>
+              <div class = "row">
+                  <div class="col-md-12">
+                      <div class="form-group">
+                          {{Form::label('country', 'Country')}}
+                          {{Form::text('country', '', ['class' => 'form-control', 'placeholder' => 'Country' ,'required'])}}
+                      </div>
+                  </div>
+              </div>
 
-            <div class = "row">
-                <div class="col-md-12">
-                    <div class="form-group">
-                        {{Form::label('city', 'City')}}
-                        {{Form::text('city', '', ['class' => 'form-control', 'placeholder' => 'City' ,'required'])}}
-                    </div>
-                </div>
-            </div>
+              <div class = "row">
+                  <div class="col-md-12">
+                      <div class="form-group">
+                          {{Form::label('city', 'City')}}
+                          {{Form::text('city', '', ['class' => 'form-control', 'placeholder' => 'City' ,'required'])}}
+                      </div>
+                  </div>
+              </div>
 
-            <div class = "row">
-                <div class="col-md-12">
-                    <div class="form-group">
-                        {{Form::label('phone_number', 'Phone Number')}}
-                        {{Form::number('phone_number', '', ['class' => 'form-control', 'placeholder' => 'Phone Number' ,'required' , 'maxlength'=>20 , 'oninput' => "maxLengthCheck(this)"])}}
-                    </div>
-                </div>
-            </div>
+              <div class = "row">
+                  <div class="col-md-12">
+                      <div class="form-group">
+                          {{Form::label('phone_number', 'Phone Number')}}
+                          {{Form::number('phone_number', '', ['class' => 'form-control', 'placeholder' => 'Phone Number' ,'required' , 'maxlength'=>20 , 'oninput' => "maxLengthCheck(this)"])}}
+                      </div>
+                  </div>
+              </div>
 
-            <div class = "row">
-                <div class="col-md-12">
-                    <div class="form-group">
-                        {{Form::label('zip_code', 'Zip Code')}}
-                        {{Form::number('zip_code', '', ['class' => 'form-control', 'placeholder' => 'Zip Code' ,'required','maxlength'=>10 ,  'oninput' => "maxLengthCheck(this)"])}}
-                    </div>
-                </div>
-            </div>
-            
-            <hr>
+              <div class = "row">
+                  <div class="col-md-12">
+                      <div class="form-group">
+                          {{Form::label('zip_code', 'Zip Code')}}
+                          {{Form::number('zip_code', '', ['class' => 'form-control', 'placeholder' => 'Zip Code' ,'required','maxlength'=>10 ,  'oninput' => "maxLengthCheck(this)"])}}
+                      </div>
+                  </div>
+              </div>
 
-            <h2>Payment Method</h2>
-            
-            <br>
+              <hr>
 
-            <div class = "row">
-                <div class="col-md-3">
-                    <div class="form-group">
-                        <input type="radio" name="payment_m" value="Bank Account"> {{Form::label('BankAccount', 'Bank Account')}}
-                    </div>
-                </div>
-                <div class="col-md-9">
-                    <div class="form-group">
-                        {{Form::label('bankNumber', 'Bank Account number')}}
-                        {{ Form::number('bankNumber','',['class'=>'form-control','placeholder'=>'Bank Account number']) }}
-                    </div>
-                </div>
-            </div>
+              <h2>Payment Method</h2>
 
-            <div class = "row">
-                <div class="col-md-3">
-                    <div class="form-group">
-                        <input type="radio" name="payment_m" value="Visa"> {{Form::label('visa', 'Visa')}}
-                    </div>
-                </div>
-                <div class="col-md-9">
-                    <div class="form-group">
-                        {{Form::label('visaNumber', 'Visa number')}}
-                        {{ Form::number('visaNumber','',['class'=>'form-control','placeholder'=>'Visa number']) }}
-                    </div>
-                </div>
-            </div>
+              <br>
 
-            <div class = "row">
-                <div class="col-md-3">
-                    <div class="form-group">
-                        <input type="radio" name="payment_m" value="PayPal"> {{Form::label('visa', 'PayPal')}}
-                    </div>
-                </div>
-                <div class="col-md-9">
-                    <div class="form-group">
-                        {{Form::label('paypalAccount', 'PayPal')}}
-                        {{ Form::email('paypalAccount','',['class'=>'form-control','placeholder'=>'PayPal Account']) }}
-                    </div>
-                </div>
-            </div>
+              <div class = "row">
+                  <div class="col-md-3">
+                      <div class="form-group">
+                          <input type="radio" name="payment_m" value="Bank Account"> {{Form::label('BankAccount', 'Bank Account')}}
+                      </div>
+                  </div>
+                  <div class="col-md-9">
+                      <div class="form-group">
+                          {{Form::label('bankNumber', 'Bank Account number')}}
+                          {{ Form::number('bankNumber','',['class'=>'form-control','placeholder'=>'Bank Account number']) }}
+                      </div>
+                  </div>
+              </div>
+
+              <div class = "row">
+                  <div class="col-md-3">
+                      <div class="form-group">
+                          <input type="radio" name="payment_m" value="Visa"> {{Form::label('visa', 'Visa')}}
+                      </div>
+                  </div>
+                  <div class="col-md-9">
+                      <div class="form-group">
+                          {{Form::label('visaNumber', 'Visa number')}}
+                          {{ Form::number('visaNumber','',['class'=>'form-control','placeholder'=>'Visa number']) }}
+                      </div>
+                  </div>
+              </div>
+
+              <div class = "row">
+                  <div class="col-md-3">
+                      <div class="form-group">
+                          <input type="radio" name="payment_m" value="PayPal"> {{Form::label('visa', 'PayPal')}}
+                      </div>
+                  </div>
+                  <div class="col-md-9">
+                      <div class="form-group">
+                          {{Form::label('paypalAccount', 'PayPal')}}
+                          {{ Form::email('paypalAccount','',['class'=>'form-control','placeholder'=>'PayPal Account']) }}
+                      </div>
+                  </div>
+              </div>
+          </div>
             {{Form::submit('Order', ['class'=>'btn btn-primary'])}}
-            
+
         {!! Form::close() !!}
 
         <br>
 
     </div>
-    
-    
+
+
     <script>
 
         function maxLengthCheck(object)
@@ -221,7 +223,16 @@
             if (object.value.length > object.maxLength)
             object.value = object.value.slice(0, object.maxLength)
         }
+        function change() {
+          var checkBox = document.getElementById("use_info");
+          var info = document.getElementById("info");
+          if (checkBox.checked == true){
+            info.style.display = "none";
+          } else {
+            info.style.display = "block";
+          }
+        }
 
     </script>
-    
+
 @endsection

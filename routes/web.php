@@ -22,7 +22,6 @@ Route::resource('invoice', 'InvoiceController');
 
 Route::get('contact', 'ReportController@create');
 Route::post('contact', 'ReportController@store');
-Route::get('/invoice/use_my_data', 'InvoiceController@use_my_data');
 
 Route::get('/wishlist/{id}/remove_from_wishlist', 'wish_listController@remove_from_WishList')->name('remove_from_wishList');
 

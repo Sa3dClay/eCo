@@ -175,7 +175,7 @@ class InvoiceController extends Controller
 
             $this->userOrder(Auth::user()->id, $invoice->id, "normal");
 
-            return redirect('/products')->with('success', 'Your order is submited');
+            return redirect('/products')->with('success', 'Your order is submited ,you will receive the order in 5 days of work');
 
         } else {
             return redirect('/products')->with('error', 'You are not authorized to add product');
@@ -234,7 +234,7 @@ class InvoiceController extends Controller
 
     }
 
-    public function use_recent_data(){
+    private function use_recent_data(Request $request){
 
     }
 }
