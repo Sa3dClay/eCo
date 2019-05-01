@@ -35,11 +35,11 @@
 
                     </div>
                 </div>
-                
+
                 <div class="col-md-8">
                     <div class="product-content-right">
                         <div class="woocommerce">
-                            
+
                             <table cellspacing="0" class="shop_table cart">
                                 <thead>
                                     <tr>
@@ -57,7 +57,7 @@
 
                                     @if( isset($products) && count($products) > 0 )
                                         @foreach ($products as $product)
-                                        
+
                                             <tr class="cart_item">
                                                 {{-- Here you can remove product when you click the button --}}
                                                 <td class="product-remove">
@@ -67,37 +67,37 @@
                                                     {!! Form::close() !!} --}}
                                                     <a title="Remove this item" class="remove" href="{{ url('cart/' . $product->id .'/remove_from_cart') }}">
                                                         <i class="glyphicon glyphicon-remove"></i>
-                                                    </a> 
+                                                    </a>
                                                 </td>
-    
+
                                                 <td class="product-thumbnail">
                                                     <a href="{{ url('products/' . $product->id) }}"><img width="145" height="145" alt="poster_1_up" class="shop_thumbnail" src="{{ asset( '/storage/profile_pics/' . $product->profile_pic ) }}"></a>
                                                 </td>
-    
+
                                                 <td class="product-name">
-                                                    <a href="{{ url('products/' . $product->id) }}">{{ $product->name }}</a> 
+                                                    <a href="{{ url('products/' . $product->id) }}">{{ $product->name }}</a>
                                                 </td>
-    
+
                                                 <td class="product-price">
-                                                    <span class="amount">${{ $product->price }}</span> 
+                                                    <span class="amount">${{ $product->price }}</span>
                                                 </td>
-                                                
+
                                                 {!! Form::open(['action' => ['CartController@update',$product->id],'method'=>'PUT']) !!}
                                                 <td class="product-quantity">
                                                     <div class="quantity buttons_added">
-                                                        
+
                                                         <input type="number" size="4" name="qty" class="input-text qty text" title="Qty" value="{{ $product->n_of_pro }}" min="1" max="{{ $product->quantity }}" step="1">
-                                                        
+
                                                         {{-- <input href="" type="submit"  value="Update Cart" class="button"> --}}
                                                         {{Form::hidden('_method','PUT')}}
-                                                        {{Form::submit('Update', ['class'=>'btn btn-primary'])}}    
+                                                        {{Form::submit('Update', ['class'=>'btn btn-primary'])}}
                                                     </div>
                                                 </td>
                                                 {!! Form::close() !!}
-    
+
                                                 <td class="product-subtotal">
                                                     {{-- Here will be the total price --}}
-                                                    <span class="amount">${{ $product->price }}</span> 
+                                                    <span class="amount">${{ $product->price }}</span>
                                                 </td>
                                             </tr>
                                         @endforeach
@@ -150,12 +150,13 @@
 
                                                 <tr class="shipping">
                                                     <th>Shipping and Handling</th>
-                                                    <td>Free Shipping</td>
+                                                    <td>%15</td>
                                                 </tr>
 
                                                 <tr class="order-total">
                                                     <th>Order Total</th>
-                                                    <td><strong><span class="amount">${{ $totalCost }}</span></strong> </td>
+                                                    <!-- %15 for shipping -->
+                                                    <td><strong><span class="amount">${{ $totalCost+(0.15*$totalCost) }}</span></strong> </td>
                                                 </tr>
                                             </tbody>
                                         </table>
@@ -169,7 +170,7 @@
                                     <section id="calcalute-shipping-wrap" class="shipping-calculator-form collapse">
 
                                     <p class="form-row form-row-wide">
-                                        
+
                                     </p>
 
                                     <p class="form-row form-row-wide"><input type="text" id="calc_shipping_state" name="calc_shipping_state" placeholder="State / county" value="" class="input-text"> </p>
@@ -180,16 +181,16 @@
 
                                     </section>
                                 </form> --}}
-                                
-                                
+
+
 
                                 <a href="{{ url('/invoice/create') }}" ><button type="button" class="btn btn-success" >Check Out</button></a>
 
 
 
                             </div>
-                        </div>                        
-                    </div>                    
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>

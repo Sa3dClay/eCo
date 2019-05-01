@@ -25,7 +25,7 @@ class CartController extends Controller
     {
         // Here we will get all products that in customer cart, and also get all info fer each product -> inner join
         if( isset(Auth::user()->id) ) {
-            
+
             $products = $this->getAllCartProducts();
             $totalCost = $this->getTotalCost();
 
@@ -62,12 +62,12 @@ class CartController extends Controller
         if(!Auth::guest() && Auth::user()->is_admin != 1)
         {
             $cart = new Cart;
-            
+
             $cart->user_id = Auth::user()->id ;
             $cart->pro_id = $request->input('id') ;
             $cart->n_of_pro = 1;
             $cart->save();
-            
+
             return back()->with('success', "Product was added to cart successfuly");
         }
     }
@@ -125,7 +125,7 @@ class CartController extends Controller
         if(!Auth::guest() && Auth::user()->is_admin != 1)
         {
             $cart = Cart::select(['pro_id'])->where('user_id', Auth::user()->id)->get()->toArray();
-            
+
             // $cart = null;
             if($cart != null)
             {
@@ -137,10 +137,10 @@ class CartController extends Controller
                         array_push($result,$value);
                     }
                 }
-                
+
                 return array_unique($result);
             }
-            
+
         }
         return [];
     }
@@ -148,7 +148,7 @@ class CartController extends Controller
     // remove product from cart
     public function remove_from_cart($pro_id) {
         if( isset(Auth::user()->id) ) {
-            
+
             $check = DB::table('cart')->where([
                 ['user_id', '=', Auth::user()->id],
                 ['pro_id', '=', $pro_id],
@@ -174,7 +174,7 @@ class CartController extends Controller
     public function remove_from_all_carts($pro_id) {
 
         $check = DB::table('cart')->where('pro_id', $pro_id)->delete();
-        
+
         return $check;
     }
 
@@ -201,7 +201,6 @@ class CartController extends Controller
             foreach($products as $pro) {
                 $total += $pro->price * $pro->n_of_pro;
             }
-
             return $total;
         }
     }
@@ -211,7 +210,7 @@ class CartController extends Controller
     {
 
         if( isset(Auth::user()->id) ) {
-            
+
             $products = $this->getAllCartProducts();
 
             foreach($products as $pro)
@@ -221,7 +220,7 @@ class CartController extends Controller
                     ['user_id', '=', Auth::user()->id],
                     ['pro_id', '=', $pro->id],
                 ])->delete();
-    
+
                 if( $check ) {
                     continue;
                 }

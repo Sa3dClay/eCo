@@ -7,7 +7,7 @@ use App\Http\Controllers\CartController;
 use Illuminate\Support\Facades\Auth;
 use App\Sold_products;
 use App\Invoice;
-
+use App\User;
 use App\Traits\Notifications;
 
 class InvoiceController extends Controller
@@ -20,6 +20,11 @@ class InvoiceController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+     public function __construct()
+     {
+         $this->middleware('auth');
+     }
+
     public function index()
     {
         //don't forget this data
@@ -56,7 +61,7 @@ class InvoiceController extends Controller
                 //  $total_Cost_For_Each_Product[$pro->id] = $pro->price * $pro->n_of_pro;
                 array_push($total_Cost_For_Each_Product , $pro->price * $pro->n_of_pro);
             }
-            
+
             $cart = CartController::checkAdded();
             $wl = wish_listController::checkAdded();
             $countNew = NotificationController::checkAdded();
@@ -133,6 +138,7 @@ class InvoiceController extends Controller
             $invoice->zip_code = $request->input('zip_code');
             $invoice->payment_m = $request->input('payment_m');
 
+            $this->update_recent_data();
             // Store Invoice
             $invoice->save();
 
@@ -170,7 +176,7 @@ class InvoiceController extends Controller
             $this->userOrder(Auth::user()->id, $invoice->id, "normal");
 
             return redirect('/products')->with('success', 'Your order is submited');
-            
+
         } else {
             return redirect('/products')->with('error', 'You are not authorized to add product');
         }
@@ -219,5 +225,16 @@ class InvoiceController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    private function update_recent_data($invoice){
+        User::where('id',Auth::user()->id)->update(array('address' => $invoice->address,
+         'country' => $invoice->country, 'city' => $invoice->city, 'phone_number' => $invoice->phone_number,
+          'zip_code' => $invoice->zip_code, 'payment_m'=> $invoice->payment_m));
+
+    }
+
+    public function use_recent_data(){
+
     }
 }
