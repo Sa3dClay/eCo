@@ -4,15 +4,17 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\CartController;
+use App\Http\Controllers\PDFController;
 use Illuminate\Support\Facades\Auth;
 use App\Sold_products;
 use App\Invoice;
 use App\User;
 use App\Traits\Notifications;
+use Cookie;
 
 class InvoiceController extends Controller
 {
-
+    private $cartController;
     use Notifications;
 
     /**
@@ -22,6 +24,7 @@ class InvoiceController extends Controller
      */
      public function __construct()
      {
+         $this->cartController = new CartController;
          $this->middleware('auth');
      }
 
@@ -51,9 +54,8 @@ class InvoiceController extends Controller
         //
         if( isset(Auth::user()->id) ) {
 
-            $cartController = new CartController;
-            $products = $cartController->getAllCartProducts();
-            $totalCost = $cartController->getTotalCost();
+            $products = $this->cartController->getAllCartProducts();
+            $totalCost = $this->cartController->getTotalCost();
 
             $total_Cost_For_Each_Product = array();
 
@@ -65,6 +67,7 @@ class InvoiceController extends Controller
             $cart = CartController::checkAdded();
             $wl = wish_listController::checkAdded();
             $countNew = NotificationController::checkAdded();
+            $total=$totalCost + ( $totalCost * 0.05 );
 
             $data = [
                 'cartpros' => $cart,
@@ -72,12 +75,16 @@ class InvoiceController extends Controller
                 'countNew' => $countNew,
                 'products' => $products,
                 'subTotalCost' => $totalCost,
-                'totalCost_per_prodcut' => $total_Cost_For_Each_Product,
-                'eCoPercintage' => "15%",
-                'totalCost' => $totalCost + ( $totalCost * 0.15 )
+                'totalCost_per_product' => $total_Cost_For_Each_Product,
+                'eCoPercintage' => "5%",
+                'totalCost' => $total
             ];
 
-            return view('invoice.create_invoice')->with($data);
+            if($total!=0){
+              return view('invoice.create_invoice')->with($data);
+            }else{
+                return redirect('/products');
+            }
         } else {
             return redirect('/')->with('error', 'You are not authorized to show this page');
         }
@@ -171,13 +178,22 @@ class InvoiceController extends Controller
                 $proCtr->update_nSold($pro->id, $pro->n_of_pro);
 
             }
+            $pdf=new PDFController();
+            $pdf->products = $this->cartController->getAllCartProducts();
+            $pdf->user=User::find(Auth::user()->id);
+            $totalCost = $this->cartController->getTotalCost();
+            $pdf->total=$totalCost + ( $totalCost * 0.05 );
 
             // Removing all products from user's cart
             $cart->remove_all_from_cart();
 
             $this->userOrder(Auth::user()->id, $invoice->id, "normal");
 
-            return redirect('/products')->with('success', 'Your order is submited ,you will receive the order in 5 days of work');
+            //redirect('/products')->with('success', 'Your order is submited ,you will receive the order in 5 days of work');
+            //sleep(5);
+            //print_r($pdf->product);
+            return $pdf->loadPDF();
+            //return redirect('/products')->with('success', 'Your order is submited ,you will receive the order in 5 days of work');
 
         } else {
             return redirect('/products')->with('error', 'You are not authorized to add product');
@@ -258,4 +274,5 @@ class InvoiceController extends Controller
        }
       return true;
     }
+
 }
