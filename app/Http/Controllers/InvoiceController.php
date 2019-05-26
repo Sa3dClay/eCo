@@ -149,6 +149,16 @@ class InvoiceController extends Controller
 
               $this->update_recent_data($invoice);
             }
+            //pdf
+            $pdf=new PDFController();
+            $pdf->products = $this->cartController->getAllCartProducts();
+            $pdf->user= User::find(Auth::user()->id);
+
+            $totalCost = $this->cartController->getTotalCost();
+            $totalCost =$totalCost + ( $totalCost * 0.05 );
+            $invoice->total_cost = $totalCost;
+
+            $pdf->total=  $totalCost;
               // Store Invoice
             $invoice->save();
             $invoiceID = $invoice->id;
@@ -178,12 +188,6 @@ class InvoiceController extends Controller
                 $proCtr->update_nSold($pro->id, $pro->n_of_pro);
 
             }
-            $pdf=new PDFController();
-            $pdf->products = $this->cartController->getAllCartProducts();
-            $pdf->user=User::find(Auth::user()->id);
-            $totalCost = $this->cartController->getTotalCost();
-            $pdf->total=$totalCost + ( $totalCost * 0.05 );
-
             // Removing all products from user's cart
             $cart->remove_all_from_cart();
 
