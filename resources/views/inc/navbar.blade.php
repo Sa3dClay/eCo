@@ -16,6 +16,9 @@
         case 'invoice.create':
             $invo = true;
             break;
+        case 'orders.index':
+            $ord = true;
+            break;
         default:
             // code
             break;
@@ -36,19 +39,20 @@
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
                     <li class="<?php if(isset($home)) echo 'active' ?>"><a href="{{ url('/') }}">Home</a></li>
-                    
+
                     <li class="<?php if(isset($shop)) echo 'active' ?>"><a href="{{ url('/products') }}">Shop</a></li>
-                    
+
                     @if(Auth::guard('admin')->check())
                         @if(Auth::guard('admin')->user()->role == 'admin')
+                          <li class="<?php if(isset($ord)) echo 'active' ?>"><a href="{{url('orders')}}">Orders</a></li>
                             <li class="<?php if(isset($repo)) echo 'active' ?>"><a href="{{url('reports')}}">Reports</a></li>
                         @endif
-                        
+
                         <li><a href="{{ route('get_my_products') }}">MY PRODUCTS</a></li>
 
                     @elseif( Auth::user() )
                         <li class="<?php if(isset($cart)) echo 'active' ?>"><a href="{{ url('cart') }}">Cart</a></li>
-                        
+
                         <li class="<?php if(isset($invo)) echo 'active' ?>"><a href="{{ url('/invoice/create') }}">Checkout</a></li>
                     @endif
 
