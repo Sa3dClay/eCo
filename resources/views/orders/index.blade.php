@@ -18,8 +18,8 @@
           <table id="mytable" class="table table-bordred table-striped">
             <thead>
               <th>Order info.</th>
-              <th>Shipping</th>
-              <th>cancelling</th>
+              <th>Ship the order</th>
+              <th>cancel the order</th>
             </thead>
 
             <tbody>
@@ -48,6 +48,7 @@
             <thead>
               <th>Order info.</th>
               <th>status</th>
+              <th>change status</th>
             </thead>
 
             <tbody>

@@ -81,4 +81,26 @@ class OrdersController extends Controller
     {
         //
     }
+
+    public static function make_order($invoice_id,$products){
+      foreach ($products as $product) {
+        $order=new $Order;
+        $order->invoice_id=$invoice_id;
+        $order->product_id=$product->id;
+        $order->n_of_pro=$product->n_of_pro;
+        $order->status="new";
+        $order->save();
+      }
+
+    }
+
+    public function start_shipping($id)
+    {
+        //
+    }
+
+    public function set_status($id,$status)
+    {
+        //
+    }
 }
