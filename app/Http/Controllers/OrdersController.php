@@ -1,8 +1,11 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use App\Http\Controllers\PDFController;
+use App\Http\Controllers\InvoiceController;
 use Illuminate\Http\Request;
+use App\Order;
+use App\Invoice;
 
 class OrdersController extends Controller
 {
@@ -11,9 +14,27 @@ class OrdersController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+     public function __construct()
+     {
+         $this->middleware('admin');
+     }
+
     public function index()
     {
-        return view('orders.index');
+      if(Auth::guard('admin')->user()->role == 'admin'){
+        $invoices= InvoiceController::collect_invoices();
+        $orders=Order::orderBy('created_at','asc')->get();
+
+        $countNew = NotificationController::checkAdded();
+
+        $data = [
+            'orders' => $orders,
+            'countNew' => $countNew
+        ];
+         return view('orders.index')->with($data);
+       }else{
+           return redirect('/')->with("error","You are not authorized to view this page");
+       }
     }
 
     /**

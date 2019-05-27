@@ -10,7 +10,6 @@ use App\Sold_products;
 use App\Invoice;
 use App\User;
 use App\Traits\Notifications;
-use Cookie;
 
 class InvoiceController extends Controller
 {
@@ -25,23 +24,26 @@ class InvoiceController extends Controller
      public function __construct()
      {
          $this->cartController = new CartController;
-         $this->middleware('auth');
+         $this->middleware('auth',['except'=>['index']]);
+         $this->middleware('admin',['only'=>['index']]);
      }
 
     public function index()
     {
-        //don't forget this data
+      if(Auth::guard('admin')->user()->role == 'admin'){
+        $invoices=Invoice::orderBy('created_at','asc')->get();
 
-        // $cart = CartController::checkAdded();
-        // $wl = wish_listController::checkAdded();
-        // $countNew = NotificationController::checkAdded();
-        //
-        // $data = [
-        //     'notifications' => $notifications,
-        //     'cartpros' => $cart,
-        //     'wishlistProducts' => $wl,
-        //     'countNew' => $countNew
-        // ];
+        $countNew = NotificationController::checkAdded();
+
+        $data = [
+            'invoices' => $invoices,
+            'countNew' => $countNew
+        ];
+
+        return view('invoice.index')->with($data);
+      }else{
+          return redirect('/')->with("error","You are not authorized to view this page");
+      }
     }
 
     /**
@@ -277,6 +279,16 @@ class InvoiceController extends Controller
          return false;
        }
       return true;
+    }
+
+    public static function collect_invoices(){
+       return Invoice::all();
+    }
+
+    public static function get_user_address($invoice_id){
+         $user=Invoice::find($invoice_id)->user;
+         $address=$user->country .','.$user->city.','.$user->address;
+         return $address;
     }
 
 }

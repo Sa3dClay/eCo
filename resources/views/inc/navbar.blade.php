@@ -44,7 +44,7 @@
 
                     @if(Auth::guard('admin')->check())
                         @if(Auth::guard('admin')->user()->role == 'admin')
-                          <li class="<?php if(isset($ord)) echo 'active' ?>"><a href="{{url('orders')}}">Orders</a></li>
+                          <li class="<?php if(isset($ord)) echo 'active' ?>"><a href="{{url('invoice')}}">Orders</a></li>
                             <li class="<?php if(isset($repo)) echo 'active' ?>"><a href="{{url('reports')}}">Reports</a></li>
                         @endif
 

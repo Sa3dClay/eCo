@@ -18,7 +18,6 @@ class CreateOrdersTable extends Migration
             $table->integer('invoice_id')->nullable(false);
             $table->integer('product_id')->nullable(false);
             $table->integer('n_of_pro')->nullable(false);
-            $table->string('status',20)->nullable(false);
             $table->timestamps();
         });
     }

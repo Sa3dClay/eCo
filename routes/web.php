@@ -23,6 +23,7 @@ Route::resource('orders', 'OrdersController');
 
 Route::get('contact', 'ReportController@create');
 Route::post('contact', 'ReportController@store');
+Route::get('user_address', 'InvoiceController@get_user_address')->name('user_address');
 
 Route::get('/wishlist/{id}/remove_from_wishlist', 'wish_listController@remove_from_WishList')->name('remove_from_wishList');
 
