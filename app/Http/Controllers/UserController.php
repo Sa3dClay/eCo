@@ -30,6 +30,17 @@ class UserController extends Controller
   }
 
   public function update(Request $request){
-  
+      $user = User::find(auth()->user()->id);
+      $user->name = $request->input('name');
+      $user->phone_number = $request->input('phone_number');
+      $user->country = $request->input('country');
+      $user->city = $request->input('city');
+      $user->address = $request->input('address');
+      $user->zip_code = $request->input('zip_code');
+      if($user->save()){
+        return redirect('/products')->with('success','Your account has been updated');
+      }else{
+        return redirect('/products')->with('error',"Can't update updated your account");
+      }
   }
 }

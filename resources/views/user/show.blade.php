@@ -82,7 +82,8 @@
                     </div>
                 </div>
             </div>
-
+            @csrf
+            {{ method_field('PUT') }}
             {{Form::hidden('_method','PUT')}}
             {{Form::submit('Update', ['class'=>'btn btn-primary'])}}
 
