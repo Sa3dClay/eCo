@@ -15,6 +15,9 @@ use App\Http\Controllers\InvoiceController;
 Route::get('/', 'PagesController@index')->name('welcome');
 Route::get('invoice/my_orders', 'InvoiceController@get_my_invoices')->name('my_orders');
 
+Route::get('user/info', 'UserController@show')->name('show_user');
+Route::post('user/update', 'UserController@update')->name('update_user');
+
 Route::resource('products', 'ProductsController');
 Route::resource('cart', 'CartController');
 Route::resource('reports', 'ReportController');

@@ -62,7 +62,7 @@
                     @endif
 
                     @if(!Auth::guard('admin')->check())
-                        <li><a href="#">About Us</a></li>
+                        <!--<li><a href="#">About Us</a></li>-->
                         <li><a href="{{ url('/contact') }}">Contact</a></li>
                     @endif
                 </ul>

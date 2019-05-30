@@ -20,10 +20,10 @@
                 <div class="footer-menu">
                     <h2 class="footer-wid-title">User Navigation </h2>
                     <ul>
-                        <li><a href="#">My account</a></li>
-                        <li><a href="#">Wishlist</a></li>
-                        <li><a href="#">Contact</a></li>
-                        <li><a href="#">Home Page</a></li>
+                        <li><a href="{{ url('/user/info') }}">My account</a></li>
+                        <li><a href="{{ url('/wishlist') }}">Wishlist</a></li>
+                        <li><a href="{{ url('/contact') }}">Contact</a></li>
+                        <li><a href="{{ url('/') }}">Home Page</a></li>
                         <li><a href="#">About Us</a></li>
                     </ul>
                 </div>
@@ -33,11 +33,11 @@
                 <div class="footer-menu">
                     <h2 class="footer-wid-title">Categories</h2>
                     <ul>
-                        <li><a href="#">Mobile Phone</a></li>
-                        <li><a href="#">Hand Watches</a></li>
-                        <li><a href="#">Laptop</a></li>
-                        <li><a href="#">LED TV</a></li>
-                        <li><a href="#">PCs</a></li>
+                        <li><a href="{{ url('/products') }}">Mobile Phone</a></li>
+                        <li><a href="{{ url('/products') }}">Hand Watches</a></li>
+                        <li><a href="{{ url('/products') }}">Laptop</a></li>
+                        <li><a href="{{ url('/products') }}">LED TV</a></li>
+                        <li><a href="{{ url('/products') }}">PCs</a></li>
                     </ul>
                 </div>
             </div>
@@ -78,6 +78,7 @@
         </div>
     </div>
 </div> <!-- End footer bottom area -->
+
 
 {{-- Font Awesome --}}
 <script src="https://use.fontawesome.com/56a2516d66.js"></script>
