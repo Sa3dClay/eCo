@@ -73,9 +73,12 @@
                     </div>
                 </div>
             </div>
+            <form method="POST" action="{{route('make_pdf',[$invoice_id,$user_id,$totalCost])}}" style="float:right;">
+              @csrf
+              <button type="submit" class="btn btn-danger btn-md" ><i class="glyphicon glyphicon-floppy-disk"></i> Generate PDF invoice</span></button>
+            </form>
         </div>
     </div>
-
 </div>
 
 

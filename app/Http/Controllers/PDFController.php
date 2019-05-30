@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use PDF;
 
 class PDFController extends Controller
@@ -13,7 +14,7 @@ class PDFController extends Controller
 
   public function __construct()
   {
-      $this->middleware('auth');
+      //$this->middleware('auth');
   }
 
   public function __set($name, $value) {
@@ -40,8 +41,16 @@ class PDFController extends Controller
   // }
 
   public function loadPDF(){
-    $pdf = PDF::loadView('invoicePDF',$this->collect_data());
-    return $pdf->download('invoice'.date("y/m/d h:m:s").'.pdf');
+    try{
+      if(!Auth::guest() || Auth::guard('admin')->check()){
+        $pdf = PDF::loadView('invoicePDF',$this->collect_data());
+        return $pdf->download('invoice'.date("y/m/d h:m:s").'.pdf');
+      }else{
+        return redirect('/')->with('error','authorization error');
+      }
+    }catch(Exception $e){
+      return back()->with("error","PDF error");
+    }
    //return redirect('/products')->with('success', 'Your order is submited ,you will receive the order in 5 days of work');
   }
 

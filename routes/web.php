@@ -31,6 +31,7 @@ Route::post('/invoice/{id}/{status}', function($id,$status){
 })->name('set_status');
 
 Route::get('orders/{id}/info', 'OrdersController@index')->name('order_info');
+Route::post('orders/{invoice_id}/{user_id}/{totalCost}/pdf', 'OrdersController@make_pdf')->name('make_pdf');
 
 Route::get('/wishlist/{id}/remove_from_wishlist', 'wish_listController@remove_from_WishList')->name('remove_from_wishList');
 

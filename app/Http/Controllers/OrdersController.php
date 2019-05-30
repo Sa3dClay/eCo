@@ -25,19 +25,23 @@ class OrdersController extends Controller
         $total_cost = $invoice->total_cost;
         $status = $invoice->status;
         $products = Order::get_products($invoice_id);
-        $user=User::find($invoice->user_id);
+          //$user=User::find($invoice->user_id);
+        if(count($products)>0){
+          $countNew = NotificationController::checkAdded();
 
-        $countNew = NotificationController::checkAdded();
-
-        $data = [
-            'products' => $products,
-            'totalCost' => $total_cost,
-            'status' => $status,
-            'user' => $user,
-            'eCoPercintage' => '5%',
-            'countNew' => $countNew
-        ];
-        return view('orders.index')->with($data);
+          $data = [
+              'products' => $products,
+              'totalCost' => $total_cost,
+              'status' => $status,
+              'user_id' => $invoice->user_id,
+              'eCoPercintage' => '5%',
+              'invoice_id' => $invoice->id,
+              'countNew' => $countNew
+          ];
+          return view('orders.index')->with($data);
+        }else{
+          return back()->with("error","this order is empty");
+        }
      }
 
     public function make_order($invoice_id,$products){
@@ -48,6 +52,14 @@ class OrdersController extends Controller
         $order->n_of_pro=$product->n_of_pro;
         $order->save();
       }
+    }
+
+    public function make_pdf($invoice_id,$user_id,$totalCost){
+        $pdf=new PDFController;
+        $pdf->products = Order::get_products($invoice_id);
+        $pdf->user = User::find($user_id);
+        $pdf->total = $totalCost;
+        return $pdf->loadPDF();
     }
 
 }
