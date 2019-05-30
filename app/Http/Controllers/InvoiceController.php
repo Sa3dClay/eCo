@@ -25,7 +25,7 @@ class InvoiceController extends Controller
      {
          $this->cartController = new CartController;
          $this->middleware('auth',['except'=>['index']]);
-         $this->middleware('admin',['only'=>['index']]);
+         $this->middleware('admin',['only'=>['index','set_status']]);
      }
 
     public function index()
@@ -281,14 +281,28 @@ class InvoiceController extends Controller
       return true;
     }
 
-    public static function collect_invoices(){
-       return Invoice::all();
-    }
+    // public static function collect_invoices(){
+    //    return Invoice::all();
+    // }
 
     public static function get_user_address($invoice_id){
          $user=Invoice::find($invoice_id)->user;
          $address=$user->country .','.$user->city.','.$user->address;
          return $address;
+    }
+
+    public function set_status($id,$status)
+    {
+       $invoice= Invoice::find($id);
+       $user= Invoice::find($id)->user;
+       $invoice->status=$status;
+       //echo $id .','.$status;
+       if($invoice->save()){
+           $this->changeStatus($user->id, $status, "normal");
+           return redirect('invoice')->with('success', 'the order is In '.$status.' status Now'); //Shipping or canceled or shipped
+      } else{
+           return redirect('invoice')->with('error', 'Can\'t change the order\'s status');
+      }
     }
 
 }

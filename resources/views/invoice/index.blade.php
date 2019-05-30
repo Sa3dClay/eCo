@@ -31,18 +31,16 @@
                       <td><a href="{{ url('') }}"><i class="glyphicon glyphicon-arrow-right"></i> Order {{$invoice->id}}</a></li></td>
                       <td>{{\App\Http\Controllers\InvoiceController::get_user_address($invoice->id)}}</td>
                       <td>
-                        <form method="POST" action="{{url('')}}">
+                        <form method="POST" action="{{route('set_status',[$invoice->id,'shipping'])}}">
                           @csrf
-                          <input type="text" hidden name="user_id" value=""/>
                           <button type="submit" class="btn btn-warning btn-md"><span class="glyphicon glyphicon-plane"> Start-Shipping</span></button>
                         </form>
                       </td>
 
                       <td>
-                        <form method="POST" action="{{url('')}}">
+                        <form method="POST" action="{{route('set_status',[$invoice->id,'canceled'])}}">
                           @csrf
-                          <input type="text" hidden name="user_id" value=""/>
-                          <button type="submit" class="btn btn-danger btn-md" ><span class="glyphicon glyphicon-trash"> cancel</span></button>
+                          <button type="submit" class="btn btn-danger btn-md" ><i class="glyphicon glyphicon-remove-sign"></i> cancel</span></button>
                         </form>
                       </td>
                     </tr>
@@ -81,19 +79,21 @@
                       <td><a href="{{ url('') }}"><i class="glyphicon glyphicon-arrow-right"></i> Order {{$invoice->id}}</a></li></td>
                       <td>{{\App\Http\Controllers\InvoiceController::get_user_address($invoice->id)}}</td>
                       <td>
-                        <form method="POST" action="{{url('')}}">
-                          @csrf
-                          <input type="text" hidden name="user_id" value=""/>
-                          <button type="submit" class="btn btn-warning btn-md"><span class="glyphicon glyphicon-plane"> Start-Shipping</span></button>
-                        </form>
+                        {{$invoice->status}}
                       </td>
 
                       <td>
-                        <form method="POST" action="{{url('')}}">
-                          @csrf
-                          <input type="text" hidden name="user_id" value=""/>
-                          <button type="submit" class="btn btn-danger btn-md" ><span class="glyphicon glyphicon-trash"> cancel</span></button>
-                        </form>
+                        @if($invoice->status=='shipping')
+                          <form method="POST" action="{{route('set_status',[$invoice->id,'shipped'])}}">
+                            @csrf
+                            <button type="submit" class="btn btn-danger btn-md" ><i class="glyphicon glyphicon-ok-sign"></i> shipped</span></button>
+                          </form>
+                        @elseif($invoice->status=='canceled')
+                          <form method="POST" action="{{route('set_status',[$invoice->id,'new'])}}">
+                            @csrf
+                            <button type="submit" class="btn btn-danger btn-md" ><i class="glyphicon glyphicon-repeat"></i> uncancel</span></button>
+                          </form>
+                        @endif
                       </td>
                     </tr>
                   @endif
