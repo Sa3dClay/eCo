@@ -20,15 +20,17 @@ Route::resource('reports', 'ReportController');
 Route::resource('wishlist', 'wish_listController');
 Route::resource('notifications', 'NotificationController');
 Route::resource('invoice', 'InvoiceController');
-Route::resource('orders', 'OrdersController');
+//Route::resource('orders', 'OrdersController');
 
 Route::get('contact', 'ReportController@create');
 Route::post('contact', 'ReportController@store');
 
 Route::post('/invoice/{id}/{status}', function($id,$status){
-  $invoice=new InvoiceController();
+  $invoice=new InvoiceController;
   return $invoice->set_status($id,$status);
 })->name('set_status');
+
+Route::get('orders/{id}/info', 'OrdersController@index')->name('order_info');
 
 Route::get('/wishlist/{id}/remove_from_wishlist', 'wish_listController@remove_from_WishList')->name('remove_from_wishList');
 

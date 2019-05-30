@@ -28,7 +28,7 @@
                 @foreach ($invoices as $invoice)
                   @if($invoice->status=='new')
                     <tr>
-                      <td><a href="{{ url('') }}"><i class="glyphicon glyphicon-arrow-right"></i> Order {{$invoice->id}}</a></li></td>
+                      <td><a href="{{ route('order_info',[$invoice->id]) }}"><i class="glyphicon glyphicon-arrow-right"></i> Order {{$invoice->id}}</a></li></td>
                       <td>{{\App\Http\Controllers\InvoiceController::get_user_address($invoice->id)}}</td>
                       <td>
                         <form method="POST" action="{{route('set_status',[$invoice->id,'shipping'])}}">
@@ -76,7 +76,7 @@
                 @foreach ($invoices as $invoice)
                   @if($invoice->status!='new')
                     <tr>
-                      <td><a href="{{ url('') }}"><i class="glyphicon glyphicon-arrow-right"></i> Order {{$invoice->id}}</a></li></td>
+                      <td><a href="{{ route('order_info',[$invoice->id]) }}"><i class="glyphicon glyphicon-arrow-right"></i> Order {{$invoice->id}}</a></li></td>
                       <td>{{\App\Http\Controllers\InvoiceController::get_user_address($invoice->id)}}</td>
                       <td>
                         {{$invoice->status}}
@@ -86,7 +86,7 @@
                         @if($invoice->status=='shipping')
                           <form method="POST" action="{{route('set_status',[$invoice->id,'shipped'])}}">
                             @csrf
-                            <button type="submit" class="btn btn-danger btn-md" ><i class="glyphicon glyphicon-ok-sign"></i> shipped</span></button>
+                            <button type="submit" class="btn btn-danger btn-md" ><i class="glyphicon glyphicon-thumbs-up"></i> shipped</span></button>
                           </form>
                         @elseif($invoice->status=='canceled')
                           <form method="POST" action="{{route('set_status',[$invoice->id,'new'])}}">

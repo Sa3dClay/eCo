@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\CartController;
+use App\Http\Controllers\OrdersController;
 use App\Http\Controllers\PDFController;
 use Illuminate\Support\Facades\Auth;
 use App\Sold_products;
@@ -164,12 +165,13 @@ class InvoiceController extends Controller
               // Store Invoice
             $invoice->save();
             $invoiceID = $invoice->id;
-
             // Add Sold Products
             $cart = new CartController;
 
             $products = $cart->getAllCartProducts();
 
+            $order = new OrdersController;
+            $order->make_order($invoiceID,$products);
             // Create object from product controller
             $proCtr = new ProductsController;
 

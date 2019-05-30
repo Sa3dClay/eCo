@@ -83,7 +83,7 @@ trait Notifications {
         if($status=='shipped')
           $alert->message = "Your order is already shipped ,thank you";
         elseif($status=='canceled')
-          $alert->message = "Unfortunately,your order is canceled. \r\n you can contact us to solve this problem urgently.";
+          $alert->message = "Unfortunately,your order is canceled. you can contact us to solve this problem urgently.";
         elseif($status=='new')
           $alert->message = "Your order's problem is solved , we are going to ship it as fast as possible";
         else
