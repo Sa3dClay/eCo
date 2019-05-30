@@ -17,7 +17,7 @@ class OrdersController extends Controller
      */
      public function __construct()
      {
-         $this->middleware('admin');
+         $this->middleware('admin',['only' => ['make_order']]);
      }
 
      public function index($invoice_id){

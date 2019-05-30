@@ -25,7 +25,7 @@ class InvoiceController extends Controller
      public function __construct()
      {
          $this->cartController = new CartController;
-         $this->middleware('auth',['except'=>['index']]);
+         $this->middleware('auth',['except'=>['get_my_invoices']]);
          $this->middleware('admin',['only'=>['index','set_status']]);
      }
 
@@ -307,4 +307,20 @@ class InvoiceController extends Controller
       }
     }
 
+    public function get_my_invoices(){
+      $invoices = Invoice::where('user_id',Auth::user->id)->orderBy('created_at','asc')->get();
+
+      $cart = CartController::checkAdded();
+      $wl = wish_listController::checkAdded();
+      $countNew = NotificationController::checkAdded();
+
+      $data = [
+          'cartpros' => $cart,
+          'wishlistProducts' => $wl,
+          'invoices' => $invoices,
+          'countNew' => $countNew
+      ];
+
+      return view('invoice.my_invoices')->with($data);
+    }
 }
