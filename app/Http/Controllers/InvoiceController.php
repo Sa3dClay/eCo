@@ -25,7 +25,7 @@ class InvoiceController extends Controller
      public function __construct()
      {
          $this->cartController = new CartController;
-         $this->middleware('auth',['except'=>['get_my_invoices']]);
+         $this->middleware('auth',['only'=>['get_my_invoices']]);
          $this->middleware('admin',['only'=>['index','set_status']]);
      }
 
@@ -300,7 +300,7 @@ class InvoiceController extends Controller
        $invoice->status=$status;
        //echo $id .','.$status;
        if($invoice->save()){
-           $this->changeStatus($user->id, $status, "normal");
+           $this->changeStatus($user->id, $status, $id, "normal");
            return redirect('invoice')->with('success', 'the order is In '.$status.' status Now'); //Shipping or canceled or shipped
       } else{
            return redirect('invoice')->with('error', 'Can\'t change the order\'s status');
@@ -308,7 +308,7 @@ class InvoiceController extends Controller
     }
 
     public function get_my_invoices(){
-      $invoices = Invoice::where('user_id',Auth::user->id)->orderBy('created_at','asc')->get();
+      $invoices = Invoice::where('user_id',auth::user()->id)->orderBy('created_at','asc')->get();
 
       $cart = CartController::checkAdded();
       $wl = wish_listController::checkAdded();

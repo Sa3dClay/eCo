@@ -19,6 +19,9 @@
         case 'orders.index':
             $ord = true;
             break;
+        case 'invoice.my_invoices':
+            $my_ord = true;
+            break;
         default:
             // code
             break;
@@ -54,6 +57,8 @@
                         <li class="<?php if(isset($cart)) echo 'active' ?>"><a href="{{ url('cart') }}">Cart</a></li>
 
                         <li class="<?php if(isset($invo)) echo 'active' ?>"><a href="{{ url('/invoice/create') }}">Checkout</a></li>
+
+                        <li class="<?php if(isset($my_ord)) echo 'active' ?>"><a href="{{ url('/invoice/my_orders') }}">My orders</a></li>
                     @endif
 
                     @if(!Auth::guard('admin')->check())
