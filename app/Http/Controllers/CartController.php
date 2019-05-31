@@ -156,8 +156,7 @@ class CartController extends Controller
 
             if( $check ) {
                 return back()->with("success", "The product has been removed from your cart");
-            }
-            else {
+            } else {
                 return back()->with("error", "Error with last action");
             }
 
@@ -166,7 +165,7 @@ class CartController extends Controller
             return $check;
 
         }*/ else {
-            back()->with("error", "Unauthorized action");
+            return back()->with("error", "Unauthorized action");
         }
     }
 
