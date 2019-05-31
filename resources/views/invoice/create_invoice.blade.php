@@ -48,7 +48,7 @@
                                             <td>{{ $pro->name }}</td>
                                             <td class="text-center">{{ $pro->price . " $"  }}</td>
                                             <td class="text-center">{{ $pro->n_of_pro }}</td>
-                                            <td class="text-right">{{ $totalCost_per_prodcut[$i] . " $" }}</td>
+                                            <td class="text-right">{{ $totalCost_per_product[$i] . " $" }}</td>
                                         </tr>
                                         <?php $i++ ?>
                                     @endforeach
@@ -207,7 +207,7 @@
                   </div>
               </div>
           </div>
-            {{Form::submit('Order', ['class'=>'btn btn-primary'])}}
+            {{Form::submit('Order', ['class'=>'btn btn-primary','id'=>'submit','onclick'=>'ifclicked()'])}}
 
         {!! Form::close() !!}
 
@@ -231,6 +231,9 @@
           } else {
             info.style.display = "block";
           }
+        }
+        function ifclicked() {
+          document.getElementById("submit").disabled = true;
         }
 
     </script>

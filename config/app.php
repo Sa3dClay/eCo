@@ -164,7 +164,7 @@ return [
 
         //added for the forms
         Collective\Html\HtmlServiceProvider::class,
-        
+
 
         /*
          * Package Service Providers...
@@ -178,6 +178,8 @@ return [
         // App\Providers\BroadcastServiceProvider::class,
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
+        //pdf
+        Barryvdh\DomPDF\ServiceProvider::class,
 
     ],
 
@@ -233,6 +235,9 @@ return [
         //added for the forms
         'Form' => Collective\Html\FormFacade::class,
         'Html' => Collective\Html\HtmlFacade::class,
+
+        //added for pdf
+        'PDF' => Barryvdh\DomPDF\Facade::class,
 
     ],
 

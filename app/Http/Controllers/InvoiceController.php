@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\CartController;
+use App\Http\Controllers\OrdersController;
+use App\Http\Controllers\PDFController;
 use Illuminate\Support\Facades\Auth;
 use App\Sold_products;
 use App\Invoice;
@@ -12,7 +14,7 @@ use App\Traits\Notifications;
 
 class InvoiceController extends Controller
 {
-
+    private $cartController;
     use Notifications;
 
     /**
@@ -22,23 +24,27 @@ class InvoiceController extends Controller
      */
      public function __construct()
      {
-         $this->middleware('auth');
+         $this->cartController = new CartController;
+         $this->middleware('auth',['only'=>['get_my_invoices']]);
+         $this->middleware('admin',['only'=>['index','set_status']]);
      }
 
     public function index()
     {
-        //don't forget this data
+      if(Auth::guard('admin')->user()->role == 'admin'){
+        $invoices=Invoice::orderBy('created_at','asc')->get();
 
-        // $cart = CartController::checkAdded();
-        // $wl = wish_listController::checkAdded();
-        // $countNew = NotificationController::checkAdded();
-        //
-        // $data = [
-        //     'notifications' => $notifications,
-        //     'cartpros' => $cart,
-        //     'wishlistProducts' => $wl,
-        //     'countNew' => $countNew
-        // ];
+        $countNew = NotificationController::checkAdded();
+
+        $data = [
+            'invoices' => $invoices,
+            'countNew' => $countNew
+        ];
+
+        return view('invoice.index')->with($data);
+      }else{
+          return redirect('/')->with("error","You are not authorized to view this page");
+      }
     }
 
     /**
@@ -51,9 +57,8 @@ class InvoiceController extends Controller
         //
         if( isset(Auth::user()->id) ) {
 
-            $cartController = new CartController;
-            $products = $cartController->getAllCartProducts();
-            $totalCost = $cartController->getTotalCost();
+            $products = $this->cartController->getAllCartProducts();
+            $totalCost = $this->cartController->getTotalCost();
 
             $total_Cost_For_Each_Product = array();
 
@@ -65,6 +70,7 @@ class InvoiceController extends Controller
             $cart = CartController::checkAdded();
             $wl = wish_listController::checkAdded();
             $countNew = NotificationController::checkAdded();
+            $total=$totalCost + ( $totalCost * 0.05 );
 
             $data = [
                 'cartpros' => $cart,
@@ -72,12 +78,16 @@ class InvoiceController extends Controller
                 'countNew' => $countNew,
                 'products' => $products,
                 'subTotalCost' => $totalCost,
-                'totalCost_per_prodcut' => $total_Cost_For_Each_Product,
-                'eCoPercintage' => "15%",
-                'totalCost' => $totalCost + ( $totalCost * 0.15 )
+                'totalCost_per_product' => $total_Cost_For_Each_Product,
+                'eCoPercintage' => "5%",
+                'totalCost' => $total
             ];
 
-            return view('invoice.create_invoice')->with($data);
+            if($total!=0){
+              return view('invoice.create_invoice')->with($data);
+            }else{
+                return redirect('/products');
+            }
         } else {
             return redirect('/')->with('error', 'You are not authorized to show this page');
         }
@@ -142,15 +152,26 @@ class InvoiceController extends Controller
 
               $this->update_recent_data($invoice);
             }
+            //pdf
+            $pdf=new PDFController();
+            $pdf->products = $this->cartController->getAllCartProducts();
+            $pdf->user= User::find(Auth::user()->id);
+
+            $totalCost = $this->cartController->getTotalCost();
+            $totalCost =$totalCost + ( $totalCost * 0.05 );
+            $invoice->total_cost = $totalCost;
+
+            $pdf->total=  $totalCost;
               // Store Invoice
             $invoice->save();
             $invoiceID = $invoice->id;
-
             // Add Sold Products
             $cart = new CartController;
 
             $products = $cart->getAllCartProducts();
 
+            $order = new OrdersController;
+            $order->make_order($invoiceID,$products);
             // Create object from product controller
             $proCtr = new ProductsController;
 
@@ -171,13 +192,16 @@ class InvoiceController extends Controller
                 $proCtr->update_nSold($pro->id, $pro->n_of_pro);
 
             }
-
             // Removing all products from user's cart
             $cart->remove_all_from_cart();
 
             $this->userOrder(Auth::user()->id, $invoice->id, "normal");
 
-            return redirect('/products')->with('success', 'Your order is submited ,you will receive the order in 5 days of work');
+            //redirect('/products')->with('success', 'Your order is submited ,you will receive the order in 5 days of work');
+            //sleep(5);
+            //print_r($pdf->product);
+            return $pdf->loadPDF();
+            //return redirect('/products')->with('success', 'Your order is submited ,you will receive the order in 5 days of work');
 
         } else {
             return redirect('/products')->with('error', 'You are not authorized to add product');
@@ -257,5 +281,46 @@ class InvoiceController extends Controller
          return false;
        }
       return true;
+    }
+
+    // public static function collect_invoices(){
+    //    return Invoice::all();
+    // }
+
+    public static function get_user_address($invoice_id){
+         $user=Invoice::find($invoice_id)->user;
+         $address=$user->country .','.$user->city.','.$user->address;
+         return $address;
+    }
+
+    public function set_status($id,$status)
+    {
+       $invoice= Invoice::find($id);
+       $user= Invoice::find($id)->user;
+       $invoice->status=$status;
+       //echo $id .','.$status;
+       if($invoice->save()){
+           $this->changeStatus($user->id, $status, $id, "normal");
+           return redirect('invoice')->with('success', 'the order is In '.$status.' status Now'); //Shipping or canceled or shipped
+      } else{
+           return redirect('invoice')->with('error', 'Can\'t change the order\'s status');
+      }
+    }
+
+    public function get_my_invoices(){
+      $invoices = Invoice::where('user_id',auth::user()->id)->orderBy('created_at','asc')->get();
+
+      $cart = CartController::checkAdded();
+      $wl = wish_listController::checkAdded();
+      $countNew = NotificationController::checkAdded();
+
+      $data = [
+          'cartpros' => $cart,
+          'wishlistProducts' => $wl,
+          'invoices' => $invoices,
+          'countNew' => $countNew
+      ];
+
+      return view('invoice.my_invoices')->with($data);
     }
 }

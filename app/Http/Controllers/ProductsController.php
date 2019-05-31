@@ -146,7 +146,7 @@ class ProductsController extends Controller
         $wl = wish_listController::checkAdded();
         $countNew = NotificationController::checkAdded();
         $data = [
-            'products' => $products,
+            'product' => $product,
             'cartpros' => $cart,
             'wishlistProducts' => $wl,
             'countNew' => $countNew

@@ -74,6 +74,23 @@ trait Notifications {
           $alert->user_role = $role;
           $alert->save();
         }
-
     }
+
+    public function changeStatus($id,$status,$order_num,$role) {
+        $alert = new Notification;
+        $alert->user_id = $id;
+        $alert->title = "Order status";
+        if($status=='shipped')
+          $alert->message = "Your order ".$order_num." is already shipped ,thank you";
+        elseif($status=='canceled')
+          $alert->message = "Unfortunately,your order ".$order_num." is canceled, you can contact us to solve this problem urgently";
+        elseif($status=='new')
+          $alert->message = "Your order ".$order_num." is in new state now , we are going to ship it as fast as possible";
+        else
+          $alert->message = "Your order ".$order_num." is in ".$status." state, you'll receive it soon";
+
+        $alert->user_role = $role;
+        $alert->save();
+    }
+
 }

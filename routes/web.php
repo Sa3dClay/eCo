@@ -10,8 +10,13 @@
 | contains the "web" middleware group. Now create something great!
 |
 */
+use App\Http\Controllers\InvoiceController;
 
 Route::get('/', 'PagesController@index')->name('welcome');
+Route::get('invoice/my_orders', 'InvoiceController@get_my_invoices')->name('my_orders');
+
+Route::get('user/info', 'UserController@show')->name('show_user');
+Route::match(array('PUT', 'PATCH'),'user/update', 'UserController@update')->name('update_user');
 
 Route::resource('products', 'ProductsController');
 Route::resource('cart', 'CartController');
@@ -19,9 +24,20 @@ Route::resource('reports', 'ReportController');
 Route::resource('wishlist', 'wish_listController');
 Route::resource('notifications', 'NotificationController');
 Route::resource('invoice', 'InvoiceController');
+//Route::resource('orders', 'OrdersController');
 
 Route::get('contact', 'ReportController@create');
 Route::post('contact', 'ReportController@store');
+
+Route::post('/invoice/{id}/{status}', function($id,$status){
+  $invoice=new InvoiceController;
+  return $invoice->set_status($id,$status);
+})->name('set_status');
+
+
+
+Route::get('orders/{id}/info', 'OrdersController@index')->name('order_info');
+Route::post('orders/{invoice_id}/{user_id}/{totalCost}/pdf', 'OrdersController@make_pdf')->name('make_pdf');
 
 Route::get('/wishlist/{id}/remove_from_wishlist', 'wish_listController@remove_from_WishList')->name('remove_from_wishList');
 

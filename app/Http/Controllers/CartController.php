@@ -68,7 +68,7 @@ class CartController extends Controller
             $cart->n_of_pro = 1;
             $cart->save();
 
-            return back()->with('success', "Product was added to cart successfuly");
+            return back()->with('success', "Product was added to cart successfully");
         }
     }
 
