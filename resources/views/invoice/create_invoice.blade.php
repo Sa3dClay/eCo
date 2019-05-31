@@ -85,7 +85,7 @@
 
         <br>
 
-        {!! Form::open(['action' => 'InvoiceController@store', 'method' => 'POST', 'enctype' => 'multipart/form-data']) !!}
+        {!! Form::open(['action' => 'InvoiceController@store', 'method' => 'POST', 'enctype' => 'multipart/form-data', 'onSubmit' => 'ifclicked()']) !!}
 
             <div class = "row">
                 <div class="col-md-12">
@@ -207,7 +207,7 @@
                   </div>
               </div>
           </div>
-            {{Form::submit('Order', ['class'=>'btn btn-primary','id'=>'submit','onclick'=>'ifclicked()'])}}
+            {{Form::submit('Order', ['class'=>'btn btn-primary','id'=>'submit'])}}
 
         {!! Form::close() !!}
 
