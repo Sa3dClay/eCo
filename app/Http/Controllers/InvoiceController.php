@@ -173,9 +173,9 @@ class InvoiceController extends Controller
             $order = new OrdersController;
             $order->make_order($invoiceID,$products);
             // Create object from product controller
-            $proCtr = new ProductsController;
+            /*$proCtr = new ProductsController;
 
-            /*foreach($products as $pro) //now we use orders
+            foreach($products as $pro)
             {
                 $soldProduct = new Sold_products;
 
@@ -186,10 +186,10 @@ class InvoiceController extends Controller
                 $soldProduct->save();
 
                 // Remove a quantity of product from products table
-                $proCtr->update_qunatity($pro->id, $pro->n_of_pro);
+                $proCtr->update_qunatity($pro->id, $pro->n_of_pro); //in OrdersController
 
                 // Update number of sold items for each product
-                $proCtr->update_nSold($pro->id, $pro->n_of_pro);
+                $proCtr->update_nSold($pro->id, $pro->n_of_pro); //in OrdersController
 
             }*/
             // Removing all products from user's cart

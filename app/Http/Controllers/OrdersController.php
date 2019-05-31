@@ -51,6 +51,13 @@ class OrdersController extends Controller
         $order->product_id=$product->id;
         $order->n_of_pro=$product->n_of_pro;
         $order->save();
+
+        $proCtr = new ProductsController;
+        // Remove a quantity of product from products table
+        $proCtr->update_qunatity($product->id, $product->n_of_pro);
+
+        // Update number of sold items for each product
+        $proCtr->update_nSold($product->id, $product->n_of_pro);
       }
     }
 
