@@ -56,6 +56,9 @@ class InvoiceController extends Controller
     {
         //
         if( isset(Auth::user()->id) ) {
+          if(Auth::user()->blocked==1){
+            return back()->with('error','Can\'t make this order,your account is blocked, contact us to solve this problem! ');
+          }
 
             $products = $this->cartController->getAllCartProducts();
             $totalCost = $this->cartController->getTotalCost();
