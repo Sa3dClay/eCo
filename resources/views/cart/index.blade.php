@@ -150,13 +150,13 @@
 
                                                 <tr class="shipping">
                                                     <th>Shipping and Handling</th>
-                                                    <td>%15</td>
+                                                    <td>%5</td>
                                                 </tr>
 
                                                 <tr class="order-total">
                                                     <th>Order Total</th>
                                                     <!-- %15 for shipping -->
-                                                    <td><strong><span class="amount">${{ $totalCost+(0.15*$totalCost) }}</span></strong> </td>
+                                                    <td><strong><span class="amount">${{ $totalCost+(0.05*$totalCost) }}</span></strong> </td>
                                                 </tr>
                                             </tbody>
                                         </table>

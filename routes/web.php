@@ -34,7 +34,7 @@ Route::post('/invoice/{id}/{status}', function($id,$status){
   return $invoice->set_status($id,$status);
 })->name('set_status');
 
-
+Route::get('/user/verify/{code}', 'UserController@verify')->name('verify_user');
 
 Route::get('orders/{id}/info', 'OrdersController@index')->name('order_info');
 Route::post('orders/{invoice_id}/{user_id}/{totalCost}/pdf', 'OrdersController@make_pdf')->name('make_pdf');

@@ -10,7 +10,9 @@ use Illuminate\Support\Facades\Auth;
 use App\Sold_products;
 use App\Invoice;
 use App\User;
+use App\Mail\verify;
 use App\Traits\Notifications;
+use Mail;
 
 class InvoiceController extends Controller
 {
@@ -56,6 +58,19 @@ class InvoiceController extends Controller
     {
         //
         if( isset(Auth::user()->id) ) {
+
+          //if(!preg_match("/\d{4}-\d{2}-\d{2}\s\d{2}:\d{2}:\d{2}/", Auth::user()->email_verified_at) ){
+          if(!isset(Auth::user()->email_verified_at)){
+            $user = User::find(Auth::user()->id);
+            Mail::to($user)->send(new verify);
+
+            if(Mail::failures()){
+               return back()->with('error','You should verify your email to make an order,Can\'t send verification mail !');
+            }else{
+               return back()->with('error','You should verify your email to make an order,check your email !');
+            }
+          }
+
           if(Auth::user()->blocked==1){
             return back()->with('error','Can\'t make this order,your account is blocked, contact us to solve this problem! ');
           }
