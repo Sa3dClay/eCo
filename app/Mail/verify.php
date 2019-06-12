@@ -32,7 +32,7 @@ class verify extends Mailable
         $user = User::find(auth()->user()->id);
         $user->verif_code = $this->generate_code(); //set the code
         $user->save();
-        return $this->view('mails.verification')->with('verif_code',$user->verif_code);
+        return $this->view('mails.verification')->subject('eCo')->with('verif_code',$user->verif_code);
     }
 
     private function generate_code(){
