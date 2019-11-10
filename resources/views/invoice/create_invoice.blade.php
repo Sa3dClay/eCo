@@ -112,7 +112,9 @@
                     </div>
                 </div>
             </div>
+            @if(Auth::user()->visaORacc!=null)
             <input type="checkbox" id="use_info" name="use_info" value="1" onclick="change()"><b> Use my recent data</b></br></br>
+            @endif
             <div class="container" id="info">
               <div class = "row">
                   <div class="col-md-12">
