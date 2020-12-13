@@ -62,12 +62,17 @@ class InvoiceController extends Controller
           //if(!preg_match("/\d{4}-\d{2}-\d{2}\s\d{2}:\d{2}:\d{2}/", Auth::user()->email_verified_at) ){
           if(!isset(Auth::user()->email_verified_at)){
             $user = User::find(Auth::user()->id);
-            Mail::to($user)->send(new verify);
+            try{
+                Mail::to($user)->send(new verify);
 
-            if(Mail::failures()){
-               return back()->with('error','You should verify your email to make an order,Can\'t send verification mail !');
-            }else{
-               return back()->with('error','You should verify your email to make an order,check your email !');
+                if(Mail::failures()){
+                    return back()->with('error','You should verify your email to make an order,Can\'t send verification mail !');
+                }else{
+                    return back()->with('error','You should verify your email to make an order,check your email !');
+                }
+            }catch(\Swift_TransportException $e){
+                return back()->with('error',"Can't connect google mail due to SMPT autentication error,
+                please contact us via (Paystoreoss@gmail.com).");
             }
           }
 
