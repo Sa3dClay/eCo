@@ -71,7 +71,7 @@
                                                 </td>
 
                                                 <td class="product-thumbnail">
-                                                    <a href="{{ url('products/' . $product->id) }}"><img width="145" height="145" alt="poster_1_up" class="shop_thumbnail" src="{{ asset( '/storage/profile_pics/' . $product->profile_pic ) }}"></a>
+                                                    <a href="{{ url('products/' . $product->id) }}"><img width="145" height="145" alt="poster_1_up" class="shop_thumbnail" src="{{ asset( '/img' . '/' . $product->profile_pic ) }}"></a>
                                                 </td>
 
                                                 <td class="product-name">
