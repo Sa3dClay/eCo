@@ -51,10 +51,11 @@
                                 @csrf
                             </form>
 
-                            <a href="{{ url('notifications') }}" style="float:right;margin-top:10px"><i class="glyphicon glyphicon-bell"></i> Notifications
-                                @if(isset($countNew) && $countNew>0 )
-                                    <span class="product-count" style="margin-top:15px">{{ $countNew }}</span>
-                                @endif
+                            <a href="{{ url('notifications') }}" style="float:right;margin-top:10px"><i class="glyphicon glyphicon-bell">
+                              @if(isset($countNew) && $countNew>0 )
+                                  <span class="product-count" style="margin-right:-80px;margin-top:-2px">{{ $countNew }}</span>
+                              @endif
+                                </i> Notifications
                             </a>
                         @endguest
                     </ul>

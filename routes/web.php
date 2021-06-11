@@ -17,6 +17,7 @@ Route::get('invoice/my_orders', 'InvoiceController@get_my_invoices')->name('my_o
 
 Route::get('user/info', 'UserController@show')->name('show_user');
 Route::match(array('PUT', 'PATCH'),'user/update', 'UserController@update')->name('update_user');
+Route::get('/user/verify/{code}', 'UserController@verify')->name('verify_user');
 
 Route::resource('products', 'ProductsController');
 Route::resource('cart', 'CartController');
@@ -33,8 +34,6 @@ Route::post('/invoice/{id}/{status}', function($id,$status){
   $invoice=new InvoiceController;
   return $invoice->set_status($id,$status);
 })->name('set_status');
-
-
 
 Route::get('orders/{id}/info', 'OrdersController@index')->name('order_info');
 Route::post('orders/{invoice_id}/{user_id}/{totalCost}/pdf', 'OrdersController@make_pdf')->name('make_pdf');

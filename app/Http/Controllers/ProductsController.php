@@ -55,6 +55,9 @@ class ProductsController extends Controller
      */
     public function create()
     {
+        if(Auth::guest()&&Auth::guard('admin')->user()->blocked==1){
+          return back()->with('error','Can\'t make this action,your account is blocked, contact us to solve this problem! ');
+        }
         $countNew = NotificationController::checkAdded();
         return view('products.create')->with('countNew',$countNew);
     }
@@ -179,6 +182,10 @@ class ProductsController extends Controller
     {
 
         if( !Auth::guest() && Auth::user()->is_admin == 1 || Auth::guard('admin')->check() ){
+
+          if(Auth::guest()&&Auth::guard('admin')->user()->blocked==1){
+            return back()->with('error','Can\'t make this action,your account is blocked, contact us to solve this problem! ');
+          }
             //Validation on submited Data
             $this->validate($request, [
                 'name' => 'required',

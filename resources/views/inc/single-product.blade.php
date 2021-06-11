@@ -1,6 +1,6 @@
 <div class="single-product myPro">
     <div class="product-f-image">
-        <img src="{{ asset( '/img' . '/' . $product->profile_pic ) }}" alt="product image" style="width:250px;height:300px">
+        <img src="{{ asset( '/storage/profile_pics/' . $product->profile_pic ) }}" alt="product image" style="width:100% ;height:300px">
         {{-- Image will be replaced --}}
         <div class="product-hover">
             @guest

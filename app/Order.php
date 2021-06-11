@@ -7,7 +7,7 @@ use DB;
 
 class Order extends Model
 {
-    protected $table="Orders";
+    protected $table="orders";
     public $primaryKey="id";
     public $timestumps=true;
 

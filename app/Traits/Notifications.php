@@ -93,4 +93,13 @@ trait Notifications {
         $alert->save();
     }
 
+    public function verifiedEmail($id, $role) {
+      $alert = new Notification;
+      $alert->user_id = $id;
+      $alert->title = "Email verification";
+      $alert->message = "your email has been verified ,now you can make orders,thanks ";
+      $alert->user_role = $role;
+      $alert->save();
+    }
+
 }

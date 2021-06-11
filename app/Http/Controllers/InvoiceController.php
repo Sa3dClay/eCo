@@ -10,7 +10,9 @@ use Illuminate\Support\Facades\Auth;
 use App\Sold_products;
 use App\Invoice;
 use App\User;
+use App\Mail\verify;
 use App\Traits\Notifications;
+use Mail;
 
 class InvoiceController extends Controller
 {
@@ -56,6 +58,27 @@ class InvoiceController extends Controller
     {
         //
         if( isset(Auth::user()->id) ) {
+
+          //if(!preg_match("/\d{4}-\d{2}-\d{2}\s\d{2}:\d{2}:\d{2}/", Auth::user()->email_verified_at) ){
+          if(!isset(Auth::user()->email_verified_at)){
+            $user = User::find(Auth::user()->id);
+            try{
+                Mail::to($user)->send(new verify);
+
+                if(Mail::failures()){
+                    return back()->with('error','You should verify your email to make an order,Can\'t send verification mail !');
+                }else{
+                    return back()->with('error','You should verify your email to make an order,check your email !');
+                }
+            }catch(\Swift_TransportException $e){
+                return back()->with('error',"Can't connect google mail due to SMPT autentication error,
+                please contact us via (Paystoreoss@gmail.com).");
+            }
+          }
+
+          if(Auth::user()->blocked==1){
+            return back()->with('error','Can\'t make this order,your account is blocked, contact us to solve this problem! ');
+          }
 
             $products = $this->cartController->getAllCartProducts();
             $totalCost = $this->cartController->getTotalCost();
@@ -173,7 +196,7 @@ class InvoiceController extends Controller
             $order = new OrdersController;
             $order->make_order($invoiceID,$products);
             // Create object from product controller
-            $proCtr = new ProductsController;
+            /*$proCtr = new ProductsController;
 
             foreach($products as $pro)
             {
@@ -186,12 +209,12 @@ class InvoiceController extends Controller
                 $soldProduct->save();
 
                 // Remove a quantity of product from products table
-                $proCtr->update_qunatity($pro->id, $pro->n_of_pro);
+                $proCtr->update_qunatity($pro->id, $pro->n_of_pro); //in OrdersController
 
                 // Update number of sold items for each product
-                $proCtr->update_nSold($pro->id, $pro->n_of_pro);
+                $proCtr->update_nSold($pro->id, $pro->n_of_pro); //in OrdersController
 
-            }
+            }*/
             // Removing all products from user's cart
             $cart->remove_all_from_cart();
 
