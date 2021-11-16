@@ -1,6 +1,7 @@
 <div class="single-product myPro">
     <div class="product-f-image">
-        <img src="{{ asset( '/img' . '/' . $product->profile_pic ) }}" alt="product image" style="width:100% ;height:300px">
+        <img src="{{ asset('../storage/app/public/profile_pics/' . $product->profile_pic) }}" alt="{{ $product->name }}" style="width:auto; height:280px; margin: 0 auto; display: block;">
+        
         {{-- Image will be replaced --}}
         <div class="product-hover">
             @guest
@@ -130,6 +131,7 @@
         </div>
     @endguest
 </div>
+
 {!! Form::open(['action' => ['ProductsController@destroy',$product->id],'method'=>'POST']) !!}
     {{Form::hidden('_method','DELETE')}}
     {{Form::submit('Delete',['id'=>'remove-submit','style'=>'display:none'])}}

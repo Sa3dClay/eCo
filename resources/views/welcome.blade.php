@@ -128,7 +128,7 @@
         <div class="container">
             <div class="row">
                 <div class="latest-product">
-                        
+                    
                     @if( isset($products) && count($products) > 0 )
                         @foreach ($products as $product)
                             @if($product->visible==1)

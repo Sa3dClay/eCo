@@ -23,15 +23,15 @@ th {
                 </div>
                 <div class="col-md-12">
                   <p>Name:<b> {{$user->name}}</b></p>
-                  </br>
+                  <br>
                   <p>Address:<b> {{$user->country}},{{$user->city}},{{$user->address}}</b></p> <!-- country,city,address-->
-                  </br>
+                  <br>
                   <p>Email:<b> {{$user->email}}</b></p>
-                  </br>
+                  <br>
                   <p>Phone number:<b> {{$user->phone_number}}</b></p>
-                  </br>
+                  <br>
                   <p>Zip code:<b> {{$user->zip_code}}</b></p>
-                  </br>
+                  <br>
                   <p>Payment method:<b> {{$user->payment_m}}</b></p>
                   <br/>
                 </div>
